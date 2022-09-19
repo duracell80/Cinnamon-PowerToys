@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Xeroxed 11"
+Comment="Based on Windows 11"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]
