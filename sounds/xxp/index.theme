@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Xeroxed XP"
+Comment="Based on Windows XP"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]

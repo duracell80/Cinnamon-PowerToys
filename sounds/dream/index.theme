@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Fresh Dream Remix"
+Comment="Based on sounds from Jordan Brown and heard in MX Linux"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]
