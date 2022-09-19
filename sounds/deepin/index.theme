@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Deepin"
+Comment="Based on Deepin Linux"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]

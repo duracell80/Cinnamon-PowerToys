@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Xeroxed 10"
+Comment="Based on Windows 10"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]
