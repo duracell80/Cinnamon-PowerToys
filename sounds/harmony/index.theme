@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Harmony"
+Comment="Based on Windows Longhorn and Vista"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]
