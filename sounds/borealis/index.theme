@@ -1,0 +1,9 @@
+[Sound Theme]
+Name="Borealis Remix"
+Comment="Based on sounds from Borealis and Enchanted"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+#[files]
