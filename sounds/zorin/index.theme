@@ -4,3 +4,18 @@ Directories=stereo
 
 [stereo]
 OutputProfile=stereo
+
+[de-cinnamon]
+close-file="zorin/stereo/button-pressed.ogg"
+login-file="zorin/stereo/service-login.ogg"
+logout-file="zorin/stereo/service-logout.ogg"
+map-file="zorin/stereo/button-pressed.ogg"
+maximize-file="zorin/stereo/button-pressed.ogg"
+minimize-file="zorin/stereo/button-pressed.ogg"
+notification-file="zorin/stereo/success.ogg"
+plug-file="zorin/stereo/device-added.oga"
+switch-file="zorin/stereo/window-slide.ogg"
+tile-file="zorin/stereo/message.ogg"
+unmaximize-file="zorin/stereo/button-pressed.ogg"
+unplug-file="zorin/stereo/device-removed.oga"
+

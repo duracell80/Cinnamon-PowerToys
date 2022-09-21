@@ -1,0 +1,22 @@
+[Sound Theme]
+Name="Team Pixel"
+Comment="Collection of Material and Pixel Sounds not in any particular structure"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+[de-cinnamon]
+close-file="teampixel/ui_unlock.ogg"
+login-file="teampixel/Asteroid.ogg"
+logout-file="teampixel/navigation_selection-complete-celebration.ogg"
+map-file="teampixel/navigation_forward-selection.ogg"
+maximize-file="teampixel/ui_unlock.ogg"
+minimize-file="teampixel/ui_unlock.ogg"
+notification-file="teampixel/notification_simple-02.ogg"
+plug-file="teampixel/state-change_confirm-up.ogg"
+switch-file="teampixel/ui_loading.ogg"
+tile-file="teampixel/ui_unlock.ogg"
+unmaximize-file="teampixel/ui_unlock.ogg"
+unplug-file="teampixel/state-change_confirm-down.ogg"
+

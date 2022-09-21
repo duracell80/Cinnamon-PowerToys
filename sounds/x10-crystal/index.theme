@@ -6,4 +6,18 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="x10-crystal/stereo/window-attention-inactive.ogg"
+login-file="x10-crystal/stereo/system-bootup.ogg"
+logout-file="x10-crystal/stereo/system-shutdown.ogg"
+map-file="x10-crystal/stereo/window-attention-inactive.ogg"
+maximize-file="x10-crystal/stereo/window-attention-active.ogg"
+minimize-file="x10-crystal/stereo/window-attention-inactive.ogg"
+notification-file="x10-crystal/stereo/message-new-instant.ogg"
+plug-file="x10-crystal/stereo/device-added.ogg"
+switch-file="x10-crystal/stereo/window-attention-inactive.ogg"
+tile-file="x10-crystal/stereo/bell-window-system.ogg"
+unmaximize-file="x10-crystal/stereo/window-attention-active.ogg"
+unplug-file="x10-crystal/stereo/device-removed.ogg"
+
+

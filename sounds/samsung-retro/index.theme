@@ -7,16 +7,16 @@ Directories=stereo
 OutputProfile=stereo
 
 [de-cinnamon]
-close-file='samsung-retro/stereo/window-close.ogg'
-login-file='samsung-retro/stereo/desktop-login.ogg'
-logout-file='samsung-retro/stereo/desktop-logout.ogg'
-map-file='samsung-retro/stereo/window-new.ogg'
-maximize-file='samsung-retro/stereo/suspend-start.ogg'
-minimize-file='samsung-retro/stereo/suspend-resume.ogg'
-notification-file='samsung-retro/stereo/message-new-email.ogg'
-plug-file='samsung-retro/stereo/device-added.ogg'
-switch-file='samsung-retro/stereo/window-switch.ogg'
-tile-file='samsung-retro/stereo/completion-partial.ogg'
-unmaximize-file='samsung-retro/stereo/lid-close.ogg'
-unplug-file='samsung-retro/stereo/device-removed.ogg'
+close-file="samsung-retro/stereo/window-close.ogg"
+login-file="samsung-retro/stereo/desktop-login.ogg"
+logout-file="samsung-retro/stereo/desktop-logout.ogg"
+map-file="samsung-retro/stereo/window-new.ogg"
+maximize-file="samsung-retro/stereo/suspend-start.ogg"
+minimize-file="samsung-retro/stereo/suspend-resume.ogg"
+notification-file="samsung-retro/stereo/message-new-email.ogg"
+plug-file="samsung-retro/stereo/device-added.ogg"
+switch-file="samsung-retro/stereo/window-switch.ogg"
+tile-file="samsung-retro/stereo/completion-partial.ogg"
+unmaximize-file="samsung-retro/stereo/lid-close.ogg"
+unplug-file="samsung-retro/stereo/device-removed.ogg"
 

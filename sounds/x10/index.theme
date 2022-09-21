@@ -6,4 +6,16 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="x10/stereo/window-new.ogg"
+login-file="x10/stereo/system-startup.ogg"
+logout-file="x10/stereo/desktop-logout.ogg"
+map-file="x10/stereo/window-new.ogg"
+maximize-file="x10/stereo/window-maximized.ogg"
+minimize-file="x10/stereo/window-minimized.ogg"
+notification-file="x10/stereo/window-attention-inactive.ogg"
+plug-file="x10/stereo/device-added.ogg"
+switch-file="x10/stereo/window-switch.ogg"
+tile-file="x10/stereo/bell-window-system.ogg"
+unmaximize-file="x10/stereo/window-unmaximized.ogg"
+unplug-file="x10/stereo/device-removed.ogg"
