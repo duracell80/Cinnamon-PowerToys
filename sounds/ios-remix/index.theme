@@ -6,4 +6,16 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="ios-remix/stereo/window-close.ogg"
+login-file="ios-remix/stereo/desktop-login.ogg"
+logout-file="ios-remix/stereo/desktop-login-modern.ogg"
+map-file="ios-remix/stereo/window-new.ogg"
+maximize-file="ios-remix/stereo/window-unminimized.ogg"
+minimize-file="ios-remix/stereo/window-minimized.ogg"
+notification-file="ios-remix/stereo/message-new-instant.ogg"
+plug-file="ios-remix/stereo/device-added.ogg"
+switch-file="ios-remix/stereo/window-switch.ogg"
+tile-file="ios-remix/stereo/window-move-start.ogg"
+unmaximize-file="harmony/stereo/window-unminimized.ogg"
+unplug-file="ios-remix/stereo/device-removed.ogg"

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+FILE="$HOME/.cache/dermodex/get_sounds.txt"
+touch $FILE
+chmod u+rw $FILE
+
+SUND="$HOME/.cache/dermodex/set_sounds.txt"
+rm -f $SUND
+touch $SUND
+chmod u+rw $SUND
+
+gsettings list-keys org.cinnamon.sounds > $FILE
+
+while read -r LINE; do
+	SOUND=$(gsettings get org.cinnamon.sounds "${LINE}")
+	if [[ $SOUND == *".ogg"* ]]; then
+		SETLINE=$(echo -e "gsettings set org.cinnamon.sounds ${LINE} ${SOUND}\n")
+		echo $SETLINE >> $SUND
+	fi
+	if [[ $SOUND == *".oga"* ]]; then
+                SETLINE=$(echo -e "gsettings set org.cinnamon.sounds ${LINE} ${SOUND}\n")
+                echo $SETLINE >> $SUND
+        fi
+done < $FILE
+
+cat $SUND
+
+echo ""
+
+rm -f $SUND
+touch $SUND
+chmod u+rw $SUND
+
+while read -r LINE; do
+        SOUND=$(gsettings get org.cinnamon.sounds "${LINE}" | sed 's|/usr/share/sounds/||' | awk -v replace="'" '{gsub(replace,"",$2)}1')
+
+	if [[ $SOUND == *".ogg"* ]]; then
+                SETLINE=$(echo -e $LINE="$SOUND")
+                echo $SETLINE >> $SUND
+        fi
+        if [[ $SOUND == *".oga"* ]]; then
+                SETLINE=$(echo -e $LINE="$SOUND")
+                echo $SETLINE >> $SUND
+        fi
+done < $FILE
+
+cat $SUND

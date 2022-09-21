@@ -6,4 +6,16 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="harmony/stereo/window-new.ogg"
+login-file="harmony/stereo/desktop-login.ogg"
+logout-file="harmony/stereo/desktop-logout.ogg"
+map-file="harmony/stereo/window-new.ogg"
+maximize-file="harmony/stereo/window-unminimized.ogg"
+minimize-file="harmony/stereo/window-minimized.ogg"
+notification-file="harmony/stereo/message-new-instant.ogg"
+plug-file="harmony/stereo/device-added.ogg"
+switch-file="harmony/stereo/window-slide.ogg"
+tile-file="harmony/stereo/window-slide.ogg"
+unmaximize-file="harmony/stereo/window-unminimized.ogg"
+unplug-file="harmony/stereo/device-removed.ogg"

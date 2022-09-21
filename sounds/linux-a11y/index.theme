@@ -5,3 +5,18 @@ Directories=stereo
 
 [stereo]
 OutputProfile=stereo
+
+[de-cinnamon]
+close-file="linux-a11y/stereo/window-close.ogg"
+login-file="linux-a11y/stereo/desktop-login.ogg"
+logout-file="linux-a11y/stereo/desktop-logout.ogg"
+map-file="linux-a11y/stereo/window-new.ogg"
+maximize-file="linux-a11y/stereo/window-minimized.ogg"
+minimize-file="linux-a11y/stereo/window-minimized.ogg"
+notification-file="linux-a11y/stereo/window-attention.ogg"
+plug-file="linux-a11y/stereo/power-plug.ogg"
+switch-file="linux-a11y/stereo/window-switch.ogg"
+tile-file="linux-a11y/stereo/window-new.ogg"
+unmaximize-file="linux-a11y/stereo/window-minimized.ogg"
+unplug-file="linux-a11y/stereo/power-unplug.ogg"
+

@@ -6,4 +6,16 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="deepin/stereo/complete-copy.ogg"
+login-file="deepin/stereo/desktop-login.ogg"
+logout-file="deepin/stereo/desktop-logout.ogg"
+map-file="deepin/stereo/complete-copy.ogg"
+maximize-file="deepin/stereo/complete-copy.ogg"
+minimize-file="deepin/stereo/complete-copy.ogg"
+notification-file="deepin/stereo/message.ogg"
+plug-file="deepin/stereo/device-added.ogg"
+switch-file="deepin/stereo/complete-copy.ogg"
+tile-file="deepin/stereo/screen-capture-complete.ogg"
+unmaximize-file="deepin/stereo/complete-copy.ogg"
+unplug-file="deepin/stereo/device-removed.ogg"

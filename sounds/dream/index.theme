@@ -6,4 +6,17 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file="dream/stereo/lid-close.ogg"
+login-file="dream/stereo/desktop-login.ogg"
+logout-file="dream/stereo/desktop-logout.ogg"
+map-file="dream/stereo/lid-open.ogg"
+maximize-file="dream/stereo/window-close.ogg"
+minimize-file="dream/stereo/window-close.ogg"
+notification-file="dream/stereo/battery-full.ogg"
+plug-file="dream/stereo/device-added.ogg"
+switch-file="dream/stereo/window-slide.ogg"
+tile-file="dream/stereo/dialog-ok.ogg"
+unmaximize-file="dream/stereo/window-close.ogg"
+unplug-file="dream/stereo/device-removed.ogg"
+

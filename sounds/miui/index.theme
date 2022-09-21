@@ -4,3 +4,17 @@ Directories=stereo
 
 [stereo]
 OutputProfile=stereo
+
+[de-cinnamon]
+close-file="miui/stereo/window-close.ogg"
+login-file="miui/stereo/desktop-login.ogg"
+logout-file="miui/stereo/system-ready.ogg"
+map-file="miui/stereo/window-close.ogg"
+maximize-file="miui/stereo/window-close.ogg"
+minimize-file="miui/stereo/window-close.ogg"
+notification-file="miui/stereo/message-sent-instant.ogg"
+plug-file="miui/stereo/device-added.ogg"
+switch-file="miui/stereo/window-close.ogg"
+tile-file="miui/stereo/complete.ogg"
+unmaximize-file="miui/stereo/window-close.ogg"
+unplug-file="miui/stereo/device-removed.ogg"

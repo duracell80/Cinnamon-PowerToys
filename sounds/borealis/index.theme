@@ -6,4 +6,17 @@ Directories=stereo
 [stereo]
 OutputProfile=stereo
 
-#[files]
+[de-cinnamon]
+close-file=borealis/stereo/window-close.ogg"
+login-file="borealis/stereo/desktop-login.ogg"
+logout-file="borealis/stereo/desktop-logout.ogg"
+map-file="borealis/stereo/window-new.ogg"
+maximize-file="borealis/stereo/window-maximized.ogg"
+minimize-file="borealis/stereo/window-maximized.ogg"
+notification-file="borealis/stereo/message-new-instant-alt.ogg"
+plug-file="borealis/stereo/device-added.ogg"
+switch-file="borealis/stereo/window-switch.ogg"
+tile-file="borealis/stereo/window-click-inactive.ogg"
+unmaximize-file="borealis/stereo/window-maximized.ogg"
+unplug-file="borealis/stereo/device-removed.ogg"
+
