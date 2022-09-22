@@ -1,0 +1,22 @@
+[Sound Theme]
+Name="Hydrogen"
+Comment="Based on Oxygen by @git:kuroehanako enhanced by NotificationSounds.com"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+[de-cinnamon]
+close-file="hydrogen/stereo/window-close.ogg"
+login-file="hydrogen/stereo/desktop-login.ogg"
+logout-file="hydrogen/stereo/desktop-logout.ogg"
+map-file="hydrogen/stereo/window-new.ogg"
+maximize-file="hydrogen/stereo/window-maximized.ogg"
+minimize-file="harmony/stereo/window-minimized.ogg"
+notification-file="hydrogen/stereo/message-new-email.ogg"
+plug-file="hydrogen/stereo/device-added.ogg"
+switch-file="hydrogen/stereo/window-switch.ogg"
+tile-file="hydrogen/stereo/window-attention-active.ogg"
+unmaximize-file="hydrogen/stereo/window-unmaximized.ogg"
+unplug-file="hydrogen/stereo/device-removed.ogg"
+
