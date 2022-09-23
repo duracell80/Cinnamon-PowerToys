@@ -19,4 +19,4 @@ switch-file="teampixel/ui_loading.ogg"
 tile-file="teampixel/ui_unlock.ogg"
 unmaximize-file="teampixel/ui_unlock.ogg"
 unplug-file="teampixel/state-change_confirm-down.ogg"
-
+volume-sound-file="teampixel/ui_tap-variant-01.ogg"

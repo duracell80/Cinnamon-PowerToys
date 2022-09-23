@@ -19,4 +19,5 @@ switch-file="hydrogen/stereo/window-switch.ogg"
 tile-file="hydrogen/stereo/window-attention-active.ogg"
 unmaximize-file="hydrogen/stereo/window-unmaximized.ogg"
 unplug-file="hydrogen/stereo/device-removed.ogg"
+volume-sound-file="hydrogen/stereo/audio-volume-change.ogg"
 

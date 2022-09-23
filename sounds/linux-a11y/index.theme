@@ -19,4 +19,5 @@ switch-file="linux-a11y/stereo/window-switch.ogg"
 tile-file="linux-a11y/stereo/window-new.ogg"
 unmaximize-file="linux-a11y/stereo/window-minimized.ogg"
 unplug-file="linux-a11y/stereo/power-unplug.ogg"
+volume-sound-file="linux-a11y/stereo/audio-volume-change.ogg"
 

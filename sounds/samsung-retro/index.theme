@@ -19,4 +19,5 @@ switch-file="samsung-retro/stereo/window-switch.ogg"
 tile-file="samsung-retro/stereo/completion-partial.ogg"
 unmaximize-file="samsung-retro/stereo/lid-close.ogg"
 unplug-file="samsung-retro/stereo/device-removed.ogg"
+volume-sound-file="samsung-retro/stereo/audio-volume-change.ogg"
 

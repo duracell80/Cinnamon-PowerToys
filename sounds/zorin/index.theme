@@ -18,4 +18,5 @@ switch-file="zorin/stereo/window-slide.ogg"
 tile-file="zorin/stereo/message.ogg"
 unmaximize-file="zorin/stereo/button-pressed.ogg"
 unplug-file="zorin/stereo/device-removed.oga"
+volume-sound-file="zorin/stereo/audio-volume-change.ogg"
 

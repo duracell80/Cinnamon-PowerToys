@@ -19,5 +19,6 @@ switch-file="x10-crystal/stereo/window-attention-inactive.ogg"
 tile-file="x10-crystal/stereo/bell-window-system.ogg"
 unmaximize-file="x10-crystal/stereo/window-attention-active.ogg"
 unplug-file="x10-crystal/stereo/device-removed.ogg"
+volume-sound-file="x10-crystal/stereo/audio-volume-change.ogg"
 
 

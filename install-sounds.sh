@@ -6,38 +6,31 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/sounds && mkdir -p $LWD
 UWD=/usr/share/sounds
 
+SOUND_THEME="dream"
+
 
 set_sound () {
-    SOUND_THEME=$UWD/harmony/index.theme
+    SOUND_INDEX=$UWD/${2}/index.theme
     
     # READ THE CONFIG
-    SOUND_FILE=$(awk -F '=' '/^\s*'${1}'\s*=/ {
+    SOUND_FILE=$(awk -F '=' '/^\s*'${3}'\s*=/ {
         sub(/^ +/, "", $2);
         sub(/ +$/, "", $2);
         print $2;
         exit;
-    }' $SOUND_THEME)
+    }' $SOUND_INDEX)
     
     SOUND_SET=$(echo $SOUND_FILE | tr -d \'\" )
-    gsettings set org.cinnamon.sounds $1 $UWD/$SOUND_SET
+    if [ "${1}" == "cinnamon" ]; then
+        if [[ "${3}" == *"volume-sound"* ]]; then
+            gsettings set org.cinnamon.desktop.sound $3 $UWD/$SOUND_SET
+        else
+            gsettings set org.cinnamon.sounds $3 $UWD/$SOUND_SET
+        fi
+    fi
 }
 
-set_sound "tile-file"
-set_sound "plug-file"
-set_sound "unplug-file"
-set_sound "close-file"
-set_sound "map-file"
-set_sound "minimize-file"
-set_sound "logout-file"
-set_sound "maximize-file"
-set_sound "switch-file"
-set_sound "notification-file"
-set_sound "unmaximize-file"
-set_sound "login-file"
-#set_sound "volume-sound-file"
-
-
-exit
+cp -f $CWD/sounds/scripts/set_sound_theme.sh $HOME/.local/bin/set_sound_theme
 
 echo "[i] Before running the install note the changes documented such as needing to backup your /usr/share/sounds/ directory."
 read -p "[Q] Do you wish to continue (y/n)? " answer
@@ -45,7 +38,7 @@ case ${answer:0:1} in
     y|Y )
         echo ""
         echo "[i] - Backing up your Cinnamon settings"
-        dconf dump /org/cinnamon/ > $CWD/cinnamon_desktop.backup
+        dconf dump /org/cinnamon/ > $CWD/sounds/scripts/cinnamon_desktop.backup
         
         gsettings set org.cinnamon.sounds notification-enabled "true"
         
@@ -58,14 +51,14 @@ case ${answer:0:1} in
             cd $CWD
         fi
         
-        echo "[i] - Copying sounds to /usr/share/sounds (reason for needing sudo)"
+        echo "[i] - Copying sound themes with enhanced index.theme files to /usr/share/sounds (reason for needing sudo)"
         # REMOVE AND REINSTALL SOUNDS
         # SOUND - ZORIN
         if [ -d $UWD/zorin ] ; then
             sudo rm -rf $UWD/zorin
         fi
 
-        sudo cp -fr $CWD/zorin/ $UWD
+        sudo cp -fr $CWD/sounds/zorin/ $UWD
         sudo chmod -R a+rx $UWD/zorin
 
         # SOUND - X11
@@ -73,7 +66,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/x11
         fi
 
-        sudo cp -fr $CWD/x11/ $UWD
+        sudo cp -fr $CWD/sounds/x11/ $UWD
         sudo chmod -R a+rx $UWD/x11
 
         # SOUND - X10
@@ -81,7 +74,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/x10
         fi
 
-        sudo cp -fr $CWD/x10 $UWD
+        sudo cp -fr $CWD/sounds/x10 $UWD
         sudo chmod -R a+rx $UWD/x10
 
         # SOUND - X10 CRYSTAL
@@ -89,7 +82,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/x10-crystal
         fi
 
-        sudo cp -fr $CWD/x10-crystal $UWD
+        sudo cp -fr $CWD/sounds/x10-crystal $UWD
         sudo chmod -R a+rx $UWD/x10-crystal
 
         # SOUND - XXP
@@ -97,7 +90,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/xxp
         fi
 
-        sudo cp -fr $CWD/xxp $UWD
+        sudo cp -fr $CWD/sounds/xxp $UWD
         sudo chmod -R a+rx $UWD/xxp
 
         # SOUND - MIUI
@@ -105,7 +98,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/miui
         fi
 
-        sudo cp -fr $CWD/miui $UWD
+        sudo cp -fr $CWD/sounds/miui $UWD
         sudo chmod -R a+rx $UWD/miui
 
         # SOUND - DEEPIN
@@ -113,7 +106,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/deepin
         fi
 
-        sudo cp -fr $CWD/deepin $UWD
+        sudo cp -fr $CWD/sounds/deepin $UWD
         sudo chmod -R a+rx $UWD/deepin
 
         # SOUND - IOS Remix
@@ -121,15 +114,15 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/ios-remix
         fi
 
-        sudo cp -fr $CWD/ios-remix $UWD
+        sudo cp -fr $CWD/sounds/ios-remix $UWD
         sudo chmod -R a+rx $UWD/ios-remix
 
         # SOUND - BOREALIS
-        if [ -d $UWD/borealis ] ; then
+        if [ -d $UWD/sounds/borealis ] ; then
             sudo rm -rf $UWD/borealis
         fi
 
-        sudo cp -fr $CWD/borealis $UWD
+        sudo cp -fr $CWD/sounds/borealis $UWD
         sudo chmod -R a+rx $UWD/borealis
 
         # SOUND - HARMONY
@@ -137,7 +130,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/harmony
         fi
 
-        sudo cp -fr $CWD/harmony $UWD
+        sudo cp -fr $CWD/sounds/harmony $UWD
         sudo chmod -R a+rx $UWD/harmony
 
         # SOUND - DREAM
@@ -145,7 +138,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/dream
         fi
         
-        sudo cp -fr $CWD/dream $UWD
+        sudo cp -fr $CWD/sounds/dream $UWD
         sudo chmod -R a+rx $UWD/dream
         
         # SOUND - HYDROGEN
@@ -153,7 +146,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/hydrogen
         fi
 
-        sudo cp -fr $CWD/hydrogen $UWD
+        sudo cp -fr $CWD/sounds/hydrogen $UWD
         sudo chmod -R a+rx $UWD/hydrogen
 
         # SOUND - LINUX-A11Y
@@ -161,7 +154,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/linux-a11y
         fi
 
-        sudo cp -fr $CWD/linux-a11y/ $UWD
+        sudo cp -fr $CWD/sounds/linux-a11y/ $UWD
         sudo chmod -R a+rx $UWD/linux-a11y
 
         # SOUND - SAMSUNG-RETRO
@@ -169,7 +162,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/samsung-retro
         fi
 
-        sudo cp -fr $CWD/samsung-retro $UWD
+        sudo cp -fr $CWD/sounds/samsung-retro $UWD
         sudo chmod -R a+rx $UWD/samsung-retro
 
         # SOUND - TEAM PIXEL
@@ -177,7 +170,7 @@ case ${answer:0:1} in
             sudo rm -rf $UWD/teampixel
         fi
 
-        sudo cp -fr $CWD/teampixel/ $UWD
+        sudo cp -fr $CWD/sounds/teampixel/ $UWD
         sudo chmod -R a+rx $UWD/teampixel
         
         
@@ -185,21 +178,23 @@ case ${answer:0:1} in
         
         # INSTALL NEW DEFAULT IF ON CINNAMON
         if awk "BEGIN {exit !($CINN_VERSION > 1)}"; then
-            echo "[i] Setting default sounds for Cinnamon"
+            echo "[i] - Setting default sounds for Cinnamon"
             # SOUND - FRESH DREAM
-            gsettings set org.cinnamon.sounds tile-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds plug-file '/usr/share/sounds/dream/stereo/device-added.ogg'
-            gsettings set org.cinnamon.sounds unplug-file '/usr/share/sounds/dream/stereo/device-removed.ogg'
-            gsettings set org.cinnamon.sounds close-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds map-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds minimize-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds logout-file '/usr/share/sounds/dream/stereo/desktop-logout.ogg'
-            gsettings set org.cinnamon.sounds maximize-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds switch-file '/usr/share/sounds/dream/stereo/window-slide.ogg'
-            gsettings set org.cinnamon.sounds notification-file '/usr/share/sounds/dream/stereo/dialog-question.ogg'
-            gsettings set org.cinnamon.sounds unmaximize-file '/usr/share/sounds/dream/stereo/window-close.ogg'
-            gsettings set org.cinnamon.sounds login-file '/usr/share/sounds/dream/stereo/desktop-login.ogg'
-            gsettings set org.cinnamon.desktop.sound volume-sound-file '/usr/share/sounds/dream/stereo/audio-volume-change.ogg' 
+            set_sound cinnamon $SOUND_THEME "tile-file"
+            set_sound cinnamon $SOUND_THEME "plug-file"
+            set_sound cinnamon $SOUND_THEME "unplug-file"
+            set_sound cinnamon $SOUND_THEME "close-file"
+            set_sound cinnamon $SOUND_THEME "map-file"
+            set_sound cinnamon $SOUND_THEME "minimize-file"
+            set_sound cinnamon $SOUND_THEME "logout-file"
+            set_sound cinnamon $SOUND_THEME "maximize-file"
+            set_sound cinnamon $SOUND_THEME "switch-file"
+            set_sound cinnamon $SOUND_THEME "notification-file"
+            set_sound cinnamon $SOUND_THEME "unmaximize-file"
+            set_sound cinnamon $SOUND_THEME "login-file"
+            set_sound cinnamon $SOUND_THEME "volume-sound-file"
+            
+            gsettings set org.cinnamon.desktop.sound theme-name "${SOUND_THEME}"
         fi
            
         

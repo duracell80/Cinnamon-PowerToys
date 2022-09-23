@@ -19,4 +19,5 @@ switch-file="xxp/stereo/window-switch.ogg"
 tile-file="xxp/stereo/window-unminimized.ogg"
 unmaximize-file="xxp/stereo/window-unmaximized.ogg"
 unplug-file="xxp/stereo/device-removed.ogg"
+volume-sound-file="xxp/stereo/audio-volume-change.ogg"
 

@@ -19,4 +19,5 @@ switch-file="dream/stereo/window-slide.ogg"
 tile-file="dream/stereo/dialog-ok.ogg"
 unmaximize-file="dream/stereo/window-close.ogg"
 unplug-file="dream/stereo/device-removed.ogg"
+volume-sound-file="dream/stereo/audio-volume-change.ogg"
 
