@@ -50,6 +50,10 @@ do
                 notify-send --urgency=low --category=device --icon=battery-good-symbolic "Battery Level Check - ${LEV}%" "The battery is less than halfway drained ( Remaining: ${TIM} )"
                 
                 play_sound "battery-low" $SOUND_THEME
+                for i in {1..3}
+                do
+                    xdotool key XF86MonBrightnessDown
+                done
             fi
         fi
         
@@ -61,6 +65,10 @@ do
                 notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-low "Battery Level Check - ${LEV}%" "The battery is about a three quarters drained ( Remaining: ${TIM} )"
                 
                 play_sound "battery-low" $SOUND_THEME
+                for i in {1..4}
+                do
+                    xdotool key XF86MonBrightnessDown
+                done
             fi
         fi
         
@@ -83,6 +91,10 @@ do
                 notify-send --urgency=normal --category=device --icon=battery-caution-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery level is critical, you should find a power source or suspend your computer very soon! ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
+                for i in {1..5}
+                do
+                    xdotool key XF86MonBrightnessDown
+                done
             fi
         fi
         
@@ -124,22 +136,21 @@ do
         sleep 3600
     else
         if [[ "$LEV" -gt 55 ]] && [[ "$LEV" -lt 101 ]]; then
-            sleep 1200
+            sleep 2400
 
         elif [[ "$LEV" -lt 56 ]]; then
-            sleep 600
+            sleep 2400
 
         elif [[ "$LEV" -lt 26 ]]; then
-            sleep 400
+            sleep 1200
 
         elif [[ "$LEV" -lt 16 ]]; then
-            sleep 200
+            sleep 600
 
         elif [[ "$LEV" -lt 11 ]]; then
-            sleep 30
-
+            sleep 300
         else
-            sleep 60
+            sleep 180
         fi
     fi
     
