@@ -7,6 +7,17 @@ MSG_4=0
 MSG_5=0
 MSG_6=0
 
+# MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
+PID_CURR=$$
+PID_COUNT=$(ps aux | grep "watch_battery.sh" | head -n -1 | wc -l)
+
+if [[ "$PID_COUNT" > 1 ]]; then
+    PID_PREV=$(ps aux | grep "watch_battery.sh" | head -n -1 | head -n 1 | awk '{print $2}')
+    if [[ "$PID_PREV" -ne "$PID_CURR" ]]; then
+        kill $PID_PREV
+    fi
+fi
+
 TIM=$(acpi -b | awk '{print $5}' | head -n 1)
 
 
