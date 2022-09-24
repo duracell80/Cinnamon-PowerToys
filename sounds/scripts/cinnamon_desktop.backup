@@ -174,6 +174,7 @@ idle-delay=uint32 300
 
 [desktop/sound]
 event-sounds=false
+maximum-volume=100
 theme-name='dream'
 volume-sound-enabled=true
 volume-sound-file='/usr/share/sounds/dream/stereo/audio-volume-change.ogg'
