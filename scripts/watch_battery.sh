@@ -107,6 +107,11 @@ do
                 notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is almost exhusted ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
+                
+                for i in {1..2}
+                do
+                    xdotool key XF86MonBrightnessDown
+                done
             fi
         fi
         
