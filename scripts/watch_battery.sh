@@ -64,7 +64,7 @@ do
         
         
         # ALERT 5 - SUSPEND SYSTEM WITH ENOUGH POWER TO RETAIN DATA
-        if [[ "$LEV" -lt 4 ]]; then
+        if [[ "$LEV" -lt 8 ]]; then
             if [[ "$MSG_0" == 0 ]]; then
                 MSG_0=1
                 MSG_1=1
@@ -82,8 +82,8 @@ do
             fi
         fi
         
-        # ALERT 4 - 5% EMPTY
-        if [[ "$LEV" -lt 6 ]] && [[ "$LEV" -gt 4 ]]; then
+        # ALERT ALMOST EMPTY
+        if [[ "$LEV" -lt 11 ]] && [[ "$LEV" -gt 8 ]]; then
             if [[ "$MSG_4" == 0 ]]; then
                 MSG_4=1
                 echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
@@ -99,8 +99,8 @@ do
             fi
         fi
         
-        # ALERT 3 - 10% EMPTY
-        if [[ "$LEV" -lt 11 ]] && [[ "$LEV" -gt 5 ]]; then
+        # ALERT NEARLY EMPTY
+        if [[ "$LEV" -lt 13 ]] && [[ "$LEV" -gt 8 ]]; then
             if [[ "$MSG_3" == 0 ]]; then
                 MSG_3=1
                 echo "Critical: battery almost exhusted (${LEV}% - ${TIM})"
