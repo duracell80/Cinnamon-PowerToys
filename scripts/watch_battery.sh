@@ -1,4 +1,5 @@
 #!/bin/bash
+MSG_0=0
 MSG_1=0
 MSG_2=0
 MSG_3=0
