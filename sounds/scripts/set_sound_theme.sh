@@ -78,6 +78,6 @@ else
         gsettings set org.cinnamon.sounds login-file '/usr/share/sounds/LinuxMint/stereo/desktop-login.ogg'
         gsettings set org.cinnamon.desktop.sound volume-sound-file '/usr/share/sounds/LinuxMint/stereo/button-pressed.ogg'
         
-        gsettings get org.cinnamon.desktop.sound theme-name 'LinuxMint'
+        gsettings set org.cinnamon.desktop.sound theme-name 'LinuxMint'
     fi
 fi
