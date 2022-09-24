@@ -3,8 +3,9 @@ MSG_1=0
 MSG_2=0
 MSG_3=0
 MSG_4=0
-
 MSG_5=0
+MSG_6=0
+
 TIM=$(acpi -b | awk '{print $5}' | head -n 1)
 
 
@@ -42,7 +43,7 @@ do
         gsettings set org.cinnamon.sounds notification-enabled false
         
         # ALERT 1 - HALF WAY EMPTY
-        if [[ "$LEV" -gt 34 ]] && [[ "$LEV" -lt 46 ]]; then
+        if [[ "$LEV" -gt 26 ]] && [[ "$LEV" -lt 50 ]]; then
             if [[ "$MSG_1" == 0 ]]; then
                 MSG_1=1
                 echo "Caution: battery halfway empty (${LEV}% - ${TIM})"
@@ -92,33 +93,39 @@ do
     if [[ "$PWR" == 1 ]]; then
         if [[ "$MSG_5" == 0 ]]; then
             MSG_5=1
-            echo "Information: computer plugged in and charging (${LEV})"
+            play_sound "plug-file" $SOUND_THEME
         fi
         
         if [[ "$FUL" == 1 ]]; then
-            echo "Battery Full"
-            play_sound "battery-full" $SOUND_THEME
+            if [[ "$MSG_6" == 0 ]]; then
+                MSG_6=1
+                play_sound "battery-full" $SOUND_THEME
+            fi
         fi
-
     fi
     
-    if [[ "$LEV" -gt 55 ]] && [[ "$LEV" -lt 101 ]]; then
-        sleep 1200
-        
-    elif [[ "$LEV" -lt 56 ]]; then
-        sleep 600
-        
-    elif [[ "$LEV" -lt 26 ]]; then
-        sleep 400
-        
-    elif [[ "$LEV" -lt 16 ]]; then
-        sleep 200
-        
-    elif [[ "$LEV" -lt 11 ]]; then
-        sleep 30
-        
+    
+    if [[ "$PWR" == 1 ]]; then
+        sleep 3600
     else
-        sleep 60
+        if [[ "$LEV" -gt 55 ]] && [[ "$LEV" -lt 101 ]]; then
+            sleep 1200
+
+        elif [[ "$LEV" -lt 56 ]]; then
+            sleep 600
+
+        elif [[ "$LEV" -lt 26 ]]; then
+            sleep 400
+
+        elif [[ "$LEV" -lt 16 ]]; then
+            sleep 200
+
+        elif [[ "$LEV" -lt 11 ]]; then
+            sleep 30
+
+        else
+            sleep 60
+        fi
     fi
     
     TIM=$(acpi -b | awk '{print $5}' | head -n 1)
