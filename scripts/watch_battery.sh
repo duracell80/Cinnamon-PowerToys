@@ -28,6 +28,10 @@ play_sound () {
     if [ "${1}" == "battery-low" ]; then
         play "${DIR_SOUND}/${SOUND_SET}" &
     fi
+    
+    if [ "${1}" == "battery-caution" ]; then
+        play "${DIR_SOUND}/${SOUND_SET}" &
+    fi
 }
 
 while true
@@ -58,34 +62,28 @@ do
             fi
         fi
         
-        # ALERT 2 - QUARTER EMPTY
-        if [[ "$LEV" -lt 26 ]]; then
-            if [[ "$MSG_2" == 0 ]]; then
-                MSG_2=1
-                echo "Caution: battery quarter empty (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-low "Battery Level Check - ${LEV}%" "The battery is about a three quarters drained ( Remaining: ${TIM} )"
-                
-                play_sound "battery-low" $SOUND_THEME
-                for i in {1..4}
-                do
-                    xdotool key XF86MonBrightnessDown
-                done
-            fi
-        fi
         
-        # ALERT 3 - 10% EMPTY
-        if [[ "$LEV" -lt 11 ]]; then
-            if [[ "$MSG_3" == 0 ]]; then
+        # ALERT 5 - SUSPEND SYSTEM WITH ENOUGH POWER TO RETAIN DATA
+        if [[ "$LEV" -lt 4 ]]; then
+            if [[ "$MSG_0" == 0 ]]; then
+                MSG_0=1
+                MSG_1=1
+                MSG_2=1
                 MSG_3=1
-                echo "Critical: battery almost exhusted (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is almost exhusted ( Remaining: ${TIM} )"
+                MSG_4=1
+                MSG_5=1
+                echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
+                notify-send --urgency=critical --category=device --icon=battery-empty-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "To safeguard your data your computer will suspend (and not power off) within the next 30 seconds. Please save your work!"
                 
                 play_sound "battery-caution" $SOUND_THEME
+                
+                sleep 30
+                systemctl suspend
             fi
         fi
         
         # ALERT 4 - 5% EMPTY
-        if [[ "$LEV" -lt 6 ]]; then
+        if [[ "$LEV" -lt 6 ]] && [[ "$LEV" -gt 4 ]]; then
             if [[ "$MSG_4" == 0 ]]; then
                 MSG_4=1
                 echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
@@ -101,17 +99,29 @@ do
             fi
         fi
         
-        # ALERT 5 - SUSPEND SYSTEM WITH ENOUGH POWER TO RETAIN DATA
-        if [[ "$LEV" -lt 4 ]]; then
-            if [[ "$MSG_0" == 0 ]]; then
-                MSG_0=1
-                echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
-                notify-send --urgency=critical --category=device --icon=battery-empty-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "To safeguard your data your computer will suspend (and not power off) within the next 30 seconds. Please save your work!"
+        # ALERT 3 - 10% EMPTY
+        if [[ "$LEV" -lt 11 ]] && [[ "$LEV" -gt 5 ]]; then
+            if [[ "$MSG_3" == 0 ]]; then
+                MSG_3=1
+                echo "Critical: battery almost exhusted (${LEV}% - ${TIM})"
+                notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is almost exhusted ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
+            fi
+        fi
+        
+        # ALERT 2 - QUARTER EMPTY
+        if [[ "$LEV" -lt 26 ]] && [[ "$LEV" -gt 10 ]]; then
+            if [[ "$MSG_2" == 0 ]]; then
+                MSG_2=1
+                echo "Caution: battery quarter empty (${LEV}% - ${TIM})"
+                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-low "Battery Level Check - ${LEV}%" "The battery is about a three quarters drained ( Remaining: ${TIM} )"
                 
-                sleep 30
-                systemctl suspend
+                play_sound "battery-low" $SOUND_THEME
+                for i in {1..4}
+                do
+                    xdotool key XF86MonBrightnessDown
+                done
             fi
         fi
         
