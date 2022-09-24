@@ -20,4 +20,7 @@ tile-file="borealis/stereo/window-click-inactive.ogg"
 unmaximize-file="borealis/stereo/window-maximized.ogg"
 unplug-file="borealis/stereo/device-removed.ogg"
 volume-sound-file="borealis/stereo/audio-volume-change.ogg"
+battery-full="borealis/stereo/battery-full.ogg"
+battery-low="borealis/stereo/battery-low.ogg"
+battery-caution="borealis/stereo/battery-caution.ogg"
 

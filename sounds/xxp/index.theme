@@ -20,4 +20,7 @@ tile-file="xxp/stereo/window-unminimized.ogg"
 unmaximize-file="xxp/stereo/window-unmaximized.ogg"
 unplug-file="xxp/stereo/device-removed.ogg"
 volume-sound-file="xxp/stereo/audio-volume-change.ogg"
+battery-full="xxp/stereo/battery-full.ogg"
+battery-low="xxp/stereo/battery-low.ogg"
+battery-caution="xxp/stereo/battery-caution.ogg"
 

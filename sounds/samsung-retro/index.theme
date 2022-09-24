@@ -20,4 +20,7 @@ tile-file="samsung-retro/stereo/completion-partial.ogg"
 unmaximize-file="samsung-retro/stereo/lid-close.ogg"
 unplug-file="samsung-retro/stereo/device-removed.ogg"
 volume-sound-file="samsung-retro/stereo/audio-volume-change.ogg"
+battery-full="samsung-retro/stereo/battery-full.ogg"
+battery-low="samsung-retro/stereo/battery-low.ogg"
+battery-caution="samsung-retro/stereo/battery-caution.ogg"
 

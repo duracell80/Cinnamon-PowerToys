@@ -20,4 +20,7 @@ tile-file="linux-a11y/stereo/window-new.ogg"
 unmaximize-file="linux-a11y/stereo/window-minimized.ogg"
 unplug-file="linux-a11y/stereo/power-unplug.ogg"
 volume-sound-file="linux-a11y/stereo/audio-volume-change.ogg"
+battery-full="linux-a11y/stereo/battery-full.ogg"
+battery-low="linux-a11y/stereo/battery-low.ogg"
+battery-caution="linux-a11y/stereo/battery-caution.ogg"
 

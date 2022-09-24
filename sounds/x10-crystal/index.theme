@@ -20,5 +20,8 @@ tile-file="x10-crystal/stereo/bell-window-system.ogg"
 unmaximize-file="x10-crystal/stereo/window-attention-active.ogg"
 unplug-file="x10-crystal/stereo/device-removed.ogg"
 volume-sound-file="x10-crystal/stereo/audio-volume-change.ogg"
+battery-full="x10-crystal/stereo/battery-full.ogg"
+battery-low="x10-crystal/stereo/battery-low.ogg"
+battery-caution="x10-crystal/stereo/battery-caution.ogg"
 
 

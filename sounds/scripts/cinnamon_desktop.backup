@@ -89,13 +89,13 @@ exec='gnome-terminal'
 [desktop/background]
 color-shading-type='vertical'
 picture-options='zoom'
-picture-uri='file:///home/lee/Pictures/DermoDeX/pexels-chevanon-photography-325044.jpg'
-primary-color=''
-secondary-color=''
+picture-uri='file:///home/lee/Pictures/Wallpapers/pexels-david-bartus-2873479(1).jpg'
+primary-color='#000000'
+secondary-color='#840000'
 
 [desktop/background/slideshow]
 delay=15
-image-source='directory:///home/lee/Pictures/DermoDeX'
+image-source='directory:///home/lee/Pictures/Wallpapers'
 slideshow-enabled=false
 
 [desktop/interface]
