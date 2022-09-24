@@ -62,7 +62,7 @@ if [ -d $UWD/$SOUND_THEME ] ; then
 else
     # IF ON CINNAMON ...
     if awk "BEGIN {exit !($CINN_VERSION > 1)}"; then
-        echo "[i] - Setting sound theme for Cinnamon as Linux Mint"
+        echo "[i] Power Toys - Setting sound theme for Cinnamon as Linux Mint"
         # SOUND - LINUX MINT
         gsettings set org.cinnamon.sounds tile-file '/usr/share/sounds/LinuxMint/stereo/button-pressed.ogg'
         gsettings set org.cinnamon.sounds plug-file '/usr/share/sounds/LinuxMint/stereo/button-pressed.ogg'
