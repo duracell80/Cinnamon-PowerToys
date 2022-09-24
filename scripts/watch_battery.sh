@@ -47,7 +47,7 @@ do
             if [[ "$MSG_1" == 0 ]]; then
                 MSG_1=1
                 echo "Caution: battery halfway empty (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=dialog-warning-symbolic "Battery Level Check - ${LEV}%" "The battery is less than halfway drained ( Remaining: ${TIM} )"
+                notify-send --urgency=low --category=device --icon=battery-good-symbolic "Battery Level Check - ${LEV}%" "The battery is less than halfway drained ( Remaining: ${TIM} )"
                 
                 play_sound "battery-low" $SOUND_THEME
             fi
@@ -58,7 +58,7 @@ do
             if [[ "$MSG_2" == 0 ]]; then
                 MSG_2=1
                 echo "Caution: battery quarter empty (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=dialog-warning-symbolic --hint=string:sound-name:battery-low "Battery Level Check - ${LEV}%" "The battery is about a three quarters drained ( Remaining: ${TIM} )"
+                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-low "Battery Level Check - ${LEV}%" "The battery is about a three quarters drained ( Remaining: ${TIM} )"
                 
                 play_sound "battery-low" $SOUND_THEME
             fi
@@ -69,7 +69,7 @@ do
             if [[ "$MSG_3" == 0 ]]; then
                 MSG_3=1
                 echo "Critical: battery almost exhusted (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=dialog-warning-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is almost exhusted ( Remaining: ${TIM} )"
+                notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is almost exhusted ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
             fi
@@ -80,11 +80,26 @@ do
             if [[ "$MSG_4" == 0 ]]; then
                 MSG_4=1
                 echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=dialog-warning-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery level is critical, you should find a power source or suspend your computer very soon! ( Remaining: ${TIM} )"
+                notify-send --urgency=normal --category=device --icon=battery-caution-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery level is critical, you should find a power source or suspend your computer very soon! ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
             fi
         fi
+        
+        # ALERT 5 - SUSPEND SYSTEM WITH ENOUGH POWER TO RETAIN DATA
+        if [[ "$LEV" -lt 4 ]]; then
+            if [[ "$MSG_0" == 0 ]]; then
+                MSG_0=1
+                echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
+                notify-send --urgency=critical --category=device --icon=battery-empty-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "To safeguard your data your computer will suspend (and not power off) within the next 30 seconds. Please save your work!"
+                
+                play_sound "battery-caution" $SOUND_THEME
+                
+                sleep 30
+                systemctl suspend
+            fi
+        fi
+        
         
         gsettings set org.cinnamon.sounds notification-enabled true
     fi

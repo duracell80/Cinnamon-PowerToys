@@ -1,5 +1,5 @@
 #!/bin/bash
-#sudo apt install acpi
+#sudo apt install acpi zenity
 #pip3 install pypexels pexels pexels_api requests tqdm
 
 CWD=$(pwd)
