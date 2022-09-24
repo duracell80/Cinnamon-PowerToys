@@ -95,6 +95,8 @@ do
                 do
                     xdotool key XF86MonBrightnessDown
                 done
+                
+                gnome-power-statistics
             fi
         fi
         
