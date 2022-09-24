@@ -57,17 +57,25 @@ do
         # PLUGGED
         if [[ "$PWR_NOW" == 1 ]]; then
             #echo "Power Plugged"
-            if [[ "$LEV" -gt 75 ]]; then
+            if [[ "$LEV" -gt 80 ]] && [[ "$LEV" -lt 101 ]]; then
                 play_sound "battery-full" $SOUND_THEME
             else
                 play_sound "power-plug" $SOUND_THEME
+            fi
+            
+            if [[ "$LEV" -gt 89 ]]; then
+                notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
             fi
 
         else
         # UNPLUGGED
             #echo "Power Unplugged"
-            if [[ "$LEV" -lt 15 ]]; then
+            if [[ "$LEV" -lt 21 ]]; then
                 play_sound "battery-caution" $SOUND_THEME
+                sleep 5
+                
+                notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is low!"
+                
             else
                 play_sound "power-unplug" $SOUND_THEME
             fi
