@@ -23,4 +23,6 @@ volume-sound-file="hydrogen/stereo/audio-volume-change.ogg"
 battery-full="hydrogen/stereo/battery-full.ogg"
 battery-low="hydrogen/stereo/battery-low.ogg"
 battery-caution="hydrogen/stereo/battery-caution.ogg"
+power-plug="hydrogen/stereo/power-plug.ogg"
+power-unplug="hydrogen/stereo/power-unplug.ogg"
 

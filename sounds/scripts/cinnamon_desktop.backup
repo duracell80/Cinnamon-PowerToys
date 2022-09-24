@@ -29,12 +29,12 @@ desktop-effects-unmaximize-effect='none'
 desktop-effects-unmaximize-time=100
 desktop-effects-unmaximize-transition='easeNone'
 device-aliases=['/org/freedesktop/UPower/devices/mouse_hidpp_battery_1:= M720 Mouse', '/org/freedesktop/UPower/devices/keyboard_hidpp_battery_0:= K780 Wireless Keyboard']
-enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:grouped-window-list@cinnamon.org:2', 'panel1:right:4:systray@cinnamon.org:3', 'panel1:right:2:xapp-status@cinnamon.org:4', 'panel1:right:11:notifications@cinnamon.org:5', 'panel1:right:6:printers@cinnamon.org:6', 'panel1:right:8:network@cinnamon.org:10', 'panel1:right:5:sound@cinnamon.org:11', 'panel1:right:10:calendar@cinnamon.org:13', 'panel1:right:3:radio@driglu4it:16', 'panel1:right:1:workspace-switcher@cinnamon.org:27', 'panel1:right:12:power@cinnamon.org:30', 'panel1:right:13:user@cinnamon.org:33', 'panel1:center:0:expo@cinnamon.org:36', 'panel1:right:9:weather@mockturtl:43', 'panel1:right:0:color-picker@fmete:49']
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:grouped-window-list@cinnamon.org:2', 'panel1:right:5:systray@cinnamon.org:3', 'panel1:right:3:xapp-status@cinnamon.org:4', 'panel1:right:12:notifications@cinnamon.org:5', 'panel1:right:7:printers@cinnamon.org:6', 'panel1:right:9:network@cinnamon.org:10', 'panel1:right:6:sound@cinnamon.org:11', 'panel1:right:11:calendar@cinnamon.org:13', 'panel1:right:4:radio@driglu4it:16', 'panel1:right:2:workspace-switcher@cinnamon.org:27', 'panel1:right:13:power@cinnamon.org:30', 'panel1:right:14:user@cinnamon.org:33', 'panel1:center:0:expo@cinnamon.org:36', 'panel1:right:10:weather@mockturtl:43', 'panel1:right:1:color-picker@fmete:49']
 enabled-desklets=['clock@cinnamon.org:2:3925:75']
 enabled-extensions=['opacify@anish.org', 'dermodex-config@duracell80']
 favorite-apps=['cinnamon-settings.desktop', 'org.gnome.Terminal.desktop', 'nemo.desktop']
 hotcorner-layout=['expo:false:0', 'expo:false:500', 'scale:true:1000', 'desktop:true:1000']
-next-applet-id=50
+next-applet-id=51
 next-desklet-id=5
 no-adjacent-panel-barriers=false
 panel-edit-mode=false

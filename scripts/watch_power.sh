@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
+PID_CURR=$$
+PID_COUNT=$(ps aux | grep "watch_battery.sh" | head -n -1 | wc -l)
+
+if [[ "$PID_COUNT" > 1 ]]; then
+    PID_PREV=$(ps aux | grep "watch_power.sh" | head -n -1 | head -n 1 | awk '{print $2}')
+    if [[ "$PID_PREV" -ne "$PID_CURR" ]]; then
+        kill $PID_PREV
+    fi
+fi
+
+PWR=$(cat /sys/class/power_supply/AC/online)
+DIR_SOUND="/usr/share/sounds"
+
+play_sound () {
+    SOUND_INDEX=$DIR_SOUND/${2}/index.theme
+    
+    # READ THE CONFIG
+    SOUND_FILE=$(awk -F '=' '/^\s*'${1}'\s*=/ {
+        sub(/^ +/, "", $2);
+        sub(/ +$/, "", $2);
+        print $2;
+        exit;
+    }' $SOUND_INDEX)
+    
+    SOUND_SET=$(echo $SOUND_FILE | tr -d \'\" )
+    
+    # ONLY PLAY THE SOUNDS RELEVANT
+    if [ "${1}" == "power-plug" ]; then
+        play "${DIR_SOUND}/${SOUND_SET}" &
+    fi
+    
+    if [ "${1}" == "power-unplug" ]; then
+        play "${DIR_SOUND}/${SOUND_SET}" &
+    fi
+    
+    if [ "${1}" == "battery-caution" ]; then
+        play "${DIR_SOUND}/${SOUND_SET}" &
+    fi
+    
+    if [ "${1}" == "battery-full" ]; then
+        play "${DIR_SOUND}/${SOUND_SET}" &
+    fi
+}
+
+while true
+do
+    SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
+    PWR_NOW=$(cat /sys/class/power_supply/AC/online)
+    
+    # DETECT STATE CHANGE
+    if [[ "$PWR_NOW" -ne "$PWR_LAST" ]]; then
+        LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+        
+        # PLUGGED
+        if [[ "$PWR_NOW" == 1 ]]; then
+            #echo "Power Plugged"
+            if [[ "$LEV" -gt 75 ]]; then
+                play_sound "battery-full" $SOUND_THEME
+            else
+                play_sound "power-plug" $SOUND_THEME
+            fi
+
+        else
+        # UNPLUGGED
+            #echo "Power Unplugged"
+            if [[ "$LEV" -lt 15 ]]; then
+                play_sound "battery-caution" $SOUND_THEME
+            else
+                play_sound "power-unplug" $SOUND_THEME
+            fi
+        fi
+    fi
+
+    PWR_LAST=$(cat /sys/class/power_supply/AC/online)
+    if [[ "$PWR" == 1 ]]; then
+        sleep 2
+    else
+        sleep 3
+    fi
+done

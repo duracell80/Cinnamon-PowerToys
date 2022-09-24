@@ -7,6 +7,8 @@ MSG_4=0
 MSG_5=0
 MSG_6=0
 
+$HOME/.local/share/powertoys/watch_power.sh &
+
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
 PID_CURR=$$
 PID_COUNT=$(ps aux | grep "watch_battery.sh" | head -n -1 | wc -l)
@@ -149,7 +151,7 @@ do
     if [[ "$PWR" == 1 ]]; then
         if [[ "$MSG_5" == 0 ]]; then
             MSG_5=1
-            play_sound "plug-file" $SOUND_THEME
+            #play_sound "plug-file" $SOUND_THEME
         fi
         
         if [[ "$FUL" == 1 ]]; then

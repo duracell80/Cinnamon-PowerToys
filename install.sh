@@ -8,6 +8,7 @@ LWD=$HOME/.local/share/powertoys
 mkdir -p $LWD
 
 cp -f $CWD/scripts/watch_battery.sh $LWD
+cp -f $CWD/scripts/watch_power.sh $LWD
 
 
 # SET ANY AUTOSTART SCRIPTS FOR DESKTOP ENVIRONMENT
