@@ -1,0 +1,9 @@
+[Nemo Action]
+Name=Extract Text
+Comment=Extract chapters from an image file with tesseract
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/extract_text_ocr.sh %F
+Selection=notnone
+Extensions=nodirs;
+Dependencies=tesseract;zenity;xclip
+Extensions=jpg;jpeg;png;gif;tiff;tif;bmp
