@@ -1,5 +1,5 @@
 #!/bin/bash
-#sudo apt install acpi zenity redshift tesseract-ocr 
+#sudo apt install acpi zenity redshift tesseract-ocr exiftool
 #pip3 install pypexels pexels pexels_api requests tqdm
 
 CWD=$(pwd)
