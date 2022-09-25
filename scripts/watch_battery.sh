@@ -50,7 +50,17 @@ play_sound () {
 while true
 do
     SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
-    LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    #LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    LEV=$(cat /sys/class/power_supply/BAT0/capacity)
+    MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
+    MOD=$(cat /sys/class/power_supply/BAT0/model_name)
+    if [[ "$LEV" -lt 1 ]]; then
+        LEV=$(cat /sys/class/power_supply/BAT1/capacity)
+        MFG=$(cat /sys/class/power_supply/BAT1/manufacturer)
+        MOD=$(cat /sys/class/power_supply/BAT1/model_name)
+    fi
+    
+    
     PWR=$(acpi -b | head -n 1 | grep -c "Charging")
     FUL=$(acpi -b | head -n 1 | grep -c "Full")
     
@@ -100,7 +110,7 @@ do
             if [[ "$MSG_4" == 0 ]]; then
                 MSG_4=1
                 echo "Critical: you should find a power source or suspend your computer (${LEV}% - ${TIM})"
-                notify-send --urgency=normal --category=device --icon=battery-caution-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery level is critical, you should find a power source or suspend your computer very soon! ( Remaining: ${TIM} )"
+                notify-send --urgency=normal --category=device --icon=battery-caution-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery level is very low, you should find a power source or suspend your computer very soon! ( Remaining: ${TIM} )"
                 
                 play_sound "battery-caution" $SOUND_THEME
                 for i in {1..5}
@@ -157,7 +167,13 @@ do
         if [[ "$FUL" == 1 ]]; then
             if [[ "$MSG_6" == 0 ]]; then
                 MSG_6=1
+                gsettings set org.cinnamon.sounds notification-enabled false
                 play_sound "battery-full" $SOUND_THEME
+                gsettings set org.cinnamon.sounds notification-enabled true
+                
+                
+                notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "If needed, search for ${MOD} ${MFG} to find replacement batteries"
+
             fi
         fi
     fi

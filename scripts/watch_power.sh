@@ -1,6 +1,8 @@
 #!/bin/bash
 MSG_0=0
 
+
+
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
 PID_CURR=$$
 PID_COUNT=$(ps aux | grep "watch_battery.sh" | head -n -1 | wc -l)
@@ -51,12 +53,23 @@ do
     SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
     PWR_NOW=$(cat /sys/class/power_supply/AC/online)
     
-    LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    #LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    LEV=$(cat /sys/class/power_supply/BAT0/capacity)
+    MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
+    MOD=$(cat /sys/class/power_supply/BAT0/model_name)
+    if [[ "$LEV" -lt 1 ]]; then
+        LEV=$(cat /sys/class/power_supply/BAT1/capacity)
+        MFG=$(cat /sys/class/power_supply/BAT1/manufacturer)
+        MOD=$(cat /sys/class/power_supply/BAT1/model_name)
+    fi
+    
     if [[ "$LEV" -gt 99 ]]; then
         if [[ "$MSG_0" == 0 ]]; then
             MSG_0=1
             notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!"
         fi
+        
+        notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!" 
     fi
     
     # DETECT STATE CHANGE
@@ -78,7 +91,7 @@ do
         else
         # UNPLUGGED
             #echo "Power Unplugged"
-            if [[ "$LEV" -lt 21 ]]; then
+            if [[ "$LEV" -lt 21 ]] && [[ "$LEV" -gt 2 ]]; then
                 MSG_0=0
                 play_sound "battery-caution" $SOUND_THEME
                 sleep 5
