@@ -1,0 +1,9 @@
+[Nemo Action]
+Name=Extract Chapters
+Comment=Extract chapters from a .mkv or .m4v file made with MakeMKV
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/extract_chapters_mkv.sh %F
+Selection=notnone
+Extensions=nodirs;
+Dependencies=ffmpeg
+Extensions=mkv;m4v

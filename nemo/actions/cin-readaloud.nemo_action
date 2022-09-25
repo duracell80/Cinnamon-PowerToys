@@ -1,6 +1,0 @@
-[Nemo Action]
-Name=Read Aloud
-Comment=Google Text To Speech
-Exec=</home/lee/.local/share/nemo/scripts/read_aloud.py -f "%F">
-Selection=Single
-Extensions=txt

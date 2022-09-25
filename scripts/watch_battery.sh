@@ -77,7 +77,7 @@ do
         
         
         # ALERT 5 - SUSPEND SYSTEM WITH ENOUGH POWER TO RETAIN DATA
-        if [[ "$LEV" -lt 8 ]]; then
+        if [[ "$LEV" -lt 8 ]] && [[ "$LEV" -gt 2 ]]; then
             if [[ "$MSG_0" == 0 ]]; then
                 MSG_0=1
                 MSG_1=1

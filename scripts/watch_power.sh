@@ -1,4 +1,5 @@
 #!/bin/bash
+MSG_0=0
 
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
 PID_CURR=$$
@@ -50,27 +51,35 @@ do
     SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
     PWR_NOW=$(cat /sys/class/power_supply/AC/online)
     
+    LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    if [[ "$LEV" -gt 99 ]]; then
+        if [[ "$MSG_0" == 0 ]]; then
+            MSG_0=1
+            notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!"
+        fi
+    fi
+    
     # DETECT STATE CHANGE
     if [[ "$PWR_NOW" -ne "$PWR_LAST" ]]; then
-        LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
         
         # PLUGGED
         if [[ "$PWR_NOW" == 1 ]]; then
             #echo "Power Plugged"
-            if [[ "$LEV" -gt 80 ]] && [[ "$LEV" -lt 101 ]]; then
+            if [[ "$LEV" -gt 89 ]] && [[ "$LEV" -lt 101 ]]; then
                 play_sound "battery-full" $SOUND_THEME
             else
                 play_sound "power-plug" $SOUND_THEME
             fi
             
             if [[ "$LEV" -gt 89 ]]; then
-                notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
+                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
             fi
 
         else
         # UNPLUGGED
             #echo "Power Unplugged"
             if [[ "$LEV" -lt 21 ]]; then
+                MSG_0=0
                 play_sound "battery-caution" $SOUND_THEME
                 sleep 5
                 
@@ -84,8 +93,8 @@ do
 
     PWR_LAST=$(cat /sys/class/power_supply/AC/online)
     if [[ "$PWR" == 1 ]]; then
-        sleep 2
-    else
         sleep 3
+    else
+        sleep 4
     fi
 done
