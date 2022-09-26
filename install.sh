@@ -1,6 +1,6 @@
 #!/bin/bash
 #sudo apt install acpi zenity redshift tesseract-ocr exiftool
-#pip3 install pypexels pexels pexels_api requests tqdm
+#pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm
 
 CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys 
@@ -10,8 +10,7 @@ mkdir -p $LWD
 cp -f $CWD/scripts/watch_battery.sh $LWD
 cp -f $CWD/scripts/watch_power.sh $LWD
 
-cp -f $CWD/scripts/extract_chapters_mkv.sh $LWD
-cp -f $CWD/scripts/extract_text_ocr.sh $LWD
+cp -f $CWD/scripts/*.sh $LWD
 
 # COPY NEMO SCRIPTS AND ACTIONS
 #cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions

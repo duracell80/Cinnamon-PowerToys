@@ -1,0 +1,9 @@
+[Nemo Action]
+Name=Convert to MP3
+Comment=Extract 2 channel audio from a video or audio file with ffmpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_video_to_audio.sh "mp3" %F
+Selection=S
+Extensions=nodirs;
+Dependencies=ffmpeg;zenity
+Mimetypes=video/*;audio/*
