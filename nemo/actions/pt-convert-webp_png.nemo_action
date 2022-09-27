@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to PNG
+Comment=Converts a webp file to png
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_webp.sh "png" %F
+Selection=S
+Extensions=webp
+Dependencies=ffmpeg;zenity

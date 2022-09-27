@@ -1,0 +1,9 @@
+[Nemo Action]
+Name=Windows - Close All
+Comment=Close all windows in all workspaces
+Exec=~/.local/share/powertoys/close_windows.sh all
+Selection=None
+Extensions=any;
+Icon-Name=application-exit-symbolic
+Dependencies=wmctrl;xdotool;
+Conditions=desktop;

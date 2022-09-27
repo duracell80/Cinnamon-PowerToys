@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Set as Logout Sound
+Comment=Sets this sound file to play upon desktop logout for the current user
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/set_as_sound.sh "shutdown" %F
+Selection=S
+Extensions=wav;ogg
+Dependencies=ffmpeg;zenity

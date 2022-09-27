@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Set as Startup Sound
+Comment=Sets this sound file to play upon desktop login for the current user
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/set_as_sound.sh "startup" %F
+Selection=S
+Extensions=wav;ogg
+Dependencies=ffmpeg;zenity

@@ -4,6 +4,5 @@ Comment=Extract 2 channel audio from a video or audio file with ffmpeg
 EscapeSpaces=true
 Exec=~/.local/share/powertoys/convert_video_to_audio.sh "mp3" %F
 Selection=S
-Extensions=nodirs;
+Extensions=wav;mpg;ogg;mp2;mp4;mpeg;avi;m4v;m4a;mov;mkv;divx;aac;flac;wma;wmv
 Dependencies=ffmpeg;zenity
-Mimetypes=video/*;audio/*

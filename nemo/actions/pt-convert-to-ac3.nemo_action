@@ -1,8 +1,8 @@
 [Nemo Action]
-Name=Convert to FLAC
+Name=Convert to AC3
 Comment=Extract 2 channel audio from a video or audio file with ffmpeg
 EscapeSpaces=true
-Exec=~/.local/share/powertoys/convert_video_to_audio.sh "flac" %F
+Exec=~/.local/share/powertoys/convert_video_to_audio.sh "ac3" %F
 Selection=S
 Extensions=wav;mpg;mp2;mp4;mpeg;avi;m4v;m4a;mov;mkv;divx;aac;flac;wma;wmv
 Dependencies=ffmpeg;zenity

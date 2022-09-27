@@ -11,12 +11,16 @@ FILE_EXT=${FILE_BIT##*.}
 
 (
 echo "50"
-echo "# Extracting audio from ${FILE_NME}.${FILE_EXT} to ${FILE_NME}.${1}"
+echo "# Extracting audio to ${FILE_NME}.${1}"
 
 if [ "$1" = "flac" ]; then
     ffmpeg -i "$2" -y -vn -af aformat=s32:176000 "${FILE_DIR}/${FILE_NME}.flac"
 elif [ "$1" = "mp3" ]; then
     ffmpeg -i "$2" -y -vn -b:a 192K "${FILE_DIR}/${FILE_NME}.mp3"
+elif [ "$1" = "ogg" ]; then
+    ffmpeg -i "$2" -y -vn -acodec libvorbis "${FILE_DIR}/${FILE_NME}.ogg"
+elif [ "$1" = "ac3" ]; then
+    ffmpeg -i "$2" -y -vn -acodec ac3 "${FILE_DIR}/${FILE_NME}.ac3"
 fi
 
 echo "75" ; sleep 1

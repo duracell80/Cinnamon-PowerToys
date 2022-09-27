@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to JPG
+Comment=Converts a webp file to jpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_webp.sh "jpg" %F
+Selection=S
+Extensions=webp
+Dependencies=ffmpeg;zenity

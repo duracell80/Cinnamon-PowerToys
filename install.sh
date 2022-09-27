@@ -1,5 +1,5 @@
 #!/bin/bash
-#sudo apt install acpi zenity redshift tesseract-ocr exiftool
+#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl
 #pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm
 
 CWD=$(pwd)
@@ -14,7 +14,7 @@ cp -f $CWD/scripts/*.sh $LWD
 
 # COPY NEMO SCRIPTS AND ACTIONS
 #cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
-cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
+#cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
 
 for filename in $CWD/nemo/actions/*.nemo_action; do
     [ -e "$filename" ] || continue

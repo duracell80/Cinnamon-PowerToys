@@ -80,12 +80,10 @@ do
             #echo "Power Plugged"
             if [[ "$LEV" -gt 89 ]] && [[ "$LEV" -lt 101 ]]; then
                 play_sound "battery-full" $SOUND_THEME
+                
+                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
             else
                 play_sound "power-plug" $SOUND_THEME
-            fi
-            
-            if [[ "$LEV" -gt 89 ]]; then
-                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
             fi
 
         else
