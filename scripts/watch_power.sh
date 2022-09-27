@@ -1,6 +1,6 @@
 #!/bin/bash
 MSG_0=0
-
+MSG_1=0
 
 
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
@@ -63,13 +63,16 @@ do
         MOD=$(cat /sys/class/power_supply/BAT1/model_name)
     fi
     
-    if [[ "$LEV" -gt 99 ]]; then
-        if [[ "$MSG_0" == 0 ]]; then
-            MSG_0=1
-            notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!"
+    if [[ "$PWR_NOW" == 1 ]]; then
+        # SUPRESS POSSIBILITY OF REPEATED NOTIFICATIONS AT 100% WHEN PLUGGED IN
+        if [[ "$LEV" -gt 98 ]] && [[ "$LEV" -lt 100 ]]; then
+            if [[ "$MSG_0" == 0 ]]; then
+                # SUPRESS NOTIFICATIONS WHEN PLUGGED IN AND ALERTED AT LEAST ONCE
+                MSG_0=1
+                MSG_1=1
+                notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!"
+            fi
         fi
-        
-        notify-send --urgency=normal --category=device --icon=battery-full-symbolic --hint=string:sound-name:battery-full "Battery Fully Charged - ${LEV}%" "The power cable can now be unplugged!" 
     fi
     
     # DETECT STATE CHANGE
@@ -79,9 +82,12 @@ do
         if [[ "$PWR_NOW" == 1 ]]; then
             #echo "Power Plugged"
             if [[ "$LEV" -gt 89 ]] && [[ "$LEV" -lt 101 ]]; then
-                play_sound "battery-full" $SOUND_THEME
-                
-                notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
+                if [[ "$MSG_1" == 0 ]]; then
+                    MSG_1=1
+                    play_sound "battery-full" $SOUND_THEME
+
+                    notify-send --urgency=normal --category=device --icon=battery-good-symbolic --hint=string:sound-name:battery-full "Battery Adequately Charged - ${LEV}%" "The power cable can now be unplugged!"
+                fi
             else
                 play_sound "power-plug" $SOUND_THEME
             fi
@@ -97,6 +103,7 @@ do
                 notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is low!"
                 
             else
+                MSG_1=0
                 play_sound "power-unplug" $SOUND_THEME
             fi
         fi
