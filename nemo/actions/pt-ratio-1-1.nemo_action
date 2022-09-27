@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to 1:1
+Comment=Converts an image file to 1:1 ratio
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/crop_to_ratio.py "1:1" %F
+Selection=S
+Extensions=jpg;jpeg;png;bmp;gif;tiff;tif
+Dependencies=python3

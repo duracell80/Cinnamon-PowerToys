@@ -26,7 +26,7 @@ zenity --progress \
   --text="Running ffmpeg ..." \
   --percentage=25 \
   --width=500 \
-  --timeout=15
+  --timeout=1
 
 if [ "$?" = -1 ] ; then
         zenity --error \

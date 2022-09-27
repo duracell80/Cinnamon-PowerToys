@@ -1,6 +1,6 @@
 #!/bin/bash
 #sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl
-#pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm
+#pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys 
@@ -11,6 +11,7 @@ cp -f $CWD/scripts/watch_battery.sh $LWD
 cp -f $CWD/scripts/watch_power.sh $LWD
 
 cp -f $CWD/scripts/*.sh $LWD
+cp -f $CWD/scripts/*.py $LWD
 
 # COPY NEMO SCRIPTS AND ACTIONS
 #cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
