@@ -22,4 +22,6 @@ volume-sound-file="zorin/stereo/audio-volume-change.ogg"
 battery-full="zorin/stereo/battery-full.ogg"
 battery-low="zorin/stereo/battery-low.ogg"
 battery-caution="zorin/stereo/battery-caution.ogg"
+file-trash="zorin/stereo/file-trash.ogg"
+trash-empty="zorin/stereo/trash-empty.ogg"
 

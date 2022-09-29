@@ -25,4 +25,6 @@ battery-low="dream/stereo/battery-low.ogg"
 battery-caution="dream/stereo/battery-caution.ogg"
 power-plug="dream/stereo/power-plug.ogg"
 power-unplug="dream/stereo/power-unplug.ogg"
+file-trash="dream/stereo/file-trash.ogg"
+trash-empty="dream/stereo/trash-empty.ogg"
 

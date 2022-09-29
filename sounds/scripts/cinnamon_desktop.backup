@@ -175,9 +175,9 @@ idle-delay=uint32 300
 [desktop/sound]
 event-sounds=false
 maximum-volume=100
-theme-name='harmony'
+theme-name='teampixel'
 volume-sound-enabled=true
-volume-sound-file='/usr/share/sounds/harmony/stereo/audio-volume-change.ogg'
+volume-sound-file='/usr/share/sounds/teampixel/ui_tap-variant-01.ogg'
 
 [desktop/wm/preferences]
 min-window-opacity=30
@@ -228,26 +228,26 @@ rgba-order='vbgr'
 
 [sounds]
 close-enabled=false
-close-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
+close-file='/usr/share/sounds/teampixel/ui_unlock.ogg'
 login-enabled=true
-login-file='/usr/share/sounds/harmony/stereo/desktop-login.ogg'
-logout-file='/usr/share/sounds/harmony/stereo/desktop-logout.ogg'
+login-file='/usr/share/sounds/teampixel/Asteroid.ogg'
+logout-file='/usr/share/sounds/teampixel/navigation_selection-complete-celebration.ogg'
 map-enabled=false
-map-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
+map-file='/usr/share/sounds/teampixel/navigation_forward-selection.ogg'
 maximize-enabled=false
-maximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
+maximize-file='/usr/share/sounds/teampixel/ui_unlock.ogg'
 minimize-enabled=false
-minimize-file='/usr/share/sounds/harmony/stereo/window-minimized.ogg'
+minimize-file='/usr/share/sounds/teampixel/ui_unlock.ogg'
 notification-enabled=true
-notification-file='/usr/share/sounds/harmony/stereo/message-new-instant.ogg'
-plug-file='/usr/share/sounds/harmony/stereo/device-added.ogg'
+notification-file='/usr/share/sounds/teampixel/notification_simple-02.ogg'
+plug-file='/usr/share/sounds/teampixel/state-change_confirm-up.ogg'
 switch-enabled=false
-switch-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
+switch-file='/usr/share/sounds/teampixel/ui_loading.ogg'
 tile-enabled=false
-tile-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
+tile-file='/usr/share/sounds/teampixel/ui_unlock.ogg'
 unmaximize-enabled=false
-unmaximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
-unplug-file='/usr/share/sounds/harmony/stereo/device-removed.ogg'
+unmaximize-file='/usr/share/sounds/teampixel/ui_unlock.ogg'
+unplug-file='/usr/share/sounds/teampixel/state-change_confirm-down.ogg'
 
 [theme]
 name='DermoDeX'

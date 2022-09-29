@@ -23,4 +23,6 @@ volume-sound-file="linux-a11y/stereo/audio-volume-change.ogg"
 battery-full="linux-a11y/stereo/battery-full.ogg"
 battery-low="linux-a11y/stereo/battery-low.ogg"
 battery-caution="linux-a11y/stereo/battery-caution.ogg"
+file-trash="linux-a11y/stereo/file-trash.ogg"
+trash-empty="linux-a11y/stereo/trash-empty.ogg"
 

@@ -23,4 +23,6 @@ volume-sound-file="samsung-retro/stereo/audio-volume-change.ogg"
 battery-full="samsung-retro/stereo/battery-full.ogg"
 battery-low="samsung-retro/stereo/battery-low.ogg"
 battery-caution="samsung-retro/stereo/battery-caution.ogg"
+file-trash="samsung-retro/stereo/file-trash.ogg"
+trash-empty="samsung-retro/stereo/trash-empty.ogg"
 

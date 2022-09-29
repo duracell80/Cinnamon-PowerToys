@@ -23,4 +23,6 @@ volume-sound-file="borealis/stereo/audio-volume-change.ogg"
 battery-full="borealis/stereo/battery-full.ogg"
 battery-low="borealis/stereo/battery-low.ogg"
 battery-caution="borealis/stereo/battery-caution.ogg"
+file-trash="borealis/stereo/file-trash.ogg"
+trash-empty="borealis/stereo/trash-empty.ogg"
 

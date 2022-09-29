@@ -23,4 +23,6 @@ volume-sound-file="xxp/stereo/audio-volume-change.ogg"
 battery-full="xxp/stereo/battery-full.ogg"
 battery-low="xxp/stereo/battery-low.ogg"
 battery-caution="xxp/stereo/battery-caution.ogg"
+file-trash="xxp/stereo/file-trash.ogg"
+trash-empty="xxp/stereo/trash-empty.ogg"
 

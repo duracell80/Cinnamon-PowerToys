@@ -31,11 +31,11 @@ play_sound () {
     play "${DIR_SOUND}/${SOUND_SET}"
 }
 
-SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
+
 
 while true
 do
-    
+    SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
     
     TOT1=$(ls -1 $DIR_TRASH | wc -l)
     SIZF=$(du -b $DIR_TRASH | awk '{print $1}')
@@ -56,13 +56,18 @@ do
         
     fi
     
-    if [ "$TOT1" -gt "$TOT2" ];
-    then
+    if [ "$TOT1" -gt "$TOT2" ]; then
         MSG_0=0
         play_sound "trash-empty" $SOUND_THEME
     fi
     
+    if [ "$TOT1" -ne "$TOT2" ]; then
+        if [ "$TOT1" -lt "$TOT2" ]; then
+            play_sound "file-trash" $SOUND_THEME
+        fi
+    fi
     
-    
+    #echo $TOT1
+    #echo $TOT2
 
 done
