@@ -29,12 +29,12 @@ desktop-effects-unmaximize-effect='none'
 desktop-effects-unmaximize-time=100
 desktop-effects-unmaximize-transition='easeNone'
 device-aliases=['/org/freedesktop/UPower/devices/mouse_hidpp_battery_1:= M720 Mouse', '/org/freedesktop/UPower/devices/keyboard_hidpp_battery_0:= K780 Wireless Keyboard']
-enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:grouped-window-list@cinnamon.org:2', 'panel1:right:5:systray@cinnamon.org:3', 'panel1:right:3:xapp-status@cinnamon.org:4', 'panel1:right:12:notifications@cinnamon.org:5', 'panel1:right:7:printers@cinnamon.org:6', 'panel1:right:9:network@cinnamon.org:10', 'panel1:right:6:sound@cinnamon.org:11', 'panel1:right:11:calendar@cinnamon.org:13', 'panel1:right:4:radio@driglu4it:16', 'panel1:right:2:workspace-switcher@cinnamon.org:27', 'panel1:right:13:power@cinnamon.org:30', 'panel1:right:14:user@cinnamon.org:33', 'panel1:center:0:expo@cinnamon.org:36', 'panel1:right:10:weather@mockturtl:43', 'panel1:right:1:color-picker@fmete:49']
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:grouped-window-list@cinnamon.org:2', 'panel1:right:4:systray@cinnamon.org:3', 'panel1:right:2:xapp-status@cinnamon.org:4', 'panel1:right:11:notifications@cinnamon.org:5', 'panel1:right:6:printers@cinnamon.org:6', 'panel1:right:8:network@cinnamon.org:10', 'panel1:right:5:sound@cinnamon.org:11', 'panel1:right:10:calendar@cinnamon.org:13', 'panel1:right:3:radio@driglu4it:16', 'panel1:right:1:workspace-switcher@cinnamon.org:27', 'panel1:right:12:power@cinnamon.org:30', 'panel1:right:13:user@cinnamon.org:33', 'panel1:center:0:expo@cinnamon.org:36', 'panel1:right:9:weather@mockturtl:43', 'panel1:right:0:color-picker@fmete:49']
 enabled-desklets=['clock@cinnamon.org:2:3925:75']
 enabled-extensions=['opacify@anish.org', 'dermodex-config@duracell80']
 favorite-apps=['cinnamon-settings.desktop', 'org.gnome.Terminal.desktop', 'nemo.desktop']
 hotcorner-layout=['expo:false:0', 'expo:false:500', 'scale:true:1000', 'desktop:true:1000']
-next-applet-id=51
+next-applet-id=50
 next-desklet-id=5
 no-adjacent-panel-barriers=false
 panel-edit-mode=false
@@ -89,9 +89,9 @@ exec='gnome-terminal'
 [desktop/background]
 color-shading-type='vertical'
 picture-options='zoom'
-picture-uri='file:///home/lee/Pictures/Wallpapers/pexels-david-bartus-2873479(1).jpg'
-primary-color='#000000'
-secondary-color='#840000'
+picture-uri='file:///home/lee/Pictures/Wallpapers/pexels-sohail-nachiti-807598.jpg'
+primary-color=''
+secondary-color=''
 
 [desktop/background/slideshow]
 delay=15
@@ -175,9 +175,9 @@ idle-delay=uint32 300
 [desktop/sound]
 event-sounds=false
 maximum-volume=100
-theme-name='dream'
+theme-name='harmony'
 volume-sound-enabled=true
-volume-sound-file='/usr/share/sounds/dream/stereo/audio-volume-change.ogg'
+volume-sound-file='/usr/share/sounds/harmony/stereo/audio-volume-change.ogg'
 
 [desktop/wm/preferences]
 min-window-opacity=30
@@ -228,25 +228,26 @@ rgba-order='vbgr'
 
 [sounds]
 close-enabled=false
-close-file='/usr/share/sounds/dream/stereo/lid-close.ogg'
-login-file='/usr/share/sounds/dream/stereo/desktop-login.ogg'
-logout-file='/usr/share/sounds/dream/stereo/desktop-logout.ogg'
+close-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
+login-enabled=true
+login-file='/usr/share/sounds/harmony/stereo/desktop-login.ogg'
+logout-file='/usr/share/sounds/harmony/stereo/desktop-logout.ogg'
 map-enabled=false
-map-file='/usr/share/sounds/dream/stereo/lid-open.ogg'
+map-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
 maximize-enabled=false
-maximize-file='/usr/share/sounds/dream/stereo/window-close.ogg'
+maximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
 minimize-enabled=false
-minimize-file='/usr/share/sounds/dream/stereo/window-close.ogg'
+minimize-file='/usr/share/sounds/harmony/stereo/window-minimized.ogg'
 notification-enabled=true
-notification-file='/usr/share/sounds/dream/stereo/battery-full.ogg'
-plug-file='/usr/share/sounds/dream/stereo/device-added.ogg'
+notification-file='/usr/share/sounds/harmony/stereo/message-new-instant.ogg'
+plug-file='/usr/share/sounds/harmony/stereo/device-added.ogg'
 switch-enabled=false
-switch-file='/usr/share/sounds/dream/stereo/window-slide.ogg'
+switch-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
 tile-enabled=false
-tile-file='/usr/share/sounds/dream/stereo/dialog-ok.ogg'
+tile-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
 unmaximize-enabled=false
-unmaximize-file='/usr/share/sounds/dream/stereo/window-close.ogg'
-unplug-file='/usr/share/sounds/dream/stereo/device-removed.ogg'
+unmaximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
+unplug-file='/usr/share/sounds/harmony/stereo/device-removed.ogg'
 
 [theme]
 name='DermoDeX'

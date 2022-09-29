@@ -7,9 +7,6 @@ LWD=$HOME/.local/share/powertoys
 
 mkdir -p $LWD
 
-cp -f $CWD/scripts/watch_battery.sh $LWD
-cp -f $CWD/scripts/watch_power.sh $LWD
-
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
 
@@ -31,4 +28,13 @@ done
 
 
 # SET ANY AUTOSTART SCRIPTS FOR DESKTOP ENVIRONMENT
-cp -f $CWD/autostart/*.desktop $HOME/.config/autostart
+for filename in $CWD/autostart/*.desktop; do
+    [ -e "$filename" ] || continue
+    file=$(echo $filename | sed -e "s|${CWD}/autostart/||g")
+    
+    cp -f "$filename" "$file.tmp"
+    sed -i "s|Exec=~/|Exec=$HOME/|g" "$file.tmp"
+    mv "$file.tmp" "$HOME/.config/autostart/$file"
+done
+
+#cp -f $CWD/autostart/*.desktop $HOME/.config/autostart

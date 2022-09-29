@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=/home/lee/.local/share/powertoys/watch_battery.sh
+Exec=~/.local/share/powertoys/watch_battery.sh
 X-GNOME-Autostart-enabled=true
 NoDisplay=false
 Hidden=false
