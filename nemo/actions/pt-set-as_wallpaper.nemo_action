@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Set as Video Wallpaper
+Comment=Sets this video file as the video wallpaper upon next desktop login for the current user
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/video_loop.sh %F
+Selection=S
+Extensions=mp4;mkv;avi;mov;mpg;m4v
+Dependencies=zenity;mpv;ffmpeg;pcregrep;xrandr
