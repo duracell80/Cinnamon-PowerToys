@@ -1,12 +1,14 @@
 #!/bin/bash
-#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox
+#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox socat mpv pcregrep xrandr python3-pyqt5
 #pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 CWD=$(pwd)
-LWD=$HOME/.local/share/powertoys 
+LWD=$HOME/.local/share/powertoys
+LBD=$HOME/.local/bin
 
 mkdir -p $CWD/deps
 mkdir -p $LWD
+mkdir -p $HOME/Videos/Wallpapers
 
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
@@ -41,6 +43,7 @@ done
 
 #cp -f $CWD/autostart/*.desktop $HOME/.config/autostart
 
+cp -f $CWD/videos/wallpapers/current.mp4 $HOME/Videos/Wallpapers
 
 # DOWNLOAD GPU VIDEO WALLPAPER
 if [ -d $CWD/deps/gpu-video-wallpaper ] ; then
@@ -58,3 +61,10 @@ fi
 
 cd $CWD/deps/gpu-video-wallpaper/
 ./install.sh --distro-agnostic
+
+# REMOVE ORIGINAL VIDEO WALLPAPER GUI
+rm -f $LBD/gui.ui
+
+
+
+cp -f $CWD/bin/* $LBD
