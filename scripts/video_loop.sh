@@ -21,7 +21,7 @@ ffmpeg -y -i $1 -s 1920x1080 -c:v libx264 -filter_complex "[0]reverse[r];[0][r]c
 echo "75" ; sleep 1
 echo "100" ; sleep 1
 echo "# Completed!"
-video-wallpaper.sh --start "${DIR_LOOPSIE}/current.mp4"
+$DIR_INSTALL/video-wallpaper.sh --start "${DIR_LOOPSIE}/current.mp4"
 
 ) |
 zenity --progress \

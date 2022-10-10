@@ -10,6 +10,33 @@ mkdir -p $CWD/deps
 mkdir -p $LWD
 mkdir -p $HOME/Videos/Wallpapers
 
+
+cp -f $CWD/videos/wallpapers/current.mp4 $HOME/Videos/Wallpapers
+
+# REMOVE ORIGINAL VIDEO WALLPAPER GUI
+if [ -f $LBD/gui.ui ] ; then
+    rm -f $LBD/gui.ui
+fi
+
+# DOWNLOAD GPU VIDEO WALLPAPER
+#if [ -d $CWD/deps/gpu-video-wallpaper ] ; then
+#    echo "[i] GPU Video Wallpaper Already Downloaded ... Fetching Updates"
+#    cd $CWD/deps/gpu-video-wallpaper
+#    git fetch
+#    git pull
+#    sleep 1
+#else
+#    echo "[i] Downloading GPU Video Wallpaper"
+#    cd $CWD/deps
+#    git clone https://github.com/ghostlexly/gpu-video-wallpaper.git
+#    sleep 1
+#fi
+#cd $CWD/deps/gpu-video-wallpaper
+
+cd $CWD/deps/gpu-video-wallpaper-fork
+$CWD/deps/gpu-video-wallpaper-fork/install.sh --distro-agnostic
+cd $CWD
+
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
 
@@ -27,9 +54,6 @@ for filename in $CWD/nemo/actions/*.nemo_action; do
 done
 
 
-
-
-
 # SET ANY AUTOSTART SCRIPTS FOR DESKTOP ENVIRONMENT
 for filename in $CWD/autostart/*.desktop; do
     [ -e "$filename" ] || continue
@@ -41,30 +65,5 @@ for filename in $CWD/autostart/*.desktop; do
     mv -f "$file.tmp" "$HOME/.config/autostart/$file"
 done
 
-#cp -f $CWD/autostart/*.desktop $HOME/.config/autostart
 
-cp -f $CWD/videos/wallpapers/current.mp4 $HOME/Videos/Wallpapers
-
-# DOWNLOAD GPU VIDEO WALLPAPER
-if [ -d $CWD/deps/gpu-video-wallpaper ] ; then
-    echo "[i] GPU Video Wallpaper Already Downloaded ... Fetching Updates"
-    cd $CWD/deps/gpu-video-wallpaper
-    git fetch
-    git pull
-    sleep 1
-else
-    echo "[i] Downloading GPU Video Wallpaper"
-    cd $CWD/deps
-    git clone https://github.com/ghostlexly/gpu-video-wallpaper.git
-    sleep 1
-fi
-
-cd $CWD/deps/gpu-video-wallpaper/
-./install.sh --distro-agnostic
-
-# REMOVE ORIGINAL VIDEO WALLPAPER GUI
-rm -f $LBD/gui.ui
-
-
-
-cp -f $CWD/bin/* $LBD
+#cp -f $CWD/bin/* $LBD

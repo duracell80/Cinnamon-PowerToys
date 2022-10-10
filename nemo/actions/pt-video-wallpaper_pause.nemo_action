@@ -2,7 +2,7 @@
 # Pauses the Video Wallpaper
 Name=Video Wallpaper - Pause
 Comment=Pauses the Video Wallpaper
-Exec=video-wallpaper.sh --pause
+Exec=~/.local/bin/video-wallpaper.sh --pause
 Icon-Name=video-joined-displays-symbolic
 Selection=none
 Extensions=any;

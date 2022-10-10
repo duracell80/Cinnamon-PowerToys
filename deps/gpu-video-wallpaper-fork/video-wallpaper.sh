@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # author: Tolga MALKOC | ghostlexly@gmail.com
 # contributor: SwallowYourDreams | https://github.com/SwallowYourDreams
-# contributor: duracell80 | https://github.com/duracell80
+# contributor: Duracell80 | https://github.com/duracell80
 
 # Global variables
 name="video-wallpaper"
 scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+binarydir="/home/$USER/.local/bin"
 confdir="/home/$USER/.config/video-wallpaper"
 conf="$confdir/settings.conf"
 if [ ! -d "$confdir" ] ; then
@@ -48,9 +49,11 @@ start() {
 	fi
 	VIDEO_PATH="$1"
 	SCREENS=`xrandr | grep " connected\|\*" | pcregrep -o1 '([0-9]{1,}[x]{1,1}[0-9+]{1,}) \('`
-	for item in $SCREENS
+	SCREENC=0
+    for item in $SCREENS
 	do
-		"$scriptdir"/xwinwrap -g $item -fdt -ni -b -nf -un -o 1.0 -- mpv -wid WID --loop --no-audio --input-ipc-server=/tmp/gpuwallpaper.socket "$VIDEO_PATH" & disown
+        let "SCREENC+=1"
+        "$binarydir"/xwinwrap -g $item -fdt -ni -b -nf -un -o 1.0 -- mpv -wid WID --loop --no-audio --input-ipc-server="/tmp/gpu-video-wallpaper_${SCREENC}.socket" "$VIDEO_PATH" & disown
 	done
 	update_config $! "\"$VIDEO_PATH\""
 }
@@ -62,15 +65,29 @@ stop() {
 	else
 		echo "No active video wallpaper found."
 	fi
+    
+    # FIX FOR DUAL MONITORS TO STOP ON BOTH
+    PID_CURR=$$
+    PID_COUNT=$(ps aux | grep "current.mp4" | head -n -1 | wc -l)
+
+    if [[ "$PID_COUNT" > 1 ]]; then
+        PID_PREV=$(ps aux | grep "current.mp4" | head -n -1 | head -n 1 | awk '{print $2}')
+        if [[ "$PID_PREV" -ne "$PID_CURR" ]]; then
+            kill $PID_PREV
+        fi
+    fi
+    
 	update_config "" "\"$lastfile\""
 }
 
 pause() {
-    echo '{ "command": ["set_property", "pause", true] }' | socat - /tmp/gpuwallpaper.socket
+    echo '{ "command": ["set_property", "pause", true] }' | socat - /tmp/gpu-video-wallpaper_1.socket
+    echo '{ "command": ["set_property", "pause", true] }' | socat - /tmp/gpu-video-wallpaper_2.socket
 }
 
 play() {
-    echo '{ "command": ["set_property", "pause", false] }' | socat - /tmp/gpuwallpaper.socket
+    echo '{ "command": ["set_property", "pause", false] }' | socat - /tmp/gpu-video-wallpaper_1.socket
+    echo '{ "command": ["set_property", "pause", false] }' | socat - /tmp/gpu-video-wallpaper_2.socket
 }
 
 # Start / disable playback of video file on system startup.
@@ -78,38 +95,45 @@ play() {
 startup() {
 	startup=""
 	if [ "$2" == "true" ] ; then
-		echo "Enabling startup of video wallpaper."
+		echo "[i] Enabling startup of video wallpaper."
 		startup="true"
 		videofile="$3"
 	elif [ "$2" == "false" ] ; then
-		echo "Disabling startup of video wallpaper."
+		echo "[i] Disabling startup of video wallpaper."
 		startup="false"
 		videofile="$lastfile"
+        if [ -f /home/$USER/.config/autostart/$name.desktop ] ; then
+            rm -f "/home/$USER/.config/autostart/$name.desktop"
+        fi
 	else
-		echo "Illegal startup parameter."
+		echo "[!] Illegal startup parameter."
 		exit 1
 	fi
-	LAUNCH_SCRIPT="bash -c '\"$scriptdir/$name.sh\" --start \"$videofile\"'"
-	printf "[Desktop Entry]\nType=Application\nExec=$LAUNCH_SCRIPT\nHidden=false\nNoDisplay=false\nX-GNOME-Autostart-enabled=$startup\nName=$name" > "/home/$USER/.config/autostart/$name.desktop"
+	#LAUNCH_SCRIPT="bash -c '\"$scriptdir/$name.sh\" --start \"$videofile\"'"
+	#printf "[Desktop Entry]\nType=Application\nExec=$LAUNCH_SCRIPT\nHidden=false\nNoDisplay=false\nX-GNOME-Autostart-enabled=$startup\nName=$name" > "/home/$USER/.config/autostart/$name.desktop"
 }
 
 # Checks if a (video) file exists. Displays and error and stops the script if it doesn't
 # $1 = the file to be checked
 file_exists() {
 	if [ ! -f "$1" ] ; then
-		echo "Error. File does not exist: $1"
+		echo "[!] Error. File does not exist: $1"
 		exit 1
 	fi
 }
 
 # get arguments
 print_help() {
-    echo "Usage: ./$name.sh [--start] [--stop] [--startup true|false] \"video_path.mp4\""
+    echo "Usage: ./$name.sh [--start] [--stop] [--play] [--pause] [--startup true|false] \"video_path.mp4\""
     echo ""
     echo "--start Start playback of video file."
+    echo ""
     echo "--stop Stop active playback."
+    echo ""
     echo "--pause Pause active playback."
+    echo ""
     echo "--play Resume active playback."
+    echo ""
     echo "--startup Start/disable playback of video file on system startup."
     echo ""
 }
@@ -148,14 +172,13 @@ while true
             
             --pause*)
 				pause
-                exit 0
+				exit 0
             ;;
             
             --play*)
 				play
-                exit 0
+				exit 0
             ;;
-            
 
             --*)
                 print_help

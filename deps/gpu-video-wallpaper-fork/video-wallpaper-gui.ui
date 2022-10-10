@@ -55,6 +55,16 @@
        </spacer>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_autostart">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically start playback of video wallpaper on system startup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Autostart</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_start">
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Starts video wallpaper playback.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

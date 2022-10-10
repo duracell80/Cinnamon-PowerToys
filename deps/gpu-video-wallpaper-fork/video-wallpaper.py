@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # author: SwallowYourDreams | https://github.com/SwallowYourDreams
-# modified: duracell80 | https://github.com/duracell80
-# - removed autostart and moved that desktop file to cinnamon .config/autostart with delay of zero
-# - added pause and play buttons
-
 import sys
 import os
 import getpass
@@ -12,7 +8,6 @@ from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtGui import QIcon
 
-
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, verbose=False):
         # Inherited class __init__ method
@@ -20,13 +15,16 @@ class MainWindow(QtWidgets.QMainWindow):
         # Variables
         self.scriptDir = os.path.dirname(os.path.realpath(__file__)) + "/"
         self.configDir = "/home/" + getpass.getuser() + "/.config/video-wallpaper"
+        self.binaryDir = "/home/" + getpass.getuser() + "/.local/bin"
         self.name = "video-wallpaper"
-        self.shellScript = self.scriptDir.replace(" ", "\ ") + self.name + ".sh"
-        self.dependencies = ["mpv", "pcregrep", "xrandr"]
+        self.shellScript = self.scriptDir.replace(
+            " ", "\ ") + self.name + ".sh"
+        self.dependencies = ["mpv", "pcregrep", "xrandr", "socat"]
         self.missingDependencies = self.checkDependencies()
-        
+        self.autostartFile = "/home/" + getpass.getuser() + "/.config/autostart/" + \
+            self.name + ".desktop"
         # Load external .ui file
-        uic.loadUi(self.scriptDir + "video-wallpaper.ui", self)
+        uic.loadUi(self.binaryDir + "/video-wallpaper-gui.ui", self)
         self.show()
         # Parse config
         self.parser = configparser.RawConfigParser()
@@ -46,6 +44,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_stop.clicked.connect(self.stop)
         self.button_pause.clicked.connect(self.pause)
         self.button_play.clicked.connect(self.play)
+        self.checkbox_autostart.setChecked(self.autostartEnabled())
+        self.checkbox_autostart.toggled.connect(
+            self.autostart, not self.checkbox_autostart.isChecked())
         # Startup
         if len(self.missingDependencies) > 0:
             self.statusbar.showMessage("Error: missing dependencies: " + str(
@@ -55,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.button_stop.setEnabled(False)
             self.button_pause.setEnabled(False)
             self.button_play.setEnabled(False)
+            self.checkbox_autostart.setEnabled(False)
         else:
             print("All dependencies fulfilled.")
 
@@ -69,14 +71,18 @@ class MainWindow(QtWidgets.QMainWindow):
         if len(file[0]) > 0:
             # ...set text in input mask
             self.directory.setText(file[0])
-            
+            # ...and update autostart file if autostart is enabbled
+            if self.autostartEnabled():
+                self.autostart(True, False)
+
     # Starts video wallpaper playback
     def start(self):
         if(self.fileSelected()):
-            exitcode = os.system(self.shellScript +
-                                 ' --start "' + self.directory.text() + '"')
+            exitcode = os.system(
+                self.shellScript + ' --start "' + self.directory.text() + '"')
             if exitcode > 0:
-                self.statusbar.showMessage("Error: could not start playback.")
+                self.statusbar.showMessage(
+                    "Error: could not start playback.")
             else:
                 self.statusbar.showMessage("Playback is running.")
 
@@ -84,8 +90,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def stop(self):
         os.system(self.shellScript + " --stop")
         self.statusbar.showMessage("Playback stopped.")
-
     # Pause video wallpaper playback
+
     def pause(self):
         os.system(self.shellScript + " --pause")
         self.statusbar.showMessage("Playback paused.")
@@ -94,6 +100,26 @@ class MainWindow(QtWidgets.QMainWindow):
     def play(self):
         os.system(self.shellScript + " --play")
         self.statusbar.showMessage("Playback resumed.")
+
+    # Sets video wallpaper to start automatically on boot
+    def autostart(self, enable, displayMessage=True):
+        if self.fileSelected():
+            if enable and displayMessage:
+                self.statusbar.showMessage("Wallpaper autostart enabled.")
+            elif displayMessage:
+                self.statusbar.showMessage("Wallpaper autostart disabled.")
+            os.system(self.shellScript + " --startup " +
+                      str(enable).lower() + " '" + self.directory.text() + "'")
+
+    # Returns whether autostart is enabled
+    def autostartEnabled(self):
+        if os.path.isfile(self.autostartFile):
+            cat = str(os.popen("cat " + self.autostartFile +
+                      "| grep -Po 'X-GNOME-Autostart-enabled=\K.*'").read()).strip()
+            cat = True if cat == "true" else False
+            return cat
+        else:
+            return False
 
     # Returns whether there is currently a video file selected
     def fileSelected(self):
@@ -112,8 +138,8 @@ class MainWindow(QtWidgets.QMainWindow):
             missing = os.system("which " + d)
             if missing:
                 missingDependencies.append(d)
-        print("./xwinwrap")
-        if not os.path.isfile(self.scriptDir + "/xwinwrap"):
+        print("~/.local/bin/xwinwrap")
+        if not os.path.isfile(self.binaryDir + "/xwinwrap"):
             missingDependencies.append("xwinwrap")
         return missingDependencies
 
