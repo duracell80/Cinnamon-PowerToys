@@ -6,13 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>743</width>
-    <height>129</height>
+    <width>700</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Video Wallpaper</string>
+   <string>Video Wallpaper (Cinnamon Power Toys)</string>
   </property>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <italic>false</italic>
+    </font>
+   </property>
+  </widget>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -53,16 +61,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkbox_autostart">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically start playback of video wallpaper on system startup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Autostart</string>
-        </property>
-       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="button_start">
@@ -121,14 +119,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar">
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-     <italic>false</italic>
-    </font>
-   </property>
-  </widget>
+  
  </widget>
  <resources/>
  <connections/>

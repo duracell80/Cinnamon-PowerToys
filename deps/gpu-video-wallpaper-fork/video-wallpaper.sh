@@ -14,6 +14,8 @@ if [ ! -d "$confdir" ] ; then
 	touch "$conf"	
 fi
 
+SCREENS=`xrandr | grep " connected\|\*" | pcregrep -o1 '([0-9]{1,}[x]{1,1}[0-9+]{1,}) \('`
+
 # Read config
 read_config() {
 	if [ -f "$conf" ] ; then
@@ -48,7 +50,6 @@ start() {
 		stop
 	fi
 	VIDEO_PATH="$1"
-	SCREENS=`xrandr | grep " connected\|\*" | pcregrep -o1 '([0-9]{1,}[x]{1,1}[0-9+]{1,}) \('`
 	SCREENC=0
     for item in $SCREENS
 	do
@@ -66,28 +67,41 @@ stop() {
 		echo "No active video wallpaper found."
 	fi
     
-    # FIX FOR DUAL MONITORS TO STOP ON BOTH
+    # FIX FOR MULTIPLE MONITORS TO STOP ON ALL
+    # video-wallpaper.sh --stop [filepath|lastfile]
+    LOOPC=0
     PID_CURR=$$
-    PID_COUNT=$(ps aux | grep "current.mp4" | head -n -1 | wc -l)
-
+    PID_COUNT=$(ps aux | grep "${lastfile}" | head -n -1 | wc -l)
     if [[ "$PID_COUNT" > 1 ]]; then
-        PID_PREV=$(ps aux | grep "current.mp4" | head -n -1 | head -n 1 | awk '{print $2}')
-        if [[ "$PID_PREV" -ne "$PID_CURR" ]]; then
-            kill $PID_PREV
-        fi
+        for((i=$LOOPC;i<=$PID_COUNT;++i)) do
+            PID_PREV=$(ps aux | grep "${lastfile}" | head -n -1 | head -n 1 | awk '{print $2}')
+            if [[ "$PID_PREV" -ne "$PID_CURR" ]]; then
+                kill $PID_PREV
+            fi
+        done
     fi
     
 	update_config "" "\"$lastfile\""
 }
 
 pause() {
-    echo '{ "command": ["set_property", "pause", true] }' | socat - /tmp/gpu-video-wallpaper_1.socket
-    echo '{ "command": ["set_property", "pause", true] }' | socat - /tmp/gpu-video-wallpaper_2.socket
+    SCREENC=0
+    for item in $SCREENS
+	do
+        let "SCREENC+=1"
+        echo '{ "command": ["set_property", "pause", true] }' | socat - "/tmp/gpu-video-wallpaper_${SCREENC}.socket"
+        echo "Playback Paused"
+	done
 }
 
 play() {
-    echo '{ "command": ["set_property", "pause", false] }' | socat - /tmp/gpu-video-wallpaper_1.socket
-    echo '{ "command": ["set_property", "pause", false] }' | socat - /tmp/gpu-video-wallpaper_2.socket
+    SCREENC=0
+    for item in $SCREENS
+	do
+        let "SCREENC+=1"
+        echo '{ "command": ["set_property", "pause", false] }' | socat - "/tmp/gpu-video-wallpaper_${SCREENC}.socket"
+        echo "Playback Resumed"
+	done
 }
 
 # Start / disable playback of video file on system startup.

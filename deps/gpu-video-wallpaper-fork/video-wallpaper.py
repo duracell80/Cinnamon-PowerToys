@@ -21,8 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
             " ", "\ ") + self.name + ".sh"
         self.dependencies = ["mpv", "pcregrep", "xrandr", "socat"]
         self.missingDependencies = self.checkDependencies()
-        self.autostartFile = "/home/" + getpass.getuser() + "/.config/autostart/" + \
-            self.name + ".desktop"
+
         # Load external .ui file
         uic.loadUi(self.binaryDir + "/video-wallpaper-gui.ui", self)
         self.show()
@@ -44,19 +43,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.button_stop.clicked.connect(self.stop)
         self.button_pause.clicked.connect(self.pause)
         self.button_play.clicked.connect(self.play)
-        self.checkbox_autostart.setChecked(self.autostartEnabled())
-        self.checkbox_autostart.toggled.connect(
-            self.autostart, not self.checkbox_autostart.isChecked())
+        
+        self.setStyleSheet("padding: 8px;")
+        self.centralwidget.setStyleSheet("margin-left : 8px; margin-right : 8px;")
         # Startup
         if len(self.missingDependencies) > 0:
-            self.statusbar.showMessage("Error: missing dependencies: " + str(
+            self.statusbar.showMessage("   Error: missing dependencies: " + str(
                 self.missingDependencies) + ". Please run the installer again.")
             print("Missing dependencies: " + str(self.missingDependencies))
             self.button_start.setEnabled(False)
             self.button_stop.setEnabled(False)
             self.button_pause.setEnabled(False)
             self.button_play.setEnabled(False)
-            self.checkbox_autostart.setEnabled(False)
         else:
             print("All dependencies fulfilled.")
 
@@ -71,9 +69,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if len(file[0]) > 0:
             # ...set text in input mask
             self.directory.setText(file[0])
-            # ...and update autostart file if autostart is enabbled
-            if self.autostartEnabled():
-                self.autostart(True, False)
 
     # Starts video wallpaper playback
     def start(self):
@@ -82,52 +77,34 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.shellScript + ' --start "' + self.directory.text() + '"')
             if exitcode > 0:
                 self.statusbar.showMessage(
-                    "Error: could not start playback.")
+                    "   Error: could not start playback.")
             else:
-                self.statusbar.showMessage("Playback is running.")
+                self.statusbar.showMessage("   Playback is running.")
 
     # Stops video wallpaper playback
     def stop(self):
-        os.system(self.shellScript + " --stop")
-        self.statusbar.showMessage("Playback stopped.")
+        exitcode = os.system(
+            self.shellScript + ' --stop "' + self.directory.text() + '"')
+        self.statusbar.showMessage("   Playback stopped.")
     # Pause video wallpaper playback
 
     def pause(self):
         os.system(self.shellScript + " --pause")
-        self.statusbar.showMessage("Playback paused.")
+        self.statusbar.showMessage("   Playback paused.")
 
     # Play video wallpaper playback
     def play(self):
         os.system(self.shellScript + " --play")
-        self.statusbar.showMessage("Playback resumed.")
+        self.statusbar.showMessage("   Playback resumed.")
 
-    # Sets video wallpaper to start automatically on boot
-    def autostart(self, enable, displayMessage=True):
-        if self.fileSelected():
-            if enable and displayMessage:
-                self.statusbar.showMessage("Wallpaper autostart enabled.")
-            elif displayMessage:
-                self.statusbar.showMessage("Wallpaper autostart disabled.")
-            os.system(self.shellScript + " --startup " +
-                      str(enable).lower() + " '" + self.directory.text() + "'")
-
-    # Returns whether autostart is enabled
-    def autostartEnabled(self):
-        if os.path.isfile(self.autostartFile):
-            cat = str(os.popen("cat " + self.autostartFile +
-                      "| grep -Po 'X-GNOME-Autostart-enabled=\K.*'").read()).strip()
-            cat = True if cat == "true" else False
-            return cat
-        else:
-            return False
-
+    
     # Returns whether there is currently a video file selected
     def fileSelected(self):
         path = self.directory.text()
         if len(path) > 0 and os.path.isfile(path):
             return True
         else:
-            self.statusbar.showMessage("No video file selected.")
+            self.statusbar.showMessage("   No video file selected.")
             return False
 
     # Checks for missing dependencies
