@@ -61,15 +61,12 @@ install() {
 		fi
 	done
 	if [ ! -f "/.local/share/applications/$name.desktop" ] ; then
-		echo ""
-        echo "[Q] Create a start menu entry for GPU Video Wallpapers? [y/n]"
-		read input
-		if [ "$input" == "y" ] ; then
-			desktopFile=~/.local/share/applications/"$name".desktop
-			#sudo cp "./$name.desktop" ~/.local/share/applications
-			desktopEntry="[Desktop Entry]\nType=Application\nName=Video Wallpaper\nExec=$name.py\nIcon=wallpaper\nComment=Set video files as your desktop wallpaper.\nCategories=Utility\nTerminal=false\n"
-			sudo printf "$desktopEntry" > "$desktopFile"
-		fi
+		
+        desktopFile=~/.local/share/applications/"$name".desktop
+        #sudo cp "./$name.desktop" ~/.local/share/applications
+        desktopEntry="[Desktop Entry]\nType=Application\nName=Video Wallpaper\nExec=$name.py\nIcon=wallpaper\nComment=Set video files as your desktop wallpaper.\nCategories=Utility\nTerminal=false\n"
+        sudo printf "$desktopEntry" > "$desktopFile"
+		
 	fi
     echo ""
     echo "[i] For best results try logging out of your current desktop and/or terminal session and log back in."

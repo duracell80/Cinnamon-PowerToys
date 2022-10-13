@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to WEBM
+Comment=Convert video to WEBM with ffmpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_video_to_video.sh "webm" %F
+Selection=S
+Extensions=mpg;mp4;mpeg;avi;m4v;mov;mkv;divx;xvid;wmv
+Dependencies=ffmpeg;zenity

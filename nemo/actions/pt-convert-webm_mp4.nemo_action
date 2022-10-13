@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to MP4
+Comment=Convert WEBM video to MP4 with ffmpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_video_to_video.sh "webm-mp4" %F
+Selection=S
+Extensions=webm;webv
+Dependencies=ffmpeg;zenity
