@@ -71,7 +71,7 @@ elif [ "$TYPE" = "webm-mp4" ]; then
 fi
 
 echo "75" ; sleep 1
-echo "# Completed ${FILE_NME}.$1"
+echo "# Completed ${FILE_NME}.${FILE_EXTDEST}"
 echo "100" ; sleep 1
 ) |
 zenity --progress \
