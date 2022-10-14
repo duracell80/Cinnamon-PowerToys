@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Send to Radio++
+Comment=Sends a radio URL from within a playlist to Radio++ applet
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/extract_url_radio.sh "%F"
+Selection=S
+Extensions=pls;m3u
+Dependencies=jq;zenity
