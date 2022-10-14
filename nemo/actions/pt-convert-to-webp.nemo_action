@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to WEBP
+Comment=Convert image to WEBP with cwebp
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_to_webp.sh "webp-ask" %F
+Selection=S
+Extensions=jpg;jpeg;png;gif;bmp;tif;tiff
+Dependencies=cwebp;zenity

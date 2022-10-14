@@ -1,5 +1,5 @@
 #!/bin/bash
-#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox socat mpv pcregrep xrandr python3-pyqt5
+#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox socat mpv pcregrep xrandr python3-pyqt5 webp
 #pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 CWD=$(pwd)
@@ -39,6 +39,9 @@ cd $CWD
 
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
+
+chmod u+x $LWD/*.sh
+chmod u+x $LWD/*.py
 
 # COPY NEMO SCRIPTS AND ACTIONS
 #cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions

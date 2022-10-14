@@ -12,9 +12,13 @@ echo "50"
 echo "# Converting WebP Image to ${FILE_NME}.${1}"
 
 if [ "$1" = "jpg" ]; then
-    ffmpeg -i "$2" -y "${FILE_DIR}/${FILE_NME}.jpg"
+    #ffmpeg -i "$2" -y "${FILE_DIR}/${FILE_NME}.jpg"
+    dwebp "$2" -o "${FILE_DIR}/${FILE_NME}.jpg"
 elif [ "$1" = "png" ]; then
-    ffmpeg -i "$2" -y "${FILE_DIR}/${FILE_NME}.png"
+    #ffmpeg -i "$2" -y "${FILE_DIR}/${FILE_NME}.png"
+    dwebp "$2" -o "${FILE_DIR}/${FILE_NME}.png"
+elif [ "$1" = "bmp" ]; then
+    dwebp -bmp "$2" -o "${FILE_DIR}/${FILE_NME}.bmp"
 fi
 
 echo "75" ; sleep 1
