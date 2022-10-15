@@ -47,7 +47,7 @@ if [ -f "$LWD/radio@driglu4it.json" ]; then
             STATION_NAME=${STATION_NAMES[$i]}
             
             # APPEND THE JSON
-            JSON=$(jq ".tree.value[.tree.value| length] |= .+ {\"inc\":\"true\", \"name\":\"$STATION_NAME\", \"url\":\"$STATION_URL\"}" $LWD/radio@driglu4it.json)
+            JSON=$(jq ".tree.value[.tree.value| length] |= .+ {\"inc\":true, \"name\":\"$STATION_NAME\", \"url\":\"$STATION_URL\"}" $LWD/radio@driglu4it.json)
             
             echo "${JSON}" > $LWD/radio@driglu4it.json
             i=$(( i + 1 ))
@@ -79,7 +79,7 @@ if [ -f "$LWD/radio@driglu4it.json" ]; then
             zenity --error --text="Valid URL Could not be found"
             exit
         else 
-            JSON=$(jq ".tree.value[.tree.value| length] |= .+ {\"inc\":\"true\", \"name\":\"$STATION_NAME\", \"url\":\"$STATION_URL\"}" $LWD/radio@driglu4it.json)
+            JSON=$(jq ".tree.value[.tree.value| length] |= .+ {\"inc\":true, \"name\":\"$STATION_NAME\", \"url\":\"$STATION_URL\"}" $LWD/radio@driglu4it.json)
 
             echo "${JSON}" > $LWD/radio@driglu4it.json
             zenity --info --text="Added ${STATION_NAME} to Radio++"
