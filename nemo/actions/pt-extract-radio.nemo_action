@@ -2,7 +2,7 @@
 Name=Send to Radio++
 Comment=Sends a radio URL from within a playlist to Radio++ applet
 EscapeSpaces=true
-Exec=~/.local/share/powertoys/extract_url_radio.sh "%F"
+Exec=~/.local/share/powertoys/extract_url_radio.sh multi "%F"
 Selection=S
-Extensions=pls;m3u
+Extensions=pls
 Dependencies=jq;zenity
