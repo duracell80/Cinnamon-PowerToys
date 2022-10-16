@@ -6,6 +6,9 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
+chmod u+x $CWD/*.sh
+
+mkdir -p $HOME/.cache/powertoys
 mkdir -p $CWD/deps
 mkdir -p $LWD
 mkdir -p $HOME/Videos/Wallpapers
@@ -68,5 +71,5 @@ for filename in $CWD/autostart/*.desktop; do
     mv -f "$file.tmp" "$HOME/.config/autostart/$file"
 done
 
-
+$CWD/install-hdhomerun.sh
 #cp -f $CWD/bin/* $LBD
