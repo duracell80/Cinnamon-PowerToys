@@ -46,6 +46,7 @@ cp -f $CWD/scripts/*.py $LWD
 chmod u+x $LWD/*.sh
 chmod u+x $LWD/*.py
 
+
 # COPY NEMO SCRIPTS AND ACTIONS
 #cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
 #cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
@@ -71,5 +72,21 @@ for filename in $CWD/autostart/*.desktop; do
     mv -f "$file.tmp" "$HOME/.config/autostart/$file"
 done
 
-$CWD/install-hdhomerun.sh
+
+# COPY YOUTUBE LIVE CHANNELS TO HYPNOTIX CACHE
+cp -f $CWD/scripts/yt_channels.txt $HOME/.cache/hypnotix
+chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
+
+# CHECK FOR ANY HDHOMERUN TUNERS ON NETWORK FOR HYPNOTIX
+if wget -q --method=HEAD http://hdhomerun.local; then
+    if [ -f /usr/bin/hdhomerun_config ] ; then
+        echo "[i] HDHomeRun Config Already Installed (For Hypnotix)"
+    else
+        echo "[i] HDHomeRun Config To Be Installed (For Hypnotix)"
+        $CWD/install-hdhomerun.sh
+    fi
+fi
+
+
+
 #cp -f $CWD/bin/* $LBD

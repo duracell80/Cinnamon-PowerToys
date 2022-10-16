@@ -55,7 +55,7 @@ hdhr_url        = "http://{}/lineup.json?show=unprotected".format(config['hdhr-i
 response_obj    = requests.get(hdhr_url)
 listings_res    = response_obj.text
 
-m3u_out = "#EXTM3U"
+m3u_out = "#EXTM3U\n"
 
 
 listings = json.loads(listings_res)

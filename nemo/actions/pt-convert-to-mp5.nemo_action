@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to MP5 (H.265)
+Comment=Convert video to H.265 with ffmpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_video_to_video.sh "mp5" %F
+Selection=S
+Extensions=mpg;mp4;mpeg;avi;m4v;mov;mkv;divx;xvid;wmv;webm
+Dependencies=ffmpeg;zenity

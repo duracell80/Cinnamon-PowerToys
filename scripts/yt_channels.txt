@@ -1,0 +1,20 @@
+# DO NOT EDIT THE FIRST 2 LINES
+# FORMAT: <channel name> | <group name> | <logo> | <tvg-id>
+
+Euronews | News-Europe | |
+https://www.youtube.com/channel/UCSrZ3UV4jOidv8ppoVuvW9Q/live
+
+Sky News Live | News-Europe | |
+https://www.youtube.com/watch?v=9Auq9mYxFEE
+
+Sky News Splash | News-Europe | |
+https://www.youtube.com/c/SkyNews/live
+
+ABC | News-America | |
+https://www.youtube.com/c/ABCNews/live
+
+NBC | News-America | |
+https://www.youtube.com/c/NBCNews/live
+
+FOX Weather | Weather-America | |
+https://www.youtube.com/c/Foxweather/live

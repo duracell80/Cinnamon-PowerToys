@@ -20,7 +20,10 @@ if [ "$1" = "mp4-ask" ]; then
         mp4-240 "Convert to MP4 in 240p")
         
     FILE_EXTDEST="mp4"
-        
+
+elif [ "$1" = "mp5" ]; then
+    TYPE="mp5"
+    FILE_EXTDEST="mp4"
     
 elif [ "$1" = "mp2-ask" ]; then
     TYPE=$(zenity --list \
@@ -59,6 +62,9 @@ elif [ "$TYPE" = "mp4-480" ]; then
     ffmpeg -y -i "$2" -vf scale=-1:480 -c:v libx264 -crf 0 -preset fast -c:a copy "${FILE_DIR}/${FILE_NME}.mp4"
 elif [ "$TYPE" = "mp4-360" ]; then
     ffmpeg -y -i "$2" -vf scale=-1:360 -c:v libx264 -crf 0 -preset veryfast -c:a copy "${FILE_DIR}/${FILE_NME}.mp4"
+elif [ "$TYPE" = "mp5" ]; then
+    zenity --info --text="Transcoding will occur in the background"
+    ffmpeg -y -i "$2" -c:v libx265 -c:a copy "${FILE_DIR}/${FILE_NME}.mp4"
 elif [ "$TYPE" = "mp2" ]; then
     ffmpeg -y -i "$2" -target pal-dvd -q:v 10 "${FILE_DIR}/${FILE_NME}.mpeg"
 elif [ "$TYPE" = "webm" ]; then
