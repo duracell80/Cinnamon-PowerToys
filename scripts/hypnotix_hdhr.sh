@@ -11,10 +11,11 @@ HWD="$HOME/.cache/hypnotix"
 
 mkdir -p $CWD
 mkdir -p $HWD
+#mkdir -p $HWD/providers/hdhomerun
 
 # COPY FROM TUNER CACHED M3U
-cp $HWD/providers/hd-homerun $LWD/iptv-hd-homerun.m3u
-cp $HWD/providers/hd-homerun $CWD/iptv-hd-homerun.m3u
+cp -f $HWD/providers/hd-homerun $LWD/iptv-hd-homerun.m3u
+cp -f $HWD/providers/hd-homerun $CWD/iptv-hd-homerun.m3u
 
 HYP_GET=$(gsettings get org.x.hypnotix providers)
 

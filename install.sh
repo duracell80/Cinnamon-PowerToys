@@ -1,6 +1,6 @@
 #!/bin/bash
-#sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp
-#pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
+sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp
+pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
