@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert to PNG
+Comment=Convert image to PNG with imagemagick
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_to_png.sh "png" %F
+Selection=S
+Extensions=jpg;jpeg;gif;bmp;tif;tiff
+Dependencies=convert;zenity
