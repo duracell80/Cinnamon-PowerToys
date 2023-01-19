@@ -1,6 +1,8 @@
 #!/bin/bash
-sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp
+sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp ffmpeg at
 pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
+
+sudo systemctl enable --now atd
 
 CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
@@ -48,8 +50,8 @@ chmod u+x $LWD/*.py
 
 
 # COPY NEMO SCRIPTS AND ACTIONS
-#cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
-#cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
+cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
+cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
 
 for filename in $CWD/nemo/actions/*.nemo_action; do
     [ -e "$filename" ] || continue

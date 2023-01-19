@@ -63,7 +63,7 @@ for l in listings:
     channel = l['GuideNumber']
     name    = l['GuideName']
 
-    m3u_out += '#EXTINF:-1 tvg-chno="'+ channel +'" tvg-name="'+ name +'",'+ name + '\n'
+    m3u_out += '#EXTINF:-1 deinterlace=\"1\" tvg-chno="'+ channel +'" tvg-name="'+ name +'",'+ name + '\n'
     if use_duration:
         m3u_out += 'http://'+ config['hdhr-ip'] +':5004/auto/v'+ channel +'?duration=' + config['duration'] + '\n'
     else:
