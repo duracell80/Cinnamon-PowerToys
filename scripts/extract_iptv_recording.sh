@@ -2,6 +2,14 @@
 # Schedule an IPTV stream to dump via ffmpeg
 # @git:duracell80
 
+#EXAMPLE m3u
+#EXTM3U
+#EXTINF:-1 ,Accuweather Geo
+#https://cdn-uw2-prod.tsv2.amagi.tv/linear/accuweath-accuweather-lg/playlist.m3u8
+#EXTINF:-1 ,Accuweather
+#https://accuweatherx-lg.amagi.tv/playlist.m3u8
+
+
 LWD=$HOME/Videos
 CWD=$HOME/.local/share/powertoys
 
@@ -15,16 +23,15 @@ CWD=$HOME/.local/share/powertoys
     # SET RECORDING
     if [ "$1" = "set" ]; then
         STATION_COUNT=$(grep 'http[s]*://[^/][^\\]*' "$2" | wc -l)
-        STATION_FILES=(`grep 'http[s]*://[^/][^\\]*' "$2" | cut -d',' -f2`)
+        STATION_FILES=($(grep 'http[s]*://[^/][^\\]*' "$2"))
 
         ZCMD="zenity --list --radiolist --width=500 --height=300 --title=\"Choose a stream to record\" --column=\"Import\" --column=\"Stream Name\" --column=\"Stream URL\" "
-
         # BUILD ZENITY CHOICE LIST
         if [ "$FILE_EXT" = "m3u" ] || [ "$FILE_EXT" = "m3u8" ]; then
             i=0
             while [ "$i" -lt $STATION_COUNT ]; do
                 STATION_FILE=${STATION_FILES[$i]}
-                STATION_NAME=$(grep -A1 "$STATION_FILE" $2 | grep -v "$STATION_FILE" | cut -d ',' -f2)
+                STATION_NAME=$(grep -B1 "$STATION_FILE" $2 | grep -v "$STATION_FILE" | cut -d ',' -f2)
 
                 ZCMD+=$(echo "\"-\" \"${STATION_NAME[@]}\" \"${STATION_FILE}\" ")
                 i=$(( i + 1 ))
@@ -33,17 +40,9 @@ CWD=$HOME/.local/share/powertoys
         # OPEN CHOICE LIST
         ZCMD_OUT=$(eval "$ZCMD")
 
-        # READ CHOICES
-        IFS='|'; STATION_NAMES=($ZCMD_OUT); unset IFS;
-        # LOOP CHOICES AND SEND TO RADIO++
-        i=0
-        while [ "$i" -lt ${#STATION_NAMES[@]} ]; do
+        # READ CHOICE
+        STATION_URL=$(grep -A1 -x "#EXTINF:-1 ,${ZCMD_OUT}" $2 | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*")
 
-            STATION_URL=(`grep -B1 "${STATION_NAMES[$i]}" $2 | grep -v "${STATION_NAMES[$i]}" | cut -d'=' -f2`)
-            STATION_NAME=${STATION_NAMES[$i]}
-
-            i=$(( i + 1 ))
-        done
 
 	ZCAL="zenity --calendar --width=500 --title \"Start Date\""
 	ZCAL_OUT=$(eval "$ZCAL")
