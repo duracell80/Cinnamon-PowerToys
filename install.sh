@@ -51,6 +51,15 @@ chmod u+x $LWD/*.py
 mkdir -p $HOME/Videos/IPTV
 cp -f $CWD/videos/iptv.m3u $HOME/Videos/IPTV
 
+HYP_GET=$(gsettings get org.x.hypnotix providers)
+if [[ $HYP_GET == *"My IPTV"* ]]; then
+    echo "[i] IPTV Provider already set"
+else
+    HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'My IPTV:::local:::file://${HOME}/Videos/IPTV/my_iptv.m3u:::::::::']|" | uniq)
+    gsettings set org.x.hypnotix providers "${HYP_SET}"
+fi
+
+
 # COPY NEMO SCRIPTS AND ACTIONS
 cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
 cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
