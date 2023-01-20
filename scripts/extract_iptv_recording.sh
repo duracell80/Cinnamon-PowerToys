@@ -3,6 +3,7 @@
 # @git:duracell80
 
 LWD=$HOME/Videos
+CWD=$HOME/.local/share/powertoys
 
     FILE_DIR=$(dirname "$2")
     FILE_BIT=$(basename "$2")
@@ -11,8 +12,8 @@ LWD=$HOME/Videos
     FILE_EXT=${FILE_BIT##*.}
 
 
-    # MULTIPLE STATIONS IN ONE FILE
-    if [ "$1" = "multi" ]; then
+    # SET RECORDING
+    if [ "$1" = "set" ]; then
         STATION_COUNT=$(grep 'http[s]*://[^/][^\\]*' "$2" | wc -l)
         STATION_FILES=(`grep 'http[s]*://[^/][^\\]*' "$2" | cut -d',' -f2`)
 
@@ -53,9 +54,21 @@ LWD=$HOME/Videos
 	ZTIS="zenity --entry --width=500 --title \"Duration\" --text \"Duration in seconds (eg 3600 for an hour):\" --entry-text \"3600\""
         ZTIS_OUT=$(eval "$ZTIS")
 
+	#202301151610
+	ZDAT=$(date -d "${ZCAL_OUT} ${ZTIM_OUT}:00" +"%s")
+	NDAT=$(date --date @$ZDAT +"%Y%m%d%H%M")
+	CMD="${CWD}/extract_iptv_recording.sh rec ${STATION_URL} ${ZTIS_OUT}"
+
+	echo "${CMD}" | at -t $NDAT
 	zenity --info --text="Recording of stream ${STATION_NAME} is scheduled on ${ZCAL_OUT} at ${ZTIM_OUT} for ${ZTIS_OUT} seconds. Remember to leave this device hooked up to power and network connections!"
 
+
+
+    elif [ "$1" = "rec" ]; then
+	CTS=$(date "+%Y%m%d-%H%M%S")
+	DIR="${HOME}/Videos/IPTV/recordings"
+	mkdir -p $DIR
+	ffmpeg -i $2 -c:v copy -c:a copy -t $3 $DIR/recording-$CTS.mp4
     else
-    # SINGLE STATION BUT ALTERNATIVE URLS IN ONE FILE
-            zenity --info --text="Only multiple station file supported at the moment"
+            zenity --info --text="Missing mode type [set|rec]"
     fi

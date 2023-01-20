@@ -48,6 +48,8 @@ cp -f $CWD/scripts/*.py $LWD
 chmod u+x $LWD/*.sh
 chmod u+x $LWD/*.py
 
+mkdir -p $HOME/Videos/IPTV
+cp -f $CWD/videos/iptv.m3u $HOME/Videos/IPTV
 
 # COPY NEMO SCRIPTS AND ACTIONS
 cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
@@ -56,7 +58,7 @@ cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
 for filename in $CWD/nemo/actions/*.nemo_action; do
     [ -e "$filename" ] || continue
     file=$(echo $filename | sed -e "s|${CWD}/nemo/actions/||g")
-    
+
     cp -f $filename $file.tmp
     sed -i "s|Exec=~/|Exec=$HOME/|g" $file.tmp
     mv $file.tmp $HOME/.local/share/nemo/actions/$file

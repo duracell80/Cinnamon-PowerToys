@@ -2,7 +2,7 @@
 Name=IPTV Record
 Comment=Reads an IPTV M3U file and sets a secheduled recording with ffmpeg via at
 EscapeSpaces=true
-Exec=~/.local/share/powertoys/extract_iptv_recording.sh multi "%F"
+Exec=~/.local/share/powertoys/extract_iptv_recording.sh set "%F"
 Selection=S
 Extensions=m3u;m3u8
 Dependencies=at;ffmpeg;zenity
