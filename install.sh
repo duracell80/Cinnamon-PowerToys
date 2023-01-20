@@ -55,7 +55,7 @@ HYP_GET=$(gsettings get org.x.hypnotix providers)
 if [[ $HYP_GET == *"My IPTV"* ]]; then
     echo "[i] IPTV Provider already set"
 else
-    HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'My IPTV:::local:::file://${HOME}/Videos/IPTV/my_iptv.m3u:::::::::']|" | uniq)
+    HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'My IPTV:::local:::file://${HOME}/Videos/IPTV/iptv.m3u:::::::::']|" | uniq)
     gsettings set org.x.hypnotix providers "${HYP_SET}"
 fi
 
