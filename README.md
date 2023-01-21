@@ -7,6 +7,8 @@ Goals:
 - Trash and file delete sound notifications
 - Battery monitor
 - Weather alert system using RSS and notify-send
+- Extract text from images
+- Extract chapters from MKV
 - Send stations from .pls file to Radio++ / Shortwave and maybe connected Ocean Digital WiFi Radio / HiFi
 - Media conversion (convert videos and images between formats)
 - IPTV and Hypnotix automation from .m3u
