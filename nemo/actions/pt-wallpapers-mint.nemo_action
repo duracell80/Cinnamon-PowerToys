@@ -1,0 +1,9 @@
+[Nemo Action]
+# Choose which previous wallpapers to add to the system (requires sudo)
+Name=Previous Backgrounds
+Comment=Choose which previous wallpapers to add to the system (requires sudo)
+Exec=~/.local/share/powertoys/wallpapers_mint.sh
+Icon-Name=cs-backgrounds-symbolic
+Selection=none
+Extensions=any;
+Conditions=desktop;
