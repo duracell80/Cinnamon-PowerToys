@@ -11,8 +11,9 @@ Goals:
 - Extract chapters from MKV
 - Send stations from .pls file to Radio++ / Shortwave and maybe connected Ocean Digital WiFi Radio / HiFi
 - Media conversion (convert videos and images between formats)
-- IPTV and Hypnotix automation from .m3u
+- IPTV recording from .m3u
 - HDHomerun in Hypnotix
+- YouTube Live in Hypnotix
 - Video wallpapers
 - Install previous mint wallpapers from right click on desktop
 - Install wallpapers from Pexels
