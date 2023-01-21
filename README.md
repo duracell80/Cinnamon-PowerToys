@@ -6,6 +6,7 @@ Goals:
 - Real sound themes to bulk change action mappings to files
 - Trash and file delete sound notifications
 - Battery monitor
+- Get to theme settings by right click on desktop
 - Weather alert system using RSS and notify-send
 - Extract text from images
 - Extract chapters from MKV
