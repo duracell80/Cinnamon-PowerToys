@@ -10,7 +10,7 @@ WALL_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' 
 WALL_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "installed" | cut -d '-' -f3 | cut -d '/' -f1)
 
 
-ZCMD="zenity --list --checklist --width=500 --height=300 --title=\"Choose a stream to record\" --column=\"Import\" --column=\"Wallpaper Set\" --column=\"Version\" "
+ZCMD="zenity --list --checklist --width=500 --height=300 --title=\"Choose packages to install or remove\" --column=\"Import\" --column=\"Wallpaper Set\" --column=\"Index\" "
 
 #BUILD ZENITY CHOICE LIST
 i=0
