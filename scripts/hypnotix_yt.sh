@@ -12,20 +12,25 @@ HWD="$HOME/.cache/hypnotix"
 mkdir -p $CWD
 mkdir -p $HWD
 
-# COLLECT LIVESTREAMS
-$LWD/yt_channels.py
-
-# COPY FROM CACHED M3U
-cp $HWD/providers/yt-channels $LWD/iptv-youtube.m3u
-cp $HWD/providers/yt-channels $CWD/iptv-youtube.m3u
 
 HYP_GET=$(gsettings get org.x.hypnotix providers)
 
 # SET AS HYPNOTIX PROVIDER
 if [[ $HYP_GET == *"iptv-youtube"* ]]; then
-    exit
+	MSG_0=1
 else
-    HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'YouTube Live:::local:::file://${HOME}/.local/share/powertoys/iptv-youtube.m3u:::::::::']|" | uniq)
-
-    gsettings set org.x.hypnotix providers "${HYP_SET}"
+	HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'HDHomeRun:::local:::file://${HOME}/Videos/iptv-hd-homerun.m3u:::::::::']|" | uniq)
+	gsettings set org.x.hypnotix providers "${HYP_SET}"
 fi
+
+while :
+do
+	# COLLECT LIVESTREAMS
+	$LWD/yt_channels.py
+
+	# COPY FROM CACHED M3U
+	cp $HWD/providers/yt-channels $LWD/iptv-youtube.m3u
+	cp $HWD/providers/yt-channels $CWD/iptv-youtube.m3u
+
+	sleep 18000
+done

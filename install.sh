@@ -62,7 +62,7 @@ fi
 
 # COPY NEMO SCRIPTS AND ACTIONS
 cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
-cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
+#cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
 
 for filename in $CWD/nemo/actions/*.nemo_action; do
     [ -e "$filename" ] || continue
@@ -87,8 +87,12 @@ done
 
 
 # COPY YOUTUBE LIVE CHANNELS TO HYPNOTIX CACHE
+mkdir -p $HOME/Videos/IPTV
 cp -f $CWD/scripts/yt_channels.txt $HOME/.cache/hypnotix
+cp -n $CWD/scripts/yt_channels.txt $HOME/Videos/IPTV
 chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
+chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
+
 
 # CHECK FOR ANY HDHOMERUN TUNERS ON NETWORK FOR HYPNOTIX
 if wget -q --method=HEAD http://hdhomerun.local; then
