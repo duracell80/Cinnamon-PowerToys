@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Exec=redshift -l 36.16:86.78 -t 5000:7000 -b 1.0:1.0
-X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-enabled=false
 NoDisplay=false
 Hidden=false
 Name[en_US]=Power Toys - Redshift

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Exec=~/.local/share/powertoys/hypnotix_yt.sh
-X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-enabled=false
 NoDisplay=false
 Hidden=false
 Name[en_US]=Power Toys - Hypnotix YouTubeLive

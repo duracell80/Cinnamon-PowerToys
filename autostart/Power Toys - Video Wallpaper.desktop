@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Exec=~/.local/bin/video-wallpaper.sh --start "~/Videos/Wallpapers/current.mp4"
-X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-enabled=false
 NoDisplay=false
 Hidden=false
 Name[en_US]=Power Toys - Video Wallpaper
