@@ -1,0 +1,9 @@
+[Nemo Action]
+# Regenerate YouTube Live channels for Hypnotix
+Name=IPTV - YouTube Live
+Comment=Regenerate YouTube Live channels, open Hypnotix and look for provider
+Exec=timeout 60s ~/.local/share/powertoys/yt_channels.py
+Icon-Name=tv-symbolic
+Selection=none
+Extensions=m3uyt
+Dependencies=python3

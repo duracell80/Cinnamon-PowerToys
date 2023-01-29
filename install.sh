@@ -70,6 +70,7 @@ for filename in $CWD/nemo/actions/*.nemo_action; do
 
     cp -f $filename $file.tmp
     sed -i "s|Exec=~/|Exec=$HOME/|g" $file.tmp
+    sed -i "s|~/.local/share/powertoys/yt_channels.py|$HOME/.local/share/powertoys/yt_channels.py|g" $file.tmp
     mv $file.tmp $HOME/.local/share/nemo/actions/$file
 done
 

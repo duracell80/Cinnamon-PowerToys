@@ -10,14 +10,18 @@ def grab(url):
 	response = requests.get(url, timeout=15).text
 	end = response.find('.m3u8') + 5
 	tuner = 100
+    
 	while True:
 		if 'https://' in response[end-tuner : end]:
 			link = response[end-tuner : end]
-			start = link.find('https://')
+			start = link.find('http://')
 			end = link.find('.m3u8') + 5
 			break
 		else:
 			tuner += 5
+    
+    
+    
 	return f"\n{link[start : end]}"
 
 
@@ -48,4 +52,6 @@ print("[i] Writing M3U")
 text_file  = open(dir_home + '/.cache/hypnotix/providers/yt-channels', 'wt')
 n = text_file.write(m3u_out)
 text_file.close()
+
+#os.system("cp " + dir_home + "/.cache/hypnotix/providers/yt-channels " + dir_home + "/.local/share/powertoys/iptv-youtube.m3u")
 print("[i] Done")
