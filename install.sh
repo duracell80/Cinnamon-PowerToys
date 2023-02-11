@@ -14,7 +14,7 @@ mkdir -p $HOME/.cache/powertoys
 mkdir -p $CWD/deps
 mkdir -p $LWD
 mkdir -p $HOME/Videos/Wallpapers
-
+mkdir -p $HOME/.cache/hypnotix
 
 cp -f $CWD/videos/wallpapers/current.mp4 $HOME/Videos/Wallpapers
 
@@ -60,6 +60,17 @@ else
 fi
 
 
+read -p "[Q] Do you wish to install HDHomeRun for Hypnotix (US Only) (y/n)? " answer
+case ${answer:0:1} in
+    y|Y )
+	$CWD/install-hdhomerun.sh
+	$HOME/.local/share/powertoys/hypnotix_hdhr.sh
+    ;;
+    * )
+        exit
+    ;;
+esac
+
 # COPY NEMO SCRIPTS AND ACTIONS
 cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
 #cp -rf $CWD/nemo/scripts $HOME/.local/share/nemo
@@ -96,14 +107,14 @@ chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
 
 
 # CHECK FOR ANY HDHOMERUN TUNERS ON NETWORK FOR HYPNOTIX
-if wget -q --method=HEAD http://hdhomerun.local; then
-    if [ -f /usr/bin/hdhomerun_config ] ; then
-        echo "[i] HDHomeRun Config Already Installed (For Hypnotix)"
-    else
-        echo "[i] HDHomeRun Config To Be Installed (For Hypnotix)"
-        $CWD/install-hdhomerun.sh
-    fi
-fi
+#if wget -q --method=HEAD http://hdhomerun.local; then
+#    if [ -f /usr/bin/hdhomerun_config ] ; then
+#        echo "[i] HDHomeRun Config Already Installed (For Hypnotix)"
+#    else
+#        echo "[i] HDHomeRun Config To Be Installed (For Hypnotix)"
+#        $CWD/install-hdhomerun.sh
+#    fi
+#fi
 
 
 

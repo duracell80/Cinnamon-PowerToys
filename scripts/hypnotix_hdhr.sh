@@ -11,7 +11,9 @@ HWD="$HOME/.cache/hypnotix"
 
 mkdir -p $CWD
 mkdir -p $HWD
-#mkdir -p $HWD/providers/hdhomerun
+mkdir -p $HWD/providers
+
+$LWD/hdhr_channels.py
 
 # COPY FROM TUNER CACHED M3U
 cp -f $HWD/providers/hd-homerun $LWD/iptv-hd-homerun.m3u

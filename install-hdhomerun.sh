@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if wget -q --method=HEAD http://hdhomerun.local; then
+#if wget -q --method=HEAD http://hdhomerun.local; then
     CWD=$(pwd)
     LWD=$HOME/.local/share/powertoys
     LBD=$HOME/.local/bin
@@ -13,7 +13,7 @@ if wget -q --method=HEAD http://hdhomerun.local; then
     make
     cp $CWD/deps/libhdhomerun/hdhomerun_config $LBD
     cd $CWD
-else
-    echo "[i] There are no HDHomeRun tuners on this network"
-    echo "[i] Visit https://info.hdhomerun.com for more details"
-fi
+#else
+#    echo "[i] There are no HDHomeRun tuners on this network"
+#    echo "[i] Visit https://info.hdhomerun.com for more details"
+#fi
