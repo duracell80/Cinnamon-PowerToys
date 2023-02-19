@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=~/.local/share/powertoys/folder_thumbs.sh
+X-GNOME-Autostart-enabled=false
+NoDisplay=false
+Hidden=false
+Name[en_US]=Power Toys - Folder Thumbnails
+Comment[en_US]=Generates random thumbnails as folder emblems with uuid's in the local DermoDeX icons folder
+X-GNOME-Autostart-Delay=0
