@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Remove EXIF Data
+Comment=Removes personal information from JPEG's, requires exiftool
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/exif_remove.sh %F
+Selection=E
+Extensions=jpg;jpeg
+Dependencies=exiftool;zenity
