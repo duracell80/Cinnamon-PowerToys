@@ -1,0 +1,28 @@
+[Sound Theme]
+Name=linux mint 21
+Comment="an enhanced version of the default sounds in mint 21"
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
+
+[de-cinnamon]
+close-file="linux-mint-21/stereo/window-close.ogg"
+login-file="linux-mint-21/stereo/desktop-login.ogg"
+logout-file="linux-mint-21/stereo/desktop-logout.ogg"
+map-file="linux-mint-21/stereo/window-new.ogg"
+maximize-file="linux-mint-21/stereo/window-maximized.ogg"
+minimize-file="linux-mint-21/stereo/window-minimized.ogg"
+notification-file="linux-mint-21/stereo/window-attention.ogg"
+plug-file="linux-mint-21/stereo/power-plug.ogg"
+switch-file="linux-mint-21/stereo/window-switch.ogg"
+tile-file="linux-mint-21/stereo/window-tile.ogg"
+unmaximize-file="linux-mint-21/stereo/window-minimized.ogg"
+unplug-file="linux-mint-21/stereo/power-unplug.ogg"
+volume-sound-file="linux-mint-21/stereo/audio-volume-change.ogg"
+battery-full="linux-mint-21/stereo/battery-full.ogg"
+battery-low="linux-mint-21/stereo/battery-low.ogg"
+battery-caution="linux-mint-21/stereo/battery-caution.ogg"
+file-trash="linux-mint-21/stereo/file-trash.ogg"
+trash-empty="linux-mint-21/stereo/trash-empty.ogg"
+
