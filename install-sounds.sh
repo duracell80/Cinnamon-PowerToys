@@ -157,7 +157,7 @@ case ${answer:0:1} in
         sudo cp -fr $CWD/sounds/linux-a11y/ $UWD
         sudo chmod -R a+rx $UWD/linux-a11y
 
-	SOUND - MINT 21
+	# SOUND - MINT 21
         if [ -d $UWD/linux-mint-21 ] ; then
             sudo rm -rf $UWD/linux-mint-21
         fi
