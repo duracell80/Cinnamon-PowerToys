@@ -6,7 +6,7 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/sounds && mkdir -p $LWD
 UWD=/usr/share/sounds
 
-SOUND_THEME="dream"
+SOUND_THEME="linux-mint-21"
 
 
 set_sound () {
@@ -156,6 +156,14 @@ case ${answer:0:1} in
 
         sudo cp -fr $CWD/sounds/linux-a11y/ $UWD
         sudo chmod -R a+rx $UWD/linux-a11y
+
+	SOUND - MINT 21
+        if [ -d $UWD/linux-mint-21 ] ; then
+            sudo rm -rf $UWD/linux-mint-21
+        fi
+
+        sudo cp -fr $CWD/sounds/linux-mint-21/ $UWD
+        sudo chmod -R a+rx $UWD/linux-mint-21
 
         # SOUND - SAMSUNG-RETRO
         if [ -d $UWD/samsung-retro ] ; then
