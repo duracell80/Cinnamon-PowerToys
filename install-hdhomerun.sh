@@ -1,11 +1,12 @@
 #!/bin/bash
 
+CWD=$(pwd)
+LWD=$HOME/.local/share/powertoys
+LBD=$HOME/.local/bin
+
+
 if ! [ -x "$(which hdhomerun_config)" ]; then
   sudo apt install -y git automake autoconf
-
-    CWD=$(pwd)
-    LWD=$HOME/.local/share/powertoys
-    LBD=$HOME/.local/bin
 
     mkdir -p $CWD/deps
 
@@ -23,7 +24,8 @@ if ! [ -x "$(which hdhomerun_config)" ]; then
 fi
 
 
-~/.local/share/powertoys/hypnotix_hdhr.sh
+$LWD/hdhr_channels.py
+$LWD/hypnotix_hdhr.sh
 
 
 #if wget -q --method=HEAD http://hdhomerun.local; then
