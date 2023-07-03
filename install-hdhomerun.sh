@@ -20,7 +20,6 @@ if ! [ -x "$(which hdhomerun_config)" ]; then
     cp $CWD/deps/libhdhomerun/hdhomerun_config $LBD
     cd $CWD
 
-  exit 1
 fi
 
 
