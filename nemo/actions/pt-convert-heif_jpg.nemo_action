@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert HEIF to JPG
+Comment=Converts a high efficiency image format file to jpeg
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_heif.sh "jpg" %F
+Selection=S
+Extensions=heic;heif
+Dependencies=heif-convert;zenity

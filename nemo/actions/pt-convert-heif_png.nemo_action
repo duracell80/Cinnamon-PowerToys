@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Convert HEIF to PNG
+Comment=Converts a high efficiency image format file to png
+EscapeSpaces=true
+Exec=~/.local/share/powertoys/convert_heif.sh "png" %F
+Selection=S
+Extensions=heic;heif
+Dependencies=heif-convert;zenity
