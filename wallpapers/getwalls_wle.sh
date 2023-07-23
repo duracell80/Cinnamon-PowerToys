@@ -49,5 +49,12 @@ done
 
 rm -f $DIR_TEMP/temp.html
 
-rm -rf $DIR_TEMP/*.jpg
-rm -rf $DIR_TEMP/*.png
+#rm -rf $DIR_TEMP/*.jpg
+#rm -rf $DIR_TEMP/*.png
+
+DIR_SET=$(cat ~/.cinnamon/backgrounds/user-folders.lst | grep -i "wallpapers/wle" | wc -l)
+
+if [[ $DIR_SET != "1" ]]; then
+	echo "$HOME/Pictures/Wallpapers/WLE" >> ~/.cinnamon/backgrounds/user-folders.lst
+	notify-send --urgency=normal --category=transfer.complete --icon=cs-backgrounds-symbolic "New backgrounds downloaded!" "Logout and back in again to see the WLE folder in the background chooser"
+fi
