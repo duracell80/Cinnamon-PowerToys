@@ -9,7 +9,9 @@ DIR_TEMP="/tmp/wikiwall"
 mkdir -p $DIR_TEMP
 mkdir -p $DIR_WALL
 
-if [[ $1 == "2020" ]]; then
+if [[ $1 == "2019" ]]; then
+	wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/imagination-becomes-reality-in-the-winners-of-the-2019-wiki-loves-earth-photo-contest-ade899fc2224"
+elif [[ $1 == "2020" ]]; then
         wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/the-majesty-of-nature-and-an-abundance-of-birds-on-full-display-in-wiki-loves-earth-2020-ee956cf74f2d"
 elif [[ $1 == "2021" ]]; then
 	wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/its-all-about-the-beauty-in-the-details-with-the-wiki-loves-earth-2021-photo-contest-839e57db72c3"
