@@ -9,7 +9,13 @@ DIR_TEMP="/tmp/wikiwall"
 mkdir -p $DIR_TEMP
 mkdir -p $DIR_WALL
 
-wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/experience-some-of-the-worlds-most-beautiful-places-with-wiki-loves-earth-2022-9e22fa72a3c0"
+if [[ $1 == "2020" ]]; then
+        wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/the-majesty-of-nature-and-an-abundance-of-birds-on-full-display-in-wiki-loves-earth-2020-ee956cf74f2d"
+elif [[ $1 == "2021" ]]; then
+	wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/its-all-about-the-beauty-in-the-details-with-the-wiki-loves-earth-2021-photo-contest-839e57db72c3"
+else
+	wget -q -O $DIR_TEMP/temp.html "https://medium.com/freely-sharing-the-sum-of-all-knowledge/experience-some-of-the-worlds-most-beautiful-places-with-wiki-loves-earth-2022-9e22fa72a3c0"
+fi
 sleep 3
 
 IFS=$'\r\n' GLOBIGNORE='*' command eval  'URL=($(cat $DIR_TEMP/temp.html | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u | grep -i "wiki/file:"))'
@@ -30,11 +36,11 @@ do
 	if [[ $TYPE == *".png"* ]]; then
   		WALL=$(cat $HTML | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u | grep -i "1024px-" | grep -i ".png" | head -n4 | tail -n1 | sed "s-thumb/--" | sed 's![^/]*$!!' | sed "s-.png/-.png-")
                 wget -q --tries=5 -nc -O $IPNG $WALL
-		convert "$IPNG" -geometry 1920x1080^ -gravity center -crop 1920x1080+0+0 "${DIR_WALL}/${UUID}.png"
+		convert "$IPNG" -geometry 2560x1440^ -gravity center -crop 2560x1440+0+0 "${DIR_WALL}/${UUID}.jpg"
 	else
 		WALL=$(cat $HTML | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u | grep -i "px-" | grep -i ".jpg" | head -n4 | tail -n1 | sed "s-thumb/--" | sed 's![^/]*$!!' | sed "s-.jpg/-.jpg-")
 		wget -q --tries=5 -nc -O $JPEG $WALL
-		convert "$JPEG" -geometry 1920x1080^ -gravity center -crop 1920x1080+0+0 "${DIR_WALL}/${UUID}.jpg"
+		convert "$JPEG" -geometry 2560x1440^ -gravity center -crop 2560x1440+0+0 "${DIR_WALL}/${UUID}.jpg"
 	fi
 	sleep 2
 done
@@ -43,5 +49,3 @@ rm -f $DIR_TEMP/temp.html
 
 rm -rf $DIR_TEMP/*.jpg
 rm -rf $DIR_TEMP/*.png
-
-
