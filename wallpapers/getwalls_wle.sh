@@ -56,5 +56,6 @@ DIR_SET=$(cat ~/.cinnamon/backgrounds/user-folders.lst | grep -i "wallpapers/wle
 
 if [[ $DIR_SET != "1" ]]; then
 	echo "$HOME/Pictures/Wallpapers/WLE" >> ~/.cinnamon/backgrounds/user-folders.lst
+	echo "$HOME/Pictures/Wallpapers/WLE" >> ~/.config/cinnamon/backgrounds/user-folders.lst
 	notify-send --urgency=normal --category=transfer.complete --icon=cs-backgrounds-symbolic "New backgrounds downloaded!" "Logout and back in again to see the WLE folder in the background chooser"
 fi
