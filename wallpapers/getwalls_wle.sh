@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# sudo apt install imagemagick wget uuid-runtime
+#sudo apt install imagemagick wget uuid-runtime
 
 DIR_PWD=$(pwd)
 DIR_WALL="${HOME}/Pictures/Wallpapers/WLE"
@@ -34,7 +34,7 @@ do
 	wget -q --read-timeout=30 --tries=3 --random-wait -O $HTML $URL
 	sleep 1
 
-	echo "[i] : Downloading image ..."
+	echo "[i] : Processing image from the ${1} contest winners to 16:9 format"
 	if [[ $TYPE == *".png"* ]]; then
   		WALL=$(cat $HTML | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u | grep -i "1024px-" | grep -i ".png" | head -n4 | tail -n1 | sed "s-thumb/--" | sed 's![^/]*$!!' | sed "s-.png/-.png-")
                 wget -q --tries=5 -nc -O $IPNG $WALL
@@ -52,10 +52,11 @@ rm -f $DIR_TEMP/temp.html
 #rm -rf $DIR_TEMP/*.jpg
 #rm -rf $DIR_TEMP/*.png
 
-DIR_SET=$(cat ~/.cinnamon/backgrounds/user-folders.lst | grep -i "wallpapers/wle" | wc -l)
+DIR_SET=$(cat ~/.config/cinnamon/backgrounds/user-folders.lst | grep -i "wallpapers/wle" | wc -l)
 
 if [[ $DIR_SET != "1" ]]; then
-	echo "$HOME/Pictures/Wallpapers/WLE" >> ~/.cinnamon/backgrounds/user-folders.lst
-	echo "$HOME/Pictures/Wallpapers/WLE" >> ~/.config/cinnamon/backgrounds/user-folders.lst
-	notify-send --urgency=normal --category=transfer.complete --icon=cs-backgrounds-symbolic "New backgrounds downloaded!" "Right click the desktop, choose 'Change Desktop Background' to see the WLE folder in the background chooser"
+	echo "$HOME/Pictures/Wallpapers/WLE" >> $HOME/.config/cinnamon/backgrounds/user-folders.lst
+        notify-send --urgency=normal --category=transfer.complete --icon=cs-backgrounds-symbolic "New backgrounds downloaded!" "Right click the desktop, choose 'Change Desktop Background' to see the WLE folder in the background chooser"
 fi
+
+sort $HOME/.config/cinnamon/backgrounds/user-folders.lst | uniq > $HOME/.config/cinnamon/backgrounds/user-folders.lst.tmp && mv -f $HOME/.config/cinnamon/backgrounds/user-folders.lst.tmp $HOME/.config/cinnamon/backgrounds/user-folders.lst

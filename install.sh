@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp ffmpeg at libheif-examples imagemagick
+sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq mpv pcregrep python3-pyqt5 webp ffmpeg at libheif-examples imagemagick mpv pcregrep python3-pyqt5 socat wget uuid-runtime
 pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 sudo systemctl enable --now atd
@@ -71,18 +71,6 @@ case ${answer:0:1} in
     ;;
 esac
 
-read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
-case ${answer:0:1} in
-    y|Y )
-        $CWD/wallpapers/getwalls_wle.sh 2022
-        $CWD/wallpapers/getwalls_wle.sh 2021
-	$CWD/wallpapers/getwalls_wle.sh 2020
-	$CWD/wallpapers/getwalls_wle.sh 2019
-    ;;
-    * )
-        exit
-    ;;
-esac
 
 # COPY NEMO SCRIPTS AND ACTIONS
 cp -f $CWD/nemo/actions/*.nemo_action $HOME/.local/share/nemo/actions
@@ -117,6 +105,20 @@ cp -f $CWD/scripts/yt_channels.txt $HOME/.cache/hypnotix
 cp -n $CWD/scripts/yt_channels.txt $HOME/Videos/IPTV
 chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
 chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
+
+
+read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
+case ${answer:0:1} in
+    y|Y )
+        $CWD/wallpapers/getwalls_wle.sh 2022
+        $CWD/wallpapers/getwalls_wle.sh 2021
+        $CWD/wallpapers/getwalls_wle.sh 2020
+        $CWD/wallpapers/getwalls_wle.sh 2019
+    ;;
+    * )
+        exit
+    ;;
+esac
 
 
 # CHECK FOR ANY HDHOMERUN TUNERS ON NETWORK FOR HYPNOTIX
