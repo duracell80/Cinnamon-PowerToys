@@ -34,7 +34,7 @@ do
 	wget -q --read-timeout=30 --tries=3 --random-wait -O $HTML $URL
 	sleep 1
 
-	echo "[i] : Downloading image ... ${FILE}"
+	echo "[i] : Downloading image ..."
 	if [[ $TYPE == *".png"* ]]; then
   		WALL=$(cat $HTML | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | sort -u | grep -i "1024px-" | grep -i ".png" | head -n4 | tail -n1 | sed "s-thumb/--" | sed 's![^/]*$!!' | sed "s-.png/-.png-")
                 wget -q --tries=5 -nc -O $IPNG $WALL

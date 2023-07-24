@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp ffmpeg at libheif-examples
+sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq socat mpv pcregrep xrandr python3-pyqt5 webp ffmpeg at libheif-examples imagemagick
 pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 sudo systemctl enable --now atd
@@ -60,11 +60,24 @@ else
 fi
 
 
-read -p "[Q] Do you wish to install HDHomeRun for Hypnotix (US Only) (y/n)? " answer
+read -p "[Q] Do you wish to install HDHomeRun for Hypnotix (y/n)? " answer
 case ${answer:0:1} in
     y|Y )
 	$CWD/install-hdhomerun.sh
 	$HOME/.local/share/powertoys/hypnotix_hdhr.sh
+    ;;
+    * )
+        exit
+    ;;
+esac
+
+read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
+case ${answer:0:1} in
+    y|Y )
+        $CWD/wallpapers/getwalls_wle.sh 2022
+        $CWD/wallpapers/getwalls_wle.sh 2021
+	$CWD/wallpapers/getwalls_wle.sh 2020
+	$CWD/wallpapers/getwalls_wle.sh 2019
     ;;
     * )
         exit
