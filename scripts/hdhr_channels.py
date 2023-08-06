@@ -27,8 +27,9 @@ if rc == 0:
     (output, err) = cmd.communicate()
     cmd_status = cmd.wait()
     ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', str(output))
-    ip_addr = str(ip[0])
     
+    ip_addr = str(ip[0])
+    print(ip)
     config = {
         # Uses first HDHomeRun found on network
         'hdhr-ip'   : ip_addr,

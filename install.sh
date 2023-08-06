@@ -109,7 +109,7 @@ cp -n $CWD/scripts/yt_channels.txt $HOME/Videos/IPTV
 chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
 chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
 
-
+chmod u+x $CWD/wallpapers/getwalls_wle.sh
 read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
 case ${answer:0:1} in
     y|Y )
