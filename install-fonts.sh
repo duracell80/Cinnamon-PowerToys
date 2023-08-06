@@ -11,6 +11,8 @@ CFG=$FNI/googlefonts.conf
 FND_BIN=$(echo $PATH | grep -i "~/.local/bin" | wc -l)
 
 
+
+# Google Fonts
 declare -a ofl=("acme" "actor" "anton" "notosans" "jost" "tektur" "caveat" "ibmplexmono" "preahvihear" "indieflower" "russoone" "tirotamil" "orbitron" "cinzel" "alfaslabone" "exo" "kalam" "greatvibes" "bungeespice" "gloriahallelujah" "sacramento" "gruppo" "pressstart2p" "tangerine" "literata" "grandifloraone" "monoton" "sharetechmono" "athiti" "audiowide" "anonymouspro" "nothingyoucoulddo" "vt323" "librebarcode39" "cutivemono" "dmmono" "wallpoet" "jetbrainsmono" "nanumbrushscript" "tenaliramakrishna" "darkergrotesque" "graduate" "alegreyasc" "brunoacesc" "manjari" "delius" "telex" "turretroad" "nixieone" "silkscreen" "mallanna" "cabin" "notable" "ralewaydots" "vastshadow" "codystar" "numans" "himelody" "flowcircular" "fasterone" "librebarcode39text" "wireone" "monofett" "iceland" "molle" "yomogi" "moul" "zillaslabhighlight" "nosifer" "plaster" "swankyandmoomoo" "notosanssignwriting" "waterfall" "notosanssymbols" "amiriquran" "ballet" "notocoloremoji" "notoemoji" "notosanslisu" "spacegrotesk" "borel" "rem" "opensans" "lato" "poppins" "raleway" "lisubosa" "playfairdisplay" "merriweather" "handjet" "quicksand" "titilliumweb" "librefranklin" "librebaskerville" "josefinsans" "edusabeginner" "bebasneue")
 declare -a apa=("roboto" "robotomono" "robotoslab" "syncopate" "yellowtail")
 
@@ -70,3 +72,9 @@ do
         sudo cp $FNI/apache/$i/*.ttf $FNF/$i
         #sudo cp $FNI/apache/$i/.uuid $FNF/$i
 done
+
+
+# Microsoft Fonts
+if ! [ -x "$(which ttf-mscorefonts-installer)" ]; then
+	sudo apt install ttf-mscorefonts-installer
+fi
