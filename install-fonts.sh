@@ -11,7 +11,7 @@ CFG=$FNI/googlefonts.conf
 FND_BIN=$(echo $PATH | grep -i "~/.local/bin" | wc -l)
 
 
-declare -a ofl=("acme" "actor" "anton" "cario" "notosanssimplifiedchinese" "jost" "tektur" "cavet" "ibmplexmono" "preahvihear" "indieflower" "russoone" "tirotamil" "orbitron" "cinzel" "alfaslabone" "exo" "kalam" "greatvibes" "bungeespice" "gloriahallelujah" "sacramento" "gruppo" "pressstart2p" "tangerine" "literata" "carioplay" "grandifloraone" "monoton" "sharetechmono" "athiti" "audiowide" "anonymouspro" "nothingyoucoulddo" "vt323" "librebarcode29" "cutivemono" "dmmono" "wallpoet" "jetbrainsmono" "nanumbrushscript" "tenaliramakrishna" "darkergrotesque" "graduate" "alegreyasc" "brunoacesc" "manjari" "delius" "telex" "turretroad" "nixione" "silkscreen" "mallanna" "cabin" "notable" "ralewaydots" "vastshadow" "codystar" "numans" "himelody" "flowcircular" "fasterone" "librebarcode39text" "wireone" "monofett" "iceland" "molle" "yomogi" "moul" "zillaslabhighlight" "nosifer" "plaster" "swankyandmoomoo" "notosanssignwritting" "waterfall" "notosanssymbols" "amiriquran" "ballet" "notocoloremjoi" "notoemoji" "notosanslisu" "spacegrotesk" "borel" "rem" "opensans" "lato" "poppins" "raleway" "noto" "lisubosa" "playfairdisplay" "merriweather" "handjet" "quicksand" "titilliumweb" "librefranklin" "librebaskerville" "josefinsans" "inconsolta" "edusabeginner" "bebasneue")
+declare -a ofl=("acme" "actor" "anton" "notosans" "jost" "tektur" "caveat" "ibmplexmono" "preahvihear" "indieflower" "russoone" "tirotamil" "orbitron" "cinzel" "alfaslabone" "exo" "kalam" "greatvibes" "bungeespice" "gloriahallelujah" "sacramento" "gruppo" "pressstart2p" "tangerine" "literata" "grandifloraone" "monoton" "sharetechmono" "athiti" "audiowide" "anonymouspro" "nothingyoucoulddo" "vt323" "librebarcode39" "cutivemono" "dmmono" "wallpoet" "jetbrainsmono" "nanumbrushscript" "tenaliramakrishna" "darkergrotesque" "graduate" "alegreyasc" "brunoacesc" "manjari" "delius" "telex" "turretroad" "nixieone" "silkscreen" "mallanna" "cabin" "notable" "ralewaydots" "vastshadow" "codystar" "numans" "himelody" "flowcircular" "fasterone" "librebarcode39text" "wireone" "monofett" "iceland" "molle" "yomogi" "moul" "zillaslabhighlight" "nosifer" "plaster" "swankyandmoomoo" "notosanssignwriting" "waterfall" "notosanssymbols" "amiriquran" "ballet" "notocoloremoji" "notoemoji" "notosanslisu" "spacegrotesk" "borel" "rem" "opensans" "lato" "poppins" "raleway" "lisubosa" "playfairdisplay" "merriweather" "handjet" "quicksand" "titilliumweb" "librefranklin" "librebaskerville" "josefinsans" "edusabeginner" "bebasneue")
 declare -a apa=("roboto" "robotomono" "robotoslab" "syncopate" "yellowtail")
 
 
@@ -61,12 +61,12 @@ for i in "${ofl[@]}"
 do
 	sudo mkdir -p $FNF/$i
 	sudo cp $FNI/ofl/$i/*.ttf $FNF/$i
-	sudo cp $FNI/ofl/$i/.uuid $FNF/$i
+	#sudo cp $FNI/ofl/$i/.uuid $FNF/$i
 done
 
 for i in "${apa[@]}"
 do
         sudo mkdir -p $FNF/$i
         sudo cp $FNI/apache/$i/*.ttf $FNF/$i
-        sudo cp $FNI/apache/$i/.uuid $FNF/$i
+        #sudo cp $FNI/apache/$i/.uuid $FNF/$i
 done
