@@ -1,0 +1,15 @@
+[/]
+custom-list=['custom0', '__dummy__']
+looking-glass-keybinding=['<Ctrl><Alt>l']
+show-desklets=@as []
+
+[custom-keybindings/custom0]
+binding=['<Super>l']
+command='/usr/bin/lock-screen'
+name='Lock Screen'
+
+[media-keys]
+screensaver=['<Super>s', 'XF86ScreenSaver']
+
+[wm]
+show-desktop=['<super>m']

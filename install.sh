@@ -45,6 +45,9 @@ cd $CWD
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
 
+sudo cp -f $CWD/scripts/lock-screen.py /usr/bin/lock-screen
+sudo chmod a+x /usr/bin/lock-screen
+
 chmod u+x $LWD/*.sh
 chmod u+x $LWD/*.py
 
