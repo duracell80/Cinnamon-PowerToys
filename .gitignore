@@ -1,6 +1,7 @@
 
 sounds/cinnamon_desktop.backup
-sounds/scripts/cinnamon_desktop.backup
 deps/gpu-video-wallpaper/
 deps/libhdhomerun/
 scripts/test.json
+apps/cinnamon-spices-applets/
+sounds/scripts/cinnamon_desktop.backup
