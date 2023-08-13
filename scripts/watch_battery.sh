@@ -191,6 +191,7 @@ do
             if [[ "$MSG_6" == 0 ]]; then
                 MSG_6=1
                 gsettings set org.cinnamon.sounds notification-enabled false
+		sleep 1
                 play_sound "battery-full" $SOUND_THEME
                 gsettings set org.cinnamon.sounds notification-enabled true
 
