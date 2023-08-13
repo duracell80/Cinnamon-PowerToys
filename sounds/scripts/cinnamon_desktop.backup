@@ -141,6 +141,12 @@ event-sounds=false
 theme-name='harmony'
 volume-sound-file='/usr/share/sounds/harmony/stereo/audio-volume-change.ogg'
 
+[gestures]
+enabled=true
+pinch-in-2=''
+pinch-percent-threshold=uint32 40
+swipe-percent-threshold=uint32 20
+
 [keybindings/custom-keybindings/custom0]
 binding=['<Super>l']
 command=''
@@ -174,7 +180,7 @@ map-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
 maximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
 minimize-file='/usr/share/sounds/harmony/stereo/window-minimized.ogg'
 notification-enabled=true
-notification-file='/usr/share/sounds/harmony/stereo/message-new-instant.ogg'
+notification-file='/usr/share/sounds/teampixel/notifications/Material Adventures/Gradient.ogg'
 plug-file='/usr/share/sounds/harmony/stereo/device-added.ogg'
 switch-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
 tile-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
