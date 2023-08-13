@@ -31,6 +31,8 @@ set_sound () {
 }
 
 cp -f $CWD/sounds/scripts/set_sound_theme.sh $HOME/.local/bin/set_sound_theme
+chmod u+x $HOME/.local/bin/set_sound_theme
+
 
 echo "[i] Before running the install note the changes documented such as needing to backup your /usr/share/sounds/ directory."
 read -p "[Q] Do you wish to continue (y/n)? " answer
@@ -211,3 +213,74 @@ case ${answer:0:1} in
         exit
     ;;
 esac
+
+PS3='Choose a sound theme to apply: '
+names=("none" "borealis" "deepin" "dream" "harmony" "hydrogen" "ios-remix" "linux-a11y" "linux-mint-21" "miui" "samsung-retro" "teampixel" "x10" "x10-crystal" "x11" "xxp" "zorin")
+select wall in "${names[@]}"; do
+    case $wall in
+        "borealis")
+            $HOME/.local/bin/set_sound_theme borealis
+            break
+            ;;
+        "deepin")
+            $HOME/.local/bin/set_sound_theme deepin
+            break
+            ;;
+	"dream")
+            $HOME/.local/bin/set_sound_theme dream
+            break
+            ;;
+	"harmony")
+            $HOME/.local/bin/set_sound_theme harmony
+            break
+            ;;
+	"hydrogen")
+            $HOME/.local/bin/set_sound_theme hydrogen
+            break
+            ;;
+	"ios-remix")
+            $HOME/.local/bin/set_sound_theme ios-remix
+            break
+            ;;
+	"linux-a11y")
+            $HOME/.local/bin/set_sound_theme linux-a11y
+            break
+            ;;
+	"linux-mint-21")
+            $HOME/.local/bin/set_sound_theme linux-mint-21
+            break
+            ;;
+	"miui")
+            $HOME/.local/bin/set_sound_theme miui
+            break
+            ;;
+	"samsung-retro")
+            $HOME/.local/bin/set_sound_theme samsung-retro
+            break
+            ;;
+	"teampixel")
+            $HOME/.local/bin/set_sound_theme teampixel
+            break
+            ;;
+	"x10")
+            $HOME/.local/bin/set_sound_theme x10
+            break
+            ;;
+	"x11")
+            $HOME/.local/bin/set_sound_theme x11
+            break
+            ;;
+	"xxp")
+            $HOME/.local/bin/set_sound_theme xxp
+            break
+            ;;
+	"zorin")
+            $HOME/.local/bin/set_sound_theme zorin
+            break
+            ;;
+	"none")
+            echo "[i] No sound theme selected and no changes made"
+            ;;
+        *) echo "[!] Invalid sound theme";;
+    esac
+done

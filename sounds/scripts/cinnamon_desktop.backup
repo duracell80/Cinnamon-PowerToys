@@ -1,9 +1,15 @@
 [/]
 desklet-snap-interval=25
 device-aliases=['/org/freedesktop/UPower/devices/battery_BAT0:=ASUSTeK ASUS Battery']
-enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:2:systray@cinnamon.org:3', 'panel1:right:3:xapp-status@cinnamon.org:4', 'panel1:right:4:notifications@cinnamon.org:5', 'panel1:right:5:printers@cinnamon.org:6', 'panel1:right:6:removable-drives@cinnamon.org:7', 'panel1:right:7:keyboard@cinnamon.org:8', 'panel1:right:8:favorites@cinnamon.org:9', 'panel1:right:9:network@cinnamon.org:10', 'panel1:right:10:sound@cinnamon.org:11', 'panel1:right:11:power@cinnamon.org:12', 'panel1:right:12:calendar@cinnamon.org:13', 'panel1:right:13:cornerbar@cinnamon.org:14', 'panel1:right:1:workspace-switcher@cinnamon.org:15']
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:6:systray@cinnamon.org:3', 'panel1:right:7:xapp-status@cinnamon.org:4', 'panel1:right:8:notifications@cinnamon.org:5', 'panel1:right:9:printers@cinnamon.org:6', 'panel1:right:10:removable-drives@cinnamon.org:7', 'panel1:right:11:keyboard@cinnamon.org:8', 'panel1:right:12:favorites@cinnamon.org:9', 'panel1:right:13:network@cinnamon.org:10', 'panel1:right:14:sound@cinnamon.org:11', 'panel1:right:15:power@cinnamon.org:12', 'panel1:right:16:calendar@cinnamon.org:13', 'panel1:right:17:cornerbar@cinnamon.org:14', 'panel1:right:5:workspace-switcher@cinnamon.org:15', 'panel1:right:2:radio@driglu4it:18', 'panel1:right:1:weather@mockturtl:19', 'panel1:right:0:sshconnect@foobar-beer:20']
 enabled-desklets=@as []
-next-applet-id=17
+favorite-apps=@as []
+next-applet-id=21
+panel-edit-mode=false
+panel-zone-icon-sizes='[{"panelId": 1, "left": 32, "center": 0, "right": 16}]'
+panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 28, "center": 28, "right": 16}]'
+panels-autohide=['1:intel']
+panels-height=['1:40']
 window-effect-speed=1
 
 [desktop/a11y/applications]
@@ -11,7 +17,7 @@ screen-keyboard-enabled=true
 
 [desktop/background]
 picture-options='zoom'
-picture-uri='file:///home/lee/Pictures/Wallpapers/WLE/9e5c151f-4c89-49b7-96e3-ae7afde18668.jpg'
+picture-uri='file:///home/lee/Pictures/Wallpapers/WLE/c9f2ccfa-37e4-4665-9278-b9d0774608d8.jpg'
 
 [desktop/background/slideshow]
 delay=15
@@ -20,9 +26,10 @@ slideshow-enabled=false
 
 [desktop/interface]
 cursor-blink-time=1200
+cursor-size=24
 cursor-theme='Bibata-Modern-Classic'
 gtk-theme='Mint-Y-Dark-Blue'
-icon-theme='Mint-Y-Navy'
+icon-theme='Shade of Z - White'
 toolkit-accessibility=true
 
 [desktop/keybindings]
@@ -114,8 +121,14 @@ notification-duration=4
 delay=uint32 500
 repeat-interval=uint32 30
 
+[desktop/peripherals/mouse]
+double-click=400
+drag-threshold=8
+speed=0.0
+
 [desktop/peripherals/touchpad]
 send-events='enabled'
+speed=0.0
 
 [desktop/screensaver]
 allow-keyboard-shortcuts=true
@@ -125,6 +138,8 @@ show-info-panel=true
 
 [desktop/sound]
 event-sounds=false
+theme-name='borealis'
+volume-sound-file='/usr/share/sounds/borealis/stereo/audio-volume-change.ogg'
 
 [keybindings/custom-keybindings/custom0]
 binding=['<Super>l']
@@ -150,6 +165,21 @@ sleep-display-ac=0
 sleep-display-battery=300
 sleep-inactive-ac-timeout=0
 sleep-inactive-battery-timeout=0
+
+[sounds]
+close-file='/usr/share/sounds/borealis/stereo/window-close.ogg'
+login-file='/usr/share/sounds/borealis/stereo/desktop-login.ogg'
+logout-file='/usr/share/sounds/borealis/stereo/desktop-logout.ogg'
+map-file='/usr/share/sounds/borealis/stereo/window-new.ogg'
+maximize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
+minimize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
+notification-enabled=true
+notification-file='/usr/share/sounds/borealis/stereo/message-new-instant-alt.ogg'
+plug-file='/usr/share/sounds/borealis/stereo/device-added.ogg'
+switch-file='/usr/share/sounds/borealis/stereo/window-switch.ogg'
+tile-file='/usr/share/sounds/borealis/stereo/window-click-inactive.ogg'
+unmaximize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
+unplug-file='/usr/share/sounds/borealis/stereo/device-removed.ogg'
 
 [theme]
 name='Mint-Y-Dark-Blue'

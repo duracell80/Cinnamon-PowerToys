@@ -11,7 +11,7 @@ if [ ! -z $1 ]
 then 
     SOUND_THEME=$1
 else
-    SOUND_THEME="dream"
+    SOUND_THEME="harmony"
 fi
 
 
