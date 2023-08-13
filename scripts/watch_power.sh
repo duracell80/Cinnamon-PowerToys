@@ -14,12 +14,27 @@ if [[ "$PID_COUNT" > 1 ]]; then
     fi
 fi
 
-PWR=$(cat /sys/class/power_supply/AC/online)
+AC1=$(acpi -V | grep -ci "adapter 0")
+AC2=$(acpi -V | grep -ci "adapter 1")
+
+
+#PWR=$(cat /sys/class/power_supply/AC/online)
+if [[ "$AC1" == "1" ]]; then
+	PWR=$(acpi -V | grep -i "adapter 0" | grep -ci "on-line")
+	echo "[i] Adapter 1 Detected [${PWR}]"
+elif [[ "$AC2" == "1" ]]; then
+        PWR=$(acpi -V | grep -i "adapter 1" | grep -ci "on-line")
+	echo "[i] Adapter 1 Detected [${PWR}]"
+else
+        PWR="0"
+fi
+
+
 DIR_SOUND="/usr/share/sounds"
 
 play_sound () {
     SOUND_INDEX=$DIR_SOUND/${2}/index.theme
-    
+
     # READ THE CONFIG
     SOUND_FILE=$(awk -F '=' '/^\s*'${1}'\s*=/ {
         sub(/^ +/, "", $2);
@@ -27,22 +42,22 @@ play_sound () {
         print $2;
         exit;
     }' $SOUND_INDEX)
-    
+
     SOUND_SET=$(echo $SOUND_FILE | tr -d \'\" )
-    
+
     # ONLY PLAY THE SOUNDS RELEVANT
     if [ "${1}" == "power-plug" ]; then
         play "${DIR_SOUND}/${SOUND_SET}" &
     fi
-    
+
     if [ "${1}" == "power-unplug" ]; then
         play "${DIR_SOUND}/${SOUND_SET}" &
     fi
-    
+
     if [ "${1}" == "battery-caution" ]; then
         play "${DIR_SOUND}/${SOUND_SET}" &
     fi
-    
+
     if [ "${1}" == "battery-full" ]; then
         play "${DIR_SOUND}/${SOUND_SET}" &
     fi
@@ -50,20 +65,59 @@ play_sound () {
 
 while true
 do
+    echo "[i] Watching for power events ..."
     SOUND_THEME=$(gsettings get org.cinnamon.desktop.sound theme-name | sed "s/'/ /g" | xargs)
-    PWR_NOW=$(cat /sys/class/power_supply/AC/online)
-    
-    #LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
-    LEV=$(cat /sys/class/power_supply/BAT0/capacity)
-    MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
-    MOD=$(cat /sys/class/power_supply/BAT0/model_name)
-    if [[ "$LEV" -lt 1 ]]; then
-        LEV=$(cat /sys/class/power_supply/BAT1/capacity)
-        MFG=$(cat /sys/class/power_supply/BAT1/manufacturer)
-        MOD=$(cat /sys/class/power_supply/BAT1/model_name)
+    #PWR_NOW=$(cat /sys/class/power_supply/AC/online)
+
+    if [[ "$AC1" == "1" ]]; then
+        PWR_NOW=$(acpi -V | grep -i "adapter 0" | grep -ci "on-line")
+    elif [[ "$AC2" == "1" ]]; then
+	PWR_NOW=$(acpi -V | grep -i "adapter 1" | grep -ci "on-line")
+    else
+	PWR_NOW="0"
     fi
-    
-    if [[ "$PWR_NOW" == 1 ]]; then
+
+    #LEV=$(acpi -b | awk '{print $4}' | head -n 1 | tr '%' ' ' | tr ',' ' ' | xargs)
+    BA1=$(acpi -b | grep -i "battery 0" | grep -ci "unavailable")
+    BA2=$(acpi -b | grep -i "battery 1" | grep -ci "unavailable")
+    BA3=$(acpi -b | grep -i "battery 2" | grep -ci "unavailable")
+
+    if [[ "$BA1" == "0" ]]; then
+        PWR=$(acpi -b | grep -i "battery 0" | grep "Charging")
+        FUL=$(acpi -b | grep -i "battery 0" | grep "Full")
+
+        LEV=$(cat /sys/class/power_supply/BAT0/capacity)
+        MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
+        MOD=$(cat /sys/class/power_supply/BAT0/model_name)
+        break
+
+    elif [[ "$BA2" == "0" ]]; then
+        PWR=$(acpi -b | grep -i "battery 1" | grep "Charging")
+        FUL=$(acpi -b | grep -i "battery 1" | grep "Full")
+
+        LEV=$(cat /sys/class/power_supply/BAT0/capacity)
+        MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
+        MOD=$(cat /sys/class/power_supply/BAT0/model_name)
+
+    elif [[ "$BA3" == "0" ]]; then
+        PWR=$(acpi -b | grep -i "battery 2" | grep "Charging")
+        FUL=$(acpi -b | grep -i "battery 2" | grep "Full")
+
+        LEV=$(cat /sys/class/power_supply/BAT0/capacity)
+        MFG=$(cat /sys/class/power_supply/BAT0/manufacturer)
+        MOD=$(cat /sys/class/power_supply/BAT0/model_name)
+
+    else
+        echo "[!] Batteries Not Included"
+        PWR="0"
+        FUL="0"
+        LEV="0"
+        MFG="Acme Batteries"
+        MOD="BA000"
+    fi
+
+
+    if [[ "$PWR_NOW" == "1" ]]; then
         # SUPRESS POSSIBILITY OF REPEATED NOTIFICATIONS AT 100% WHEN PLUGGED IN
         if [[ "$LEV" -gt 98 ]] && [[ "$LEV" -lt 100 ]]; then
             if [[ "$MSG_0" == 0 ]]; then
@@ -74,13 +128,13 @@ do
             fi
         fi
     fi
-    
+
     # DETECT STATE CHANGE
     if [[ "$PWR_NOW" -ne "$PWR_LAST" ]]; then
-        
+
         # PLUGGED
-        if [[ "$PWR_NOW" == 1 ]]; then
-            #echo "Power Plugged"
+        if [[ "$PWR_NOW" == "1" ]]; then
+            echo "[i] Power Plugged"
             if [[ "$LEV" -gt 89 ]] && [[ "$LEV" -lt 101 ]]; then
                 if [[ "$MSG_1" == 0 ]]; then
                     MSG_1=1
@@ -94,14 +148,14 @@ do
 
         else
         # UNPLUGGED
-            #echo "Power Unplugged"
+            echo "[i] Power Unplugged"
             if [[ "$LEV" -lt 21 ]] && [[ "$LEV" -gt 2 ]]; then
                 MSG_0=0
                 play_sound "battery-caution" $SOUND_THEME
                 sleep 5
-                
+
                 notify-send --urgency=normal --category=device --icon=battery-low-symbolic --hint=string:sound-name:battery-caution "Battery Level Check - ${LEV}%" "The battery is low!"
-                
+
             else
                 MSG_1=0
                 play_sound "power-unplug" $SOUND_THEME
@@ -109,10 +163,18 @@ do
         fi
     fi
 
-    PWR_LAST=$(cat /sys/class/power_supply/AC/online)
-    if [[ "$PWR" == 1 ]]; then
-        sleep 3
+    #PWR_LAST=$(cat /sys/class/power_supply/AC/online)
+    if [[ "$AC1" == "1" ]]; then
+        PWR_LAST=$(acpi -V | grep -i "adapter 0" | grep -ci "on-line")
+    elif [[ "$AC2" == "1" ]]; then
+        PWR_LAST=$(acpi -V | grep -i "adapter 1" | grep -ci "on-line")
     else
-        sleep 4
+        PWR_LAST="0"
+    fi
+
+    if [[ "$PWR" == "1" ]]; then
+        sleep 5
+    else
+        sleep 10
     fi
 done
