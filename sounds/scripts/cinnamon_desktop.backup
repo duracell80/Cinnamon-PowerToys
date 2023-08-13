@@ -138,8 +138,8 @@ show-info-panel=true
 
 [desktop/sound]
 event-sounds=false
-theme-name='borealis'
-volume-sound-file='/usr/share/sounds/borealis/stereo/audio-volume-change.ogg'
+theme-name='harmony'
+volume-sound-file='/usr/share/sounds/harmony/stereo/audio-volume-change.ogg'
 
 [keybindings/custom-keybindings/custom0]
 binding=['<Super>l']
@@ -167,19 +167,19 @@ sleep-inactive-ac-timeout=0
 sleep-inactive-battery-timeout=0
 
 [sounds]
-close-file='/usr/share/sounds/borealis/stereo/window-close.ogg'
-login-file='/usr/share/sounds/borealis/stereo/desktop-login.ogg'
-logout-file='/usr/share/sounds/borealis/stereo/desktop-logout.ogg'
-map-file='/usr/share/sounds/borealis/stereo/window-new.ogg'
-maximize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
-minimize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
+close-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
+login-file='/usr/share/sounds/harmony/stereo/desktop-login.ogg'
+logout-file='/usr/share/sounds/harmony/stereo/desktop-logout.ogg'
+map-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
+maximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
+minimize-file='/usr/share/sounds/harmony/stereo/window-minimized.ogg'
 notification-enabled=true
-notification-file='/usr/share/sounds/borealis/stereo/message-new-instant-alt.ogg'
-plug-file='/usr/share/sounds/borealis/stereo/device-added.ogg'
-switch-file='/usr/share/sounds/borealis/stereo/window-switch.ogg'
-tile-file='/usr/share/sounds/borealis/stereo/window-click-inactive.ogg'
-unmaximize-file='/usr/share/sounds/borealis/stereo/window-maximized.ogg'
-unplug-file='/usr/share/sounds/borealis/stereo/device-removed.ogg'
+notification-file='/usr/share/sounds/harmony/stereo/message-new-instant.ogg'
+plug-file='/usr/share/sounds/harmony/stereo/device-added.ogg'
+switch-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
+tile-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
+unmaximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
+unplug-file='/usr/share/sounds/harmony/stereo/device-removed.ogg'
 
 [theme]
 name='Mint-Y-Dark-Blue'
