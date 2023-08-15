@@ -221,62 +221,82 @@ select wall in "${names[@]}"; do
     case $wall in
         "borealis")
             $HOME/.local/bin/set_sound_theme borealis
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/borealis/stereo/system-ready.ogg'
             break
             ;;
         "deepin")
             $HOME/.local/bin/set_sound_theme deepin
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/deepin/stereo/message.ogg'
             break
             ;;
 	"dream")
             $HOME/.local/bin/set_sound_theme dream
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/dream/stereo/system-bootup.ogg'
             break
             ;;
 	"harmony")
             $HOME/.local/bin/set_sound_theme harmony
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/harmony/stereo/system-ready.ogg'
             break
             ;;
 	"hydrogen")
             $HOME/.local/bin/set_sound_theme hydrogen
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/hydrogen/stereo/system-ready.ogg'
             break
             ;;
 	"ios-remix")
             $HOME/.local/bin/set_sound_theme ios-remix
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/ios-remix/stereo/desktop-login-modern.ogg'
             break
             ;;
 	"linux-a11y")
             $HOME/.local/bin/set_sound_theme linux-a11y
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/linux-a11y/stereo/system-ready.ogg'
             break
             ;;
 	"linux-mint-21")
             $HOME/.local/bin/set_sound_theme linux-mint-21
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/linux-mint-21/stereo/system-ready.ogg'
             break
             ;;
 	"miui")
             $HOME/.local/bin/set_sound_theme miui
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/miui/stereo/system-ready.ogg'
             break
             ;;
 	"samsung-retro")
             $HOME/.local/bin/set_sound_theme samsung-retro
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/samsung-retro/stereo/system-ready.ogg'
             break
             ;;
 	"teampixel")
             $HOME/.local/bin/set_sound_theme teampixel
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/teampixel/notification_ambient.ogg'
             break
             ;;
 	"x10")
             $HOME/.local/bin/set_sound_theme x10
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/x10/stereo/system-ready.ogg'
+            break
+            ;;
+	"x10-crystal")
+            $HOME/.local/bin/set_sound_theme x10-crystal
+            gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/x10-crystal/stereo/system-bootup.ogg'
             break
             ;;
 	"x11")
             $HOME/.local/bin/set_sound_theme x11
+	    gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/x11/stereo/system-ready.ogg'
             break
             ;;
 	"xxp")
             $HOME/.local/bin/set_sound_theme xxp
+            gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/xxp/stereo/system-bootup.ogg'
             break
             ;;
 	"zorin")
             $HOME/.local/bin/set_sound_theme zorin
+            gsettings set x.dm.slick-greeter play-ready-sound '/usr/share/sounds/zorin/stereo/message-new-instant.ogg'
             break
             ;;
 	"none")
