@@ -1,0 +1,46 @@
+[/]
+theme-variant='light'
+
+[profiles:]
+default='b1dcc9dd-5262-4d8d-a863-c897e6d979b9'
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', '55aeb199-6ae8-4fd1-bd0c-e49b5c4088c9']
+
+[profiles:/:55aeb199-6ae8-4fd1-bd0c-e49b5c4088c9]
+background-color='rgb(255,255,255)'
+bold-color-same-as-fg=true
+bold-is-bright=true
+cursor-colors-set=false
+cursor-foreground-color='rgb(255,255,255)'
+foreground-color='rgb(28,43,57)'
+highlight-background-color='rgb(0,0,0)'
+highlight-colors-set=true
+highlight-foreground-color='rgb(255,255,255)'
+palette=['rgb(46,52,54)', 'rgb(0,0,0)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(85,87,83)', 'rgb(0,0,0)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)']
+use-theme-colors=false
+visible-name='Minty-Light-Blue'
+
+[profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(28,43,57)'
+bold-is-bright=true
+cursor-colors-set=false
+cursor-foreground-color='rgb(255,255,255)'
+foreground-color='rgb(255,255,255)'
+highlight-background-color='rgb(255,255,255)'
+highlight-colors-set=true
+highlight-foreground-color='rgb(0,0,0)'
+palette=['rgb(46,52,54)', 'rgb(255,255,255)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(255,255,255)', 'rgb(235,235,244)', 'rgb(85,87,83)', 'rgb(255,255,255)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(255,255,255)', 'rgb(255,255,255)']
+use-theme-colors=false
+visible-name='Minty-Dark-Blue'
+
+[profiles:/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(28,43,57)'
+bold-is-bright=true
+cursor-colors-set=false
+cursor-foreground-color='rgb(255,255,255)'
+foreground-color='rgb(255,255,255)'
+highlight-background-color='rgb(255,255,255)'
+highlight-colors-set=true
+highlight-foreground-color='rgb(0,0,0)'
+palette=['rgb(46,52,54)', 'rgb(255,255,255)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(48,121,196)', 'rgb(255,255,255)', 'rgb(235,235,244)', 'rgb(85,87,83)', 'rgb(255,255,255)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(25,136,247)', 'rgb(255,255,255)', 'rgb(255,255,255)']
+use-theme-colors=false
+visible-name='Minty-Dark-Blue'
