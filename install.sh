@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq mpv pcregrep python3-pyqt5 webp ffmpeg at libheif-examples imagemagick mpv pcregrep python3-pyqt5 socat wget uuid-runtime
+sudo apt install acpi zenity redshift tesseract-ocr exiftool xdotool wmctrl sox jq mpv pcregrep python3-pyqt5 webp ffmpeg at libheif-examples imagemagick mpv pcregrep python3-pyqt5 socat wget uuid-runtime mp3blaster 
 pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm python-resize-image
 
 sudo systemctl enable --now atd

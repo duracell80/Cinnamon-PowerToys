@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=~/.local/share/powertoys/catch_earthfm.sh
+X-GNOME-Autostart-enabled=false
+NoDisplay=false
+Hidden=false
+Name[en_US]=Power Toys - Earth FM
+Comment[en_US]=Watches Earth.FM's podcast for updated soundscapes and downloads the latest 10
+X-GNOME-Autostart-Delay=120
