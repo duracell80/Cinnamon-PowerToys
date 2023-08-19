@@ -5,6 +5,39 @@ MSG_0=0
 
 DIR_SOUND="/usr/share/sounds"
 DIR_TRASH="$HOME/.local/share/Trash/files"
+USE_FLATP=$(du -h /var/lib/flatpak/ | tail -n1 | cut -d "/" -f1 | sed 's/ //g')
+USE_TRASH=$(du -h $HOME/.local/share/Trash | tail -n1 | cut -d "/" -f1 | sed 's/ //g')
+
+USE_DIR=$HOME/.local/state
+FILE_FLAT=$USE_DIR/flatpak/storage.txt
+FILE_TRSH=$USE_DIR/disk/trash.txt
+
+
+if [ ! -f "$FILE_FLAT" ]; then
+	mkdir -p $USE_DIR/flatpak
+	echo "${USE_FLATP}" > $FILE_FLAT
+else
+	# ALERT FLATPAK STORAGE USAGE EVERY OTHER MONTH
+        if test `find $FILE_FLAT -mmin +87600`
+        then
+		echo "${USE_FLATP}" > $FILE_FLAT
+		notify-send --urgency=low --category=device --icon=drive-harddisk-symbolic "Flatpak Capacity Check - ${USE_FLATP}" "Installing flatpaks can take a lot of disk space, take the opportunity once a month to evaluate installed apps and remove ones not being used often to save disk space"
+	fi
+fi
+
+if [ ! -f "$FILE_TRSH" ]; then
+        mkdir -p $USE_DIR/disk
+        echo "${USE_TRASH}" > $FILE_TRSH
+else
+        # ALERT TRASH STORAGE USAGE EVERY MONTH
+        if test `find $FILE_TRSH -mmin +43800`
+        then
+                echo "${USE_TRASH}" > $FILE_TRSH
+                notify-send --urgency=low --category=device --icon=user-trash-symbolic "Trash Capacity Check - ${USE_TRASH}" "Take the opportunity once a month to empty the trash using the icon in the sidebar in Nemo"
+        fi
+fi
+
+
 
 
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
@@ -26,7 +59,7 @@ play_sound () {
         print $2;
         exit;
     }' $SOUND_INDEX)
-    
+
     SOUND_SET=$(echo $SOUND_FILE | tr -d \'\" )
     play "${DIR_SOUND}/${SOUND_SET}"
 }
