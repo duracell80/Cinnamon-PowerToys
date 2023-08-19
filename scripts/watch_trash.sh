@@ -8,9 +8,14 @@ DIR_TRASH="$HOME/.local/share/Trash/files"
 USE_FLATP=$(du -h /var/lib/flatpak/ | tail -n1 | cut -d "/" -f1 | sed 's/ //g')
 USE_TRASH=$(du -h $HOME/.local/share/Trash | tail -n1 | cut -d "/" -f1 | sed 's/ //g')
 
+
+
 USE_DIR=$HOME/.local/state
 FILE_FLAT=$USE_DIR/flatpak/storage.txt
 FILE_TRSH=$USE_DIR/disk/trash.txt
+
+flatpak list > $USE_DIR/flatpak/installed.txt
+
 
 
 if [ ! -f "$FILE_FLAT" ]; then
