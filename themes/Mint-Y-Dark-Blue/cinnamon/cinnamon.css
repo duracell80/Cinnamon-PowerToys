@@ -377,8 +377,8 @@ StScrollBar {
     spacing: 4px; }
     #panelLeft:dnd {
       background-gradient-direction: vertical;
-      background-gradient-start: rgba(255, 0, 0, 0.05);
-      background-gradient-end: rgba(255, 0, 0, 0.2); }
+      background-gradient-start: rgba(12, 117, 222, 0.05);
+      background-gradient-end: rgba(12, 117, 222, 0.2); }
     #panelLeft:ltr {
       padding-right: 4px; }
     #panelLeft:rtl {
@@ -391,8 +391,8 @@ StScrollBar {
         padding-left: 0px; }
   #panelRight:dnd {
     background-gradient-direction: vertical;
-    background-gradient-start: rgba(0, 0, 255, 0.05);
-    background-gradient-end: rgba(0, 0, 255, 0.2); }
+    background-gradient-start: rgba(12, 117, 222, 0.05);
+    background-gradient-end: rgba(12, 117, 222, 0.2); }
   #panelRight:ltr {
     padding-left: 4px;
     spacing: 0px; }
@@ -409,8 +409,8 @@ StScrollBar {
     spacing: 4px; }
     #panelCenter:dnd {
       background-gradient-direction: vertical;
-      background-gradient-start: rgba(0, 255, 0, 0.05);
-      background-gradient-end: rgba(0, 255, 0, 0.2); }
+      background-gradient-start: rgba(12, 117, 222, 0.05);
+      background-gradient-end: rgba(12, 117, 222, 0.2); }
   #panel:highlight {
     border-image: none;
     background-color: rgba(252, 65, 56, 0.5); }
@@ -419,8 +419,8 @@ StScrollBar {
   spacing: 4px; }
   .panelLeft:dnd {
     background-gradient-direction: vertical;
-    background-gradient-start: rgba(255, 0, 0, 0.05);
-    background-gradient-end: rgba(255, 0, 0, 0.2); }
+    background-gradient-start: rgba(12, 117, 222, 0.05);
+    background-gradient-end: rgba(12, 117, 222, 0.2); }
   .panelLeft:ltr {
     padding-right: 4px; }
   .panelLeft:rtl {
@@ -434,8 +434,8 @@ StScrollBar {
 
 .panelRight:dnd {
   background-gradient-direction: vertical;
-  background-gradient-start: rgba(0, 0, 255, 0.05);
-  background-gradient-end: rgba(0, 0, 255, 0.2); }
+  background-gradient-start: rgba(12, 117, 222, 0.05);
+  background-gradient-end: rgba(12, 117, 222, 0.2); }
 
 .panelRight:ltr {
   padding-left: 4px;
@@ -463,16 +463,25 @@ StScrollBar {
     padding-right: 0px; }
   .panelCenter:dnd {
     background-gradient-direction: vertical;
-    background-gradient-start: rgba(0, 255, 0, 0.05);
-    background-gradient-end: rgba(0, 255, 0, 0.2); }
+    background-gradient-start: rgba(12, 117, 222, 0.05);
+    background-gradient-end: rgba(12, 117, 222, 0.2); }
 
 .panelCenter,
 .panelLeft,
 .panelRight {
     background-color : rgba(12, 117, 222, 0.15);
-    border-radius:8px;
     padding-left:8px;
     padding-right:8px;
+    /*margin-left:10px;
+    margin-right:10px;*/
+}
+
+.panelLeft {
+    border-radius:8px 0px 0px 8px;
+}
+
+.panelRight {
+    border-radius:0px 8px 8px 0px;
 }
 
 
@@ -633,15 +642,16 @@ StScrollBar {
   spacing-columns: 0; }
 
 .calendar-main-box {
-  margin: 0 .8em .5em .8em; }
+  margin: 0 .8em .5em .8em;
+ padding: 2em 1em 1em 1em; }
 
 .calendar-events-main-box {
   height: 300px;
   margin-right: .5em;
   padding: .5em;
   min-width: 350px;
-  border: 1px solid #202020;
-  background-color: #404040; }
+  border: 1px solid #0c75de;
+  background-color: #0c75de; }
 
 .calendar-events-no-events-button {
   margin: 6px 0 6px 0;
@@ -1014,18 +1024,24 @@ StScrollBar {
     padding-bottom: 12px; }
 
 .run-dialog {
-  padding: 10px 15px 10px 15px;
+  /*padding: 10px 15px 10px 15px;*/
   border: 1px solid #202020;
-  border-radius: 3px;
-  background-color: #2f2f2f; }
+  border-radius: 6px;
+  background-color: #202020;
+  padding : 0px;
+  border-radius : 6px;
+  }
   .run-dialog > * {
-    padding: 0; }
+    padding: 0px;
+    background-color: rgba(12, 117, 222, 0.1);
+    }
+    
   .run-dialog-label {
     font-size: 1.3em;
     font-weight: bold;
     color: rgba(255, 255, 255, 0.87);
     padding-bottom: 15px;
-    text-align: center; }
+    text-align: center;}
   .run-dialog-description {
     color: rgba(255, 255, 255, 0.87);
     padding-top: 15px;
@@ -1035,22 +1051,25 @@ StScrollBar {
   .run-dialog-completion-box {
     padding-top: 5px;
     padding-left: 15px;
-    font-size: 1em; }
+    font-size: 1em; 
+    padding-left : 50px;}
   .run-dialog-entry {
     width: 21em;
     height: 1.2em;
     padding: 7px;
-    border-radius: 3px;
+    margin-right:50px;
+    margin-left:50px;
+    border-radius: 6px;
     caret-color: #c3c3c3;
     selected-color: #ffffff;
     selection-background-color: #0c75de;
     color: #c3c3c3;
-    background-color: rgba(109, 109, 109, 0.4);
+    background-color: rgba(109, 109, 109, 0);
     border: 1px solid rgba(22, 22, 22, 0.4);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); }
     .run-dialog-entry:focus {
       color: rgba(255, 255, 255, 0.87);
-      background-color: #404040;
+      background-color: transparent;
       border: 1px solid #0c75de;
       box-shadow: inset 0 2px 4px rgba(64, 64, 64, 0.05); }
   .run-dialog .modal-dialog-button-box {
@@ -1324,9 +1343,11 @@ border-radius : 16px 16px 16px 16px;
   spacing: 1em;
   padding: 20px;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #2f2f2f;
-  border: 1px solid #202020;
-  border-radius: 5px; }
+  /*background-color: #2f2f2f;*/
+  background-color: rgba(12, 117, 222, 0.9);
+  border: 1px solid #0c75de;
+  border-radius: 5px;
+   }
   .osd-window .osd-monitor-label {
     font-size: 3em; }
   .osd-window .level {
@@ -1336,7 +1357,7 @@ border-radius : 16px 16px 16px 16px;
     border-radius: 2px; }
   .osd-window .level-bar {
     border-radius: 2px;
-    background-color: #0c75de; }
+    background-color: #ffffff; }
 
 .window-list-box {
   spacing: 6px;
@@ -1474,25 +1495,27 @@ border-radius : 16px 16px 16px 16px;
 .grouped-window-list-thumbnail-menu {
   color: rgba(255, 255, 255, 0.87);
   border: 1px solid #202020;
-  background-color: #2f2f2f;
-  border-radius: 3px;
+  background-color: #202020;
+  border-radius: 6px;
   padding: 0px; }
   .grouped-window-list-thumbnail-menu > StBoxLayout {
     padding: 4px; }
   .grouped-window-list-thumbnail-menu .item-box {
-    padding: 10px;
-    border-radius: 2px;
-    spacing: 4px; }
+    padding: 8px;
+    border-radius: 4px;
+    spacing: 8px;
+    background-color : rgba(12, 117, 222, 0.2);
+     }
     .grouped-window-list-thumbnail-menu .item-box:outlined {
       padding: 8px;
       border: 1px solid #0c75de; }
     .grouped-window-list-thumbnail-menu .item-box:selected {
       border: 1px solid #0c75de; }
   .grouped-window-list-thumbnail-menu .thumbnail {
-    width: 256px; }
+    width: 256px;}
   .grouped-window-list-thumbnail-menu .separator {
     width: 1px;
-    background: rgba(255, 255, 255, 0.2); }
+    background: rgba(255, 255, 255, 0.1); }
 
 .sound-button {
   width: 22px;
@@ -1758,7 +1781,7 @@ border-radius : 16px 16px 16px 16px;
   margin: 0px; }
 
 .applet-cornerbar {
-  width: 8px;
+  width: 10px;
   background-color: rgba(255, 255, 255, 0.12); }
   .applet-cornerbar-box {
     padding: 4px 4px; }
