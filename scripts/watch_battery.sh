@@ -7,7 +7,11 @@ MSG_4=0
 MSG_5=0
 MSG_6=0
 
-$HOME/.local/share/powertoys/watch_power.sh &
+BAT_WLV=70
+BAT_DIR=$HOME/.local/state/battery
+BAT_TXC=$BAT_DIR/capacity.txt
+
+#$HOME/.local/share/powertoys/watch_power.sh &
 
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
 PID_CURR=$$
@@ -21,7 +25,39 @@ if [[ "$PID_COUNT" > 1 ]]; then
 fi
 
 TIM=$(acpi -b | awk '{print $5}' | head -n 1)
+mkdir -p $BAT_DIR
 
+PC0=$(acpi -bi | grep -i "battery 0" | tail -n1 | grep -oi -E '.{0,3}%' | sed 's/ //g' | sed 's/%//g')
+PC1=$(acpi -bi | grep -i "battery 1" | tail -n1 | grep -oi -E '.{0,3}%' | sed 's/ //g' | sed 's/%//g')
+PC2=$(acpi -bi | grep -i "battery 2" | tail -n1 | grep -oi -E '.{0,3}%' | sed 's/ //g' | sed 's/%//g')
+
+if [[ "$PC0" != "" ]]; then
+	BAT_CAP=$PC0
+elif [[ "$PC1" != "" ]]; then
+	BAT_CAP=$PC1
+elif [[ "$PC1" != "" ]]; then
+	BAT_CAP=$PC2
+else
+	BAT_CAP=100
+fi
+
+
+if (( $(echo "$BAT_CAP < $BAT_WLV" | bc -l) )); then
+	echo "[i] Battery Capacity Warning (${BAT_CAP}%)"
+	if [ ! -f "$BAT_TXC" ]; then
+    		echo "${BAT_CAP}" > $BAT_TXC
+	else
+		# ALERT BATTERY HEALTH ONLY ONCE A MONTH
+		if test `find $BAT_TXC -mmin +43800`
+		then
+        		echo "${BAT_CAP}" > $BAT_TXC
+        		notify-send --urgency=low --category=device --icon=battery-caution-symbolic "Battery Capacity Check - ${BAT_CAP}%" "The battery capacity has fallen below a healthy status, meaning the device may not be holding charge as well as it once did."
+		fi
+	fi
+fi
+
+
+exit
 
 DIR_SOUND="/usr/share/sounds"
 

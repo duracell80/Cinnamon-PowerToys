@@ -227,7 +227,7 @@ StScrollBar {
 .menu {
   color: rgba(255, 255, 255, 0.87);
   border: 1px solid #202020;
-  border-radius: 16px 16px 0px 0px;
+  border-radius: 8px 8px 0px 0px;
   background-color: rgba(42, 42, 42, 0.95);
   margin-left : 30px;
   margin-right : 30px;
@@ -246,7 +246,8 @@ StScrollBar {
     border-radius: 3px 0 0 3px; }
 
 .popup-sub-menu {
-  background-color: #404040;
+  /*background-color: #404040;*/
+  background-color : rgba(12, 117, 222, 0.1);
   box-shadow: none; }
   .popup-sub-menu .popup-menu-item:ltr {
     padding-right: 1.75em; }
@@ -270,7 +271,8 @@ StScrollBar {
   border-right-width: 0; }
   .popup-menu-item:active {
     color: #ffffff;
-    background-color: #525352; }
+    background-color: #0c75de;
+    border-radius : 6px; }
   .popup-menu-item:insensitive {
     color: rgba(255, 255, 255, 0.37);
     background: none; }
@@ -885,6 +887,7 @@ StScrollBar {
 
 .menu #notification .notification-button {
     background-color : transparent;
+    color: rgba(255, 255, 255, 0.87);
     border : 1px solid #0c75de; 
 }
 
@@ -1411,9 +1414,13 @@ border-radius : 16px 16px 16px 16px;
   font-weight: bold;
   background-image: none;
   padding-top: 0;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-right: 4px;
+  margin-left : 4px;
   transition-duration: 100;
+  height: 48px;
+  width : 48px;
   color: rgba(255, 255, 255, 0.67); }
   .grouped-window-list-item-box.top, .grouped-window-list-item-box.bottom {
     border-bottom-width: 2px; }
@@ -1532,7 +1539,10 @@ border-radius : 16px 16px 16px 16px;
     padding-right: 8px; }
 
 .sound-playback-control {
-  padding: 5px 10px 10px 10px; }
+  padding: 5px 10px 10px 10px; 
+  /*color: rgba(255, 255, 255, 0.87);
+  background-color : rgba(12, 117, 222, 0.9);*/
+}
 
 .sound-player > StBoxLayout:first-child {
   padding: 5px 10px 12px 10px;
@@ -1562,7 +1572,8 @@ border-radius : 16px 16px 16px 16px;
   height: 5.4em;
   padding: 15px;
   spacing: 0.5em;
-  background: rgba(47, 47, 47, 0.9);
+  /*background: rgba(47, 47, 47, 0.9);*/
+  background : rgba(12, 117, 222, 0.9);
   border-top: 1px solid #202020;
   color: rgba(255, 255, 255, 0.87); }
   .sound-player-overlay StButton {
