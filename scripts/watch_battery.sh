@@ -11,7 +11,7 @@ BAT_WLV=70
 BAT_DIR=$HOME/.local/state/battery
 BAT_TXC=$BAT_DIR/capacity.txt
 
-#$HOME/.local/share/powertoys/watch_power.sh &
+$HOME/.local/share/powertoys/watch_power.sh &
 
 # MAKE IT IMPOSSIBLE TO RUN MORE THAN ONE INSTANCE OF THIS SCRIPT IN THIS CASE KILL THE PREVIOUS PID
 PID_CURR=$$
@@ -57,7 +57,6 @@ if (( $(echo "$BAT_CAP < $BAT_WLV" | bc -l) )); then
 fi
 
 
-exit
 
 DIR_SOUND="/usr/share/sounds"
 

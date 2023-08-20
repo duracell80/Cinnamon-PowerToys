@@ -15,7 +15,6 @@ if [[ "$PID_COUNT" > 1 ]]; then
 fi
 
 
-
 AC1=$(acpi -V | grep -ci "adapter 0")
 AC2=$(acpi -V | grep -ci "adapter 1")
 

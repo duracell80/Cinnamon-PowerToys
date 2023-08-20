@@ -6,4 +6,4 @@ NoDisplay=false
 Hidden=false
 Name[en_US]=Power Toys - Battery Monitor
 Comment[en_US]=Watches battery level and alerts with different sound
-X-GNOME-Autostart-Delay=20
+X-GNOME-Autostart-Delay=0
