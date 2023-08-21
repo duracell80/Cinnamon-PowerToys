@@ -1,0 +1,9 @@
+[Unit]
+Description=Set keyboard backlight on at boot
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/set_backlight.sh
+
+[Install]
+WantedBy=multi-user.target
