@@ -1,0 +1,9 @@
+[Unit]
+Description=Set keyboard backlight on at boot with ambient light sensing
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/set_backlight.sh ambient
+
+[Install]
+WantedBy=multi-user.target

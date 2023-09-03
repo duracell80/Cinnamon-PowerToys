@@ -1,9 +1,9 @@
 [Unit]
-Description=Set keyboard backlight on at boot
+Description=Set keyboard backlight on at boot without ambient light sensing
 
 [Service]
 Type=simple
-ExecStart=/bin/bash /usr/bin/set_backlight.sh
+ExecStart=/bin/bash /usr/bin/set_backlight.sh on
 
 [Install]
 WantedBy=multi-user.target

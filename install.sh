@@ -47,6 +47,13 @@ cp -f $CWD/scripts/*.py $LWD
 
 sudo cp -f $CWD/scripts/lock-screen.py /usr/bin/lock-screen
 sudo chmod a+x /usr/bin/lock-screen
+mkdir -p $HOME/.local/state/screensaver
+touch $HOME/.local/state/screensaver/bg_restore.txt
+touch $HOME/.local/state/screensaver/bg_lock.txt
+
+gsettings get org.cinnamon.desktop.background picture-uri > $HOME/.local/state/screensaver/bg_restore.txt
+echo $(gsettings get x.dm.slick-greeter background) > $HOME/.local/state/screensaver/bg_lock.txt
+
 
 chmod u+x $LWD/*.sh
 chmod u+x $LWD/*.py

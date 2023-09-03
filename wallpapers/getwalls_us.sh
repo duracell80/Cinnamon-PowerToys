@@ -29,9 +29,9 @@ do
 		URL=$(echo "${URL}" | cut -d "?" -f1)
 		URL_2560="${URL}?w=2560&q=80"
 		URL_FILE=$(echo "${URL}" | cut -d "/" -f4)
-		URL_TIME=$(echo "${URL_FILE}" | cut -d "-" -f1)
+		URL_TIME=$(echo "${URL_FILE}" | cut -d "-" -f2)
 		URL_NAME=$(echo "${CPG}" | cut -d "/" -f6)
-		URL_UUID=$(echo "${URL_FILE}" | cut -d "-" -f2)
+		URL_UUID=$(echo "${URL_FILE}" | cut -d "-" -f3)
 
 		UUID="${URL_TIME}-${URL_UUID}"
 		HTML=$(echo "${DIR_TEMP}/temp.html")
@@ -44,7 +44,7 @@ do
 		convert "$JPEG" -geometry 2560x1440^ -gravity center -crop 1920x1080+0+0 "${DIR_WALL}/${URL_NAME}/${UUID}.jpg"
 	fi
 	# Slow it down
-	sleep 30
+	sleep 15
 done
 
 #rm -f $DIR_TEMP/temp.html

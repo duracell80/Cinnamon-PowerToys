@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=~/.local/share/powertoys/watch_screensaver.sh &
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Hidden=false
+Name[en_US]=Power Toys - Smart Lock
+Comment[en_US]=Watches screensaver and restores user background after obscuring on lock
+X-GNOME-Autostart-Delay=0
