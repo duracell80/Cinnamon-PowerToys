@@ -4,6 +4,8 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
+sudo apt update
+
 if ! [ -x "$(which fortune)" ]; then
 	sudo apt install fortunes
 fi
@@ -72,3 +74,9 @@ gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action "no
 gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout "0"
 gsettings set org.cinnamon.settings-daemon.plugins.power button-power "blank"
 gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action "shutdown"
+
+
+# Install rofi
+if ! [ -x "$(which rofi)" ]; then
+    sudo apt-get install rofi
+fi
