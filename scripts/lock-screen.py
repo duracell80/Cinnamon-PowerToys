@@ -10,6 +10,7 @@ def lock_screen():
 	os.system(f"mkdir -p {DIR_HOME}/.local/state/screensaver")
 	os.system(f"touch {DIR_HOME}/.local/state/screensaver/bg_restore.txt")
 	os.system(f"gsettings get org.cinnamon.desktop.background picture-uri > {DIR_HOME}/.local/state/screensaver/bg_restore.txt")
+	os.system(f"echo $(gsettings get x.dm.slick-greeter background) | tr -d \"'\" > $HOME/.local/state/screensaver/bg_lock.txt")
 
 	# Swap for the lock screen background
 	os.system(f"gsettings set org.cinnamon.desktop.background picture-uri $(cat {DIR_HOME}/.local/state/screensaver/bg_lock.txt)")

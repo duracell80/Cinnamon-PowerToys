@@ -47,6 +47,9 @@ cp -f $CWD/scripts/*.py $LWD
 
 sudo cp -f $CWD/scripts/lock-screen.py /usr/bin/lock-screen
 sudo chmod a+x /usr/bin/lock-screen
+sudo cp -f $CWD/scripts/lock-screen-blur.py /usr/bin/lock-screen-blur
+sudo chmod a+x /usr/bin/lock-screen-blur
+
 mkdir -p $HOME/.local/state/screensaver
 touch $HOME/.local/state/screensaver/bg_restore.txt
 touch $HOME/.local/state/screensaver/bg_lock.txt
