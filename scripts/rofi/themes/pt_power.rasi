@@ -20,8 +20,8 @@ configuration {
     message-padding:             15px;
     message-border-radius:       100%;
     listview-spacing:            175px;
-    element-padding:             30px 30px;
-    element-border-radius:       100%;
+    element-padding:             20px 20px;
+    element-border-radius:       50%;
 
     prompt-font:                 "mallanna regular 40";
     textbox-font:                "mallanna regular 16";
@@ -36,7 +36,7 @@ configuration {
 
 
 window {
-    transparency:                "~/.local/share/powertoys/rofi/bg_blur.png";
+    transparency:                "/home/lee/.local/share/powertoys/wall_blur.png";
     location:                    center;
     anchor:                      center;
     fullscreen:                  true;

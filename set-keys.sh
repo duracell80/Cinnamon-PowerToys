@@ -27,8 +27,10 @@ fi
 KEY_LG=$(gsettings get org.cinnamon.desktop.keybindings looking-glass-keybinding | grep -i "<super>l" | wc -l)
 
 sudo cp -f $CWD/scripts/lock-screen.py /usr/bin/lock-screen
+sudo cp -f $CWD/scripts/lock-screen-blur.py /usr/bin/lock-screen-blur
 sudo cp -f $CWD/scripts/show-clip.sh /usr/bin/show-clip
 sudo chmod a+x /usr/bin/lock-screen
+sudo chmod a+x /usr/bin/lock-screen-blur
 sudo chmod a+x /usr/bin/show-clip
 
 
@@ -78,5 +80,7 @@ gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action
 
 # Install rofi
 if ! [ -x "$(which rofi)" ]; then
-    sudo apt-get install rofi
+    sudo apt update && sudo apt install rofi
 fi
+
+$CWD/install-menus.sh

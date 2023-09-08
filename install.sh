@@ -54,6 +54,9 @@ mkdir -p $HOME/.local/state/screensaver
 touch $HOME/.local/state/screensaver/bg_restore.txt
 touch $HOME/.local/state/screensaver/bg_lock.txt
 
+mkdir -p $LWD/rofi/themes
+
+
 gsettings get org.cinnamon.desktop.background picture-uri > $HOME/.local/state/screensaver/bg_restore.txt
 echo $(gsettings get x.dm.slick-greeter background) > $HOME/.local/state/screensaver/bg_lock.txt
 

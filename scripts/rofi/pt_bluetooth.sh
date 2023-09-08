@@ -6,6 +6,10 @@
 #
 # Depends on rofi, bluez-utils (contains bluetoothctl)
 
+if [ `find $HOME/.local/share/powertoys/wall_blur.jpg -mmin +240 | egrep '.*'` ]; then
+        $HOME/.local/share/powertoys/blur.py
+fi
+
 # Constants
 divider="---"
 goback="Back"

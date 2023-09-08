@@ -34,6 +34,7 @@ def blur_backgrounds():
 	img_gauss       = img.filter(ImageFilter.GaussianBlur(100))
 	img_user        = img_gauss.resize((dis_width,img_height))
 
+	img_user.save(DIR_HOME + '/.local/share/powertoys/wall_blur.png')
 	img_user.save(DIR_HOME + '/.local/share/powertoys/wall_blur.jpg')
 
 if __name__ == "__main__":

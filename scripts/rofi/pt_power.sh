@@ -4,6 +4,10 @@
 # Powermenu made with Rofi
 # adapted from https://github.com/lu0
 
+if [ `find $HOME/.local/share/powertoys/wall_blur.jpg -mmin +240 | egrep '.*'` ]; then
+	$HOME/.local/share/powertoys/blur.py
+fi
+
 show_usage() {
     echo -e "\nTrigger a blurry powermenu made with rofi."
     echo -e "\nUSAGE:"
@@ -27,7 +31,7 @@ lock=$(echo -ne "\uE9A9");
 options="$poweroff\n$reboot\n$sleep\n$logout\n$lock"
 
 
-script_abs_dir_path="~/.local/share/powertoys"
+script_abs_dir_path="${HOME}/.local/share/powertoys"
 
 # Parse CLI selection, defaults to logout
 preselection=2
@@ -70,28 +74,32 @@ selected="$(echo -e "$options" |
 
 case $selected in
     "${poweroff}")
-        play -v 0.6 "$SOUND_LOGOUT"&
+        play -v 0.6 "$SOUND_LOGOUT" &
         sleep 6
         systemctl poweroff
         ;;
     "${reboot}")
-        play -v 0.6 "$SOUND_SHUTDOWN"&
+        play -v 0.6 "$SOUND_SHUTDOWN" &
         sleep 6
         systemctl reboot
         ;;
     "${sleep}")
-        play -v 0.6 "$SOUND_LOCK"&
+        play -v 0.6 "$SOUND_LOCK" &
         sleep 1
         systemctl suspend
         ;;
     "${logout}")
-        play -v 0.6 "$SOUND_LOGOUT"&
-        sleep 6
+        #play -v 0.6 "$SOUND_LOGOUT" &
+        #sleep 6
         cinnamon-session-quit --logout --no-prompt || ( xfce4-session-logout --logout || mate-session-save --logout )
         ;;
     "${lock}")
-        play -v 0.6 "$SOUND_LOCK"&
+        play -v 0.6 "$SOUND_LOCK" &
         sleep 1
-        cinnamon-screensaver-command --lock || ( xflock4 || mate-screensaver-command -l )
+	if ! [ -x "$(which lock-screen)" ]; then
+        	cinnamon-screensaver-command --lock || ( xflock4 || mate-screensaver-command -l )
+	else
+		lock-screen
+	fi
         ;;
 esac
