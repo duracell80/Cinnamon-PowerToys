@@ -38,9 +38,9 @@ fi
 #fi
 #cd $CWD/deps/gpu-video-wallpaper
 
-cd $CWD/deps/gpu-video-wallpaper-fork
-$CWD/deps/gpu-video-wallpaper-fork/install.sh --distro-agnostic
-cd $CWD
+#cd $CWD/deps/gpu-video-wallpaper-fork
+#$CWD/deps/gpu-video-wallpaper-fork/install.sh --distro-agnostic
+#cd $CWD
 
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD
@@ -57,35 +57,58 @@ touch $HOME/.local/state/screensaver/bg_lock.txt
 mkdir -p $LWD/rofi/themes
 
 
-gsettings get org.cinnamon.desktop.background picture-uri > $HOME/.local/state/screensaver/bg_restore.txt
-echo $(gsettings get x.dm.slick-greeter background) > $HOME/.local/state/screensaver/bg_lock.txt
+
+BG_LOGIN=$(gsettings get x.dm.slick-greeter background | tr -d "'")
+BG_WALLS=$(gsettings get org.cinnamon.desktop.background picture-uri | tr -d "'")
+echo $BG_WALLS > $HOME/.local/state/screensaver/bg_restore.txt
+echo $BG_LOGIN > $HOME/.local/state/screensaver/bg_lock.txt
+
+sudo mkdir -p /usr/share/backgrounds/powertoys
+sudo chmod a+rw /usr/share/backgrounds/powertoys
+
+cp $CWD/wallpapers/default_login.jpg /usr/share/backgrounds/powertoys
+cp $CWD/wallpapers/default_background.jpg /usr/share/backgrounds/powertoys
+
+# Set a new login window background
+sudo ln -vfns /usr/share/backgrounds/powertoys/default_login.jpg /usr/share/backgrounds/linuxmint/default_background.jpg
+
+# Set login window theme
+gsettings set org.cinnamon.desktop.interface cursor-theme 'DMZ-White'
+gsettings set org.gnome.desktop.interface cursor-theme 'DMZ-White'
+gsettings set x.dm.slick-greeter cursor-theme-name 'DMZ-WHite'
+
+gsettings set x.dm.slick-greeter icon-theme-name 'Minty-Grey'
+gsettings set x.dm.slick-greeter theme-name 'Minty-Grey'
 
 
 chmod u+x $LWD/*.sh
 chmod u+x $LWD/*.py
 
-mkdir -p $HOME/Videos/IPTV
-cp -f $CWD/videos/iptv.m3u $HOME/Videos/IPTV
+if ! [ -x "$(which hypnotix)" ]; then
+	mkdir -p $HOME/Videos/IPTV
+	cp -f $CWD/videos/iptv.m3u $HOME/Videos/IPTV
 
-HYP_GET=$(gsettings get org.x.hypnotix providers)
-if [[ $HYP_GET == *"My IPTV"* ]]; then
-    echo "[i] IPTV Provider already set"
-else
-    HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'My IPTV:::local:::file://${HOME}/Videos/IPTV/iptv.m3u:::::::::']|" | uniq)
-    gsettings set org.x.hypnotix providers "${HYP_SET}"
+	HYP_GET=$(gsettings get org.x.hypnotix providers)
+	if [[ $HYP_GET == *"My IPTV"* ]]; then
+    		echo "[i] IPTV Provider already set"
+	else
+    		HYP_SET=$(gsettings get org.x.hypnotix providers | sed "s|:']|:', 'My IPTV:::local:::file://${HOME}/Videos/IPTV/iptv.m3u:::::::::']|" | uniq)
+    		gsettings set org.x.hypnotix providers "${HYP_SET}"
+	fi
 fi
 
-
-read -p "[Q] Do you wish to install HDHomeRun for Hypnotix (y/n)? " answer
-case ${answer:0:1} in
-    y|Y )
-	$CWD/install-hdhomerun.sh
-	$HOME/.local/share/powertoys/hypnotix_hdhr.sh
-    ;;
-    * )
-        exit
-    ;;
-esac
+if ! [ -x "$(which hdhomerun_config)" ]; then
+	read -p "[Q] Do you wish to install HDHomeRun for Hypnotix (y/n)? " answer
+	case ${answer:0:1} in
+    	y|Y )
+		$CWD/install-hdhomerun.sh
+		$HOME/.local/share/powertoys/hypnotix_hdhr.sh
+    	;;
+    	* )
+        	exit
+    	;;
+	esac
+fi
 
 
 # COPY NEMO SCRIPTS AND ACTIONS
@@ -107,35 +130,37 @@ done
 for filename in $CWD/autostart/*.desktop; do
     [ -e "$filename" ] || continue
     file=$(echo $filename | sed -e "s|${CWD}/autostart/||g")
-    
+
     cp -f "$filename" "$file.tmp"
     sed -i "s|Exec=~/|Exec=$HOME/|g" "$file.tmp"
     sed -i "s|~/Videos|$HOME/Videos|g" "$file.tmp"
     mv -f "$file.tmp" "$HOME/.config/autostart/$file"
 done
 
+if ! [ -x "$(which hypnotix)" ]; then
+	# COPY YOUTUBE LIVE CHANNELS TO HYPNOTIX CACHE
+	mkdir -p $HOME/Videos/IPTV
+	cp -f $CWD/scripts/yt_channels.txt $HOME/.cache/hypnotix
+	cp -n $CWD/scripts/yt_channels.txt $HOME/Videos/IPTV
+	chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
+	chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
+fi
 
-# COPY YOUTUBE LIVE CHANNELS TO HYPNOTIX CACHE
-mkdir -p $HOME/Videos/IPTV
-cp -f $CWD/scripts/yt_channels.txt $HOME/.cache/hypnotix
-cp -n $CWD/scripts/yt_channels.txt $HOME/Videos/IPTV
-chmod u+rw $HOME/.cache/hypnotix/yt_channels.txt
-chmod u+rw $HOME/Videos/IPTV/yt_channels.txt
-
-chmod u+x $CWD/wallpapers/getwalls_wle.sh
-read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
-case ${answer:0:1} in
-    y|Y )
-        $CWD/wallpapers/getwalls_wle.sh 2022
-        $CWD/wallpapers/getwalls_wle.sh 2021
-        $CWD/wallpapers/getwalls_wle.sh 2020
-        $CWD/wallpapers/getwalls_wle.sh 2019
-    ;;
-    * )
-        exit
-    ;;
-esac
-
+if [ ! -d "$HOME/Pictures/Wallpapers/WLE" ]; then
+	chmod u+x $CWD/wallpapers/getwalls_wle.sh
+	read -p "[Q] Do you wish to install Wallpapers from Wiki Loves The Earth Photo Contest? (y/n)? " answer
+	case ${answer:0:1} in
+    		y|Y )
+        	$CWD/wallpapers/getwalls_wle.sh 2022
+        	$CWD/wallpapers/getwalls_wle.sh 2021
+        	$CWD/wallpapers/getwalls_wle.sh 2020
+        	$CWD/wallpapers/getwalls_wle.sh 2019
+    	;;
+    	* )
+        	exit
+    	;;
+	esac
+fi
 
 # CHECK FOR ANY HDHOMERUN TUNERS ON NETWORK FOR HYPNOTIX
 #if wget -q --method=HEAD http://hdhomerun.local; then
