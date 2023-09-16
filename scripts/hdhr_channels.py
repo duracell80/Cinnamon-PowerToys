@@ -23,7 +23,7 @@ import requests, json, subprocess, os, re
 
 rc = subprocess.call(['hdhomerun_config', 'discover'])
 if rc == 0:
-    cmd = subprocess.Popen("hdhomerun_config discover", stdout=subprocess.PIPE, shell=True)
+    cmd = subprocess.Popen("hdhomerun_config discover -4", stdout=subprocess.PIPE, shell=True)
     (output, err) = cmd.communicate()
     cmd_status = cmd.wait()
     ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', str(output))
