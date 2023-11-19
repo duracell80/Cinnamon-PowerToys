@@ -88,6 +88,33 @@ if ! [ -x "$(which obs)" ]; then
 	fi
 fi
 
+# IPTV
+#https://www.llewellynhughes.co.uk/post/installing-ersatztv
+
+mkdir -p $HOME/.local/share/ersatztv
+mkdir -p $HOME/git
+cd $HOME
+
+wget https://github.com/ErsatzTV/ErsatzTV/releases/download/v0.8.2-beta/ErsatzTV-v0.8.2-beta-linux-x64.tar.gz
+tar -xf ErsatzTV-v0.8.2-beta-linux-x64.tar.gz -C ~/.local/share/ersatztv --strip 1
+
+#sudo nano /etc/systemd/system/ersatztv.service
+#[Unit]
+#Description=ErsatzTV Service
+
+#[Service]
+#ExecStart=/home/lee/.local/share/ersatztv/ErsatzTV
+#Restart=on-abort
+#User=lee
+#WorkingDirectory=/home/lee/.local/share/ersatztv
+
+#[Install]
+#WantedBy=multi-user.target
+
+
+#sudo systemctl enable ersatztv.service
+#sudo systemctl start ersatztv.service
+
 # Flatpak
 
 if [ -x "$(which flatpak)" ]; then
