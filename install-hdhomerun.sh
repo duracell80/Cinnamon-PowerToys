@@ -5,9 +5,12 @@ LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
 
+touch $HOME/.cache/hypnotix/providers/hd-homerun
+
 if ! [ -x "$(which hdhomerun_config)" ]; then
   sudo apt install -y git automake autoconf
 
+    rm -rf cd $CWD/deps/libhdhomerun
     mkdir -p $CWD/deps
 
     cd $CWD/deps
@@ -22,6 +25,7 @@ if ! [ -x "$(which hdhomerun_config)" ]; then
 
 fi
 
+source $HOME/.profile
 
 $LWD/hdhr_channels.py
 $LWD/hypnotix_hdhr.sh

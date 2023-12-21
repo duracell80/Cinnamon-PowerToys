@@ -21,6 +21,8 @@
 
 import requests, json, subprocess, os, re
 
+dir_home = os.path.expanduser('~')
+
 rc = subprocess.call(['hdhomerun_config', 'discover'])
 if rc == 0:
     cmd = subprocess.Popen("hdhomerun_config discover -4", stdout=subprocess.PIPE, shell=True)
@@ -47,7 +49,6 @@ else:
 
 use_duration = True 
 
-dir_home = os.path.expanduser('~')
 os.system('touch '+ dir_home +'/.cache/hypnotix/providers/hd-homerun')
 
 

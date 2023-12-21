@@ -86,6 +86,7 @@ chmod u+x $LWD/*.py
 
 if ! [ -x "$(which hypnotix)" ]; then
 	mkdir -p $HOME/Videos/IPTV
+	touch $HOME/.cache/hypnotix/providers/hd-homerun
 	cp -f $CWD/videos/iptv.m3u $HOME/Videos/IPTV
 
 	HYP_GET=$(gsettings get org.x.hypnotix providers)

@@ -13,6 +13,8 @@ mkdir -p $CWD
 mkdir -p $HWD
 mkdir -p $HWD/providers
 
+source $HOME/.profile
+
 $LWD/hdhr_channels.py
 
 # COPY FROM TUNER CACHED M3U
