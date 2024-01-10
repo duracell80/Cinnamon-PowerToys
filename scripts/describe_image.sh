@@ -1,5 +1,19 @@
 #!/bin/sh
 
+if ! [ "which zenity" ]; then
+	echo 'Error: Zenity is not installed.' >&2
+	notify-send --urgency=normal --icon=dialog-error-symbolic "Zenity is not installed"
+	sudo apt install zenity
+	exit 1
+fi
+
+if ! [ "which ollama" ]; then
+	echo 'Error: Ollama is not installed.' >&2
+	notify-send --urgency=normal --icon=dialog-error-symbolic "Ollama is not installed"
+	exit 1
+fi
+
+
 FILE_DIR=$(dirname "$1")
 FILE_BIT=$(basename "$1")
 
@@ -24,10 +38,13 @@ fi
 
 (
 echo "50"
-echo "# Passing the image ${FILE_NME}.${FILE_EXT} to the description script, please be patient ..."
 
 if [ "$AI_MODEL" = "llava" ]; then
-	RESPONSE=$(./describe_llava.py -i "$1" -p "${PROMPT}")
+	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
+
+	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
+	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
+	notify-send --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "Thank you for using LLaVA Visual Assistant"
 fi
 
 echo "75" ; sleep 1
