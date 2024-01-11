@@ -3,7 +3,9 @@
 # Credit: https://www.youtube.com/watch?v=Tyg0PhjGGNU
 # Credit: https://github.com/ravsau/ai-tutorials/tree/main/LLaVA-ollama-api
 
-import subprocess, argparse, requests, base64, time, json, sys
+import subprocess, argparse, requests, base64, time, json, sys, os
+
+home_dir = "~/"
 
 # note: including the start server code in this script for demo purposes. You might want to seperately start the server so that you're not starting the server every time you make the call. 
 def start_ollama_server():
@@ -52,6 +54,7 @@ if __name__ == "__main__":
 
 	start_ollama_server()
 	result = analyze_image(args.image, args.prompt)
-	with open('/tmp/ollama_llava_response.txt', 'w', encoding='utf-8') as f:
+	home_expand = os.path.expanduser(home_dir)
+	with open(f'{home_expand}/ollama_llava_response.txt', 'w', encoding='utf-8') as f:
 		f.write(result)
 	#print(result)
