@@ -37,15 +37,19 @@ fi
 if [ "$3" = "ask" ]; then
 	PQ=$(zenity --list \
         --width=500 \
-        --height=300 \
+        --height=400 \
         --title="Choose a prompt to ask of this image" \
         --column="Choice" --column="Question" \
                 "01" "Can you summerize this image?" \
 		"02" "What is unusual about this image?" \
 		"03" "What is normal about this image?" \
 		"04" "Can you tell me about the location of this image?" \
-		"05" "Can you tell me about the objects in the image??" \
-		"20" "Ask my own question ...")
+		"05" "Can you tell me about the objects in this image?" \
+		"06" "Can count the objects in this image?" \
+		"07" "In this image is the scene located indoors or outdoors?" \
+		"08" "What kind of movie is the scene pictured in this image from?" \
+		"09" "Can you write a short trivia question based on this image?" \
+		"30" "Ask my own prompt ...")
 
 	if [ "$PQ" = "01" ]; then
 		PROMPT="Describe this image in detail"
@@ -56,7 +60,15 @@ if [ "$3" = "ask" ]; then
 	elif [ "$PQ" = "04" ]; then
                 PROMPT="Tell me about the location featured in this image"
 	elif [ "$PQ" = "05" ]; then
-                PROMPT="Tell me about the objects in this image, how many there are and anything else to note about the objects "
+                PROMPT="Tell me about the objects in this image, how many there are and anything else to note about the objects"
+	elif [ "$PQ" = "06" ]; then
+                PROMPT="Count the number of objects in this image "
+	elif [ "$PQ" = "07" ]; then
+                PROMPT="In this image, is the scene located indoors or outdoors and describe your reasoning why you came to this conclusion"
+	elif [ "$PQ" = "08" ]; then
+                PROMPT="What movie do you think the scene in the image is from and what kind of movie is it?"
+	elif [ "$PQ" = "09" ]; then
+                PROMPT="Write a trivia question based on details that you see in this image"
 	else
 		UQ=$(zenity --entry --width=500 --height=100 --title="What would you like to ask of this image?")
 		PROMPT="In this image; ${UQ}"
