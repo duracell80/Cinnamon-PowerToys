@@ -55,6 +55,6 @@ if __name__ == "__main__":
 	start_ollama_server()
 	result = analyze_image(args.image, args.prompt)
 	home_expand = os.path.expanduser(home_dir)
-	with open(f'{home_expand}/ollama_llava_response.txt', 'w', encoding='utf-8') as f:
+	with open(f'{home_expand}/ollama_response.txt', 'w', encoding='utf-8') as f:
 		f.write(result)
 	#print(result)
