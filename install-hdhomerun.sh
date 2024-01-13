@@ -4,6 +4,7 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
+export PATH=$LBD:$PATH
 
 touch $HOME/.cache/hypnotix/providers/hd-homerun
 

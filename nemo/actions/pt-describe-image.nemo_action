@@ -2,7 +2,7 @@
 Name=Describe Image
 Comment=Uses local AI models to produce a text description of an image
 EscapeSpaces=true
-Exec=~/.local/share/powertoys/describe_image.sh %F
+Exec=~/.local/share/powertoys/describe_image.sh %F llava ask
 Selection=S
 Extensions=jpg;jpeg;png;webp
 Dependencies=ollama;zenity

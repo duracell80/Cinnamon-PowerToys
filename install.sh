@@ -8,6 +8,8 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
+export PATH=$LBD:$PATH
+
 chmod u+x $CWD/*.sh
 
 mkdir -p $LBD
