@@ -10,6 +10,7 @@ LBD=$HOME/.local/bin
 
 chmod u+x $CWD/*.sh
 
+mkdir -p $LBD
 mkdir -p $HOME/.cache/powertoys
 mkdir -p $CWD/deps
 mkdir -p $LWD

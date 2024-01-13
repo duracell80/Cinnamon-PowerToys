@@ -4,6 +4,8 @@ CWD=$(pwd)
 LWD=$HOME/.local/share/powertoys
 LBD=$HOME/.local/bin
 
+export PATH=$LBD:$PATH
+
 if ! [ -x "$(which yarn)" ]; then
 	echo "[i] Yarn not found"
 	sudo apt update

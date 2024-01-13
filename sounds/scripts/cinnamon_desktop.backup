@@ -1,39 +1,15 @@
 [/]
-desklet-snap-interval=25
-device-aliases=['/org/freedesktop/UPower/devices/battery_BAT0:=ASUSTeK ASUS Battery']
-enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:6:systray@cinnamon.org:3', 'panel1:right:7:xapp-status@cinnamon.org:4', 'panel1:right:8:notifications@cinnamon.org:5', 'panel1:right:9:printers@cinnamon.org:6', 'panel1:right:10:removable-drives@cinnamon.org:7', 'panel1:right:11:keyboard@cinnamon.org:8', 'panel1:right:12:favorites@cinnamon.org:9', 'panel1:right:13:network@cinnamon.org:10', 'panel1:right:14:sound@cinnamon.org:11', 'panel1:right:15:power@cinnamon.org:12', 'panel1:right:16:calendar@cinnamon.org:13', 'panel1:right:17:cornerbar@cinnamon.org:14', 'panel1:right:5:workspace-switcher@cinnamon.org:15', 'panel1:right:2:radio@driglu4it:18', 'panel1:right:1:weather@mockturtl:19', 'panel1:right:0:sshconnect@foobar-beer:20']
-enabled-desklets=@as []
-favorite-apps=@as []
-next-applet-id=21
-panel-edit-mode=false
-panel-zone-icon-sizes='[{"panelId": 1, "left": 32, "center": 0, "right": 16}]'
-panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 28, "center": 28, "right": 16}]'
-panels-autohide=['1:intel']
-panels-height=['1:40']
-window-effect-speed=1
-
-[desktop/a11y/applications]
-screen-keyboard-enabled=true
-
-[desktop/background]
-picture-options='zoom'
-picture-uri='file:///home/lee/Pictures/Wallpapers/WLE/c9f2ccfa-37e4-4665-9278-b9d0774608d8.jpg'
-
-[desktop/background/slideshow]
-delay=15
-image-source='directory:///home/lee/Pictures/Wallpapers/WLE'
-slideshow-enabled=false
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13', 'panel1:right:11:cornerbar@cinnamon.org:14']
+next-applet-id=15
 
 [desktop/interface]
-cursor-blink-time=1200
-cursor-size=24
-cursor-theme='Bibata-Modern-Classic'
+cursor-theme='XCursor-Pro-Light'
 gtk-theme='Mint-Y-Dark-Blue'
-icon-theme='Shade of Z - White'
-toolkit-accessibility=true
+icon-theme='Mint-Y-Blue'
+toolkit-accessibility=false
 
 [desktop/keybindings]
-custom-list=['custom8', 'custom5', 'custom3', 'custom0', '__dummy__', 'custom1', 'custom2', 'custom4', 'custom6', 'custom7']
+custom-list=['custom9', 'custom7', 'custom6', 'custom4', 'custom2', 'custom1', '__dummy__', 'custom0', 'custom3', 'custom5', 'custom8']
 looking-glass-keybinding=['<Ctrl><Alt>l']
 show-desklets=@as []
 
@@ -82,9 +58,15 @@ binding=['<Super>i']
 command='cinnamon-settings'
 name='Launch System Settings'
 
+[desktop/keybindings/custom-keybindings/custom9]
+binding=['<Primary><Alt>Delete']
+command='/usr/bin/pt_power'
+name='Launch Rofi Power Menu'
+
 [desktop/keybindings/media-keys]
 decrease-text-size=['<Super>minus']
 increase-text-size=['<Super>equal']
+logout=@as []
 on-screen-keyboard=['<Super>k']
 screensaver=['<Primary><Shift>l', 'XF86ScreenSaver']
 suspend=['XF86Sleep', '<Super>z']
@@ -114,49 +96,36 @@ switch-to-workspace-9=['<Super>9']
 switch-to-workspace-left=['<Control><Alt>Left', '<Alt><Super>Left']
 switch-to-workspace-right=['<Control><Alt>Right', '<Alt><Super>Right']
 
+[desktop/lockdown]
+disable-lock-screen=false
+
 [desktop/notifications]
 notification-duration=4
 
-[desktop/peripherals/keyboard]
-delay=uint32 500
-repeat-interval=uint32 30
-
-[desktop/peripherals/mouse]
-double-click=400
-drag-threshold=8
-speed=0.0
-
-[desktop/peripherals/touchpad]
-send-events='enabled'
-speed=0.0
-
 [desktop/screensaver]
 allow-keyboard-shortcuts=true
-custom-screensaver-command=''
 show-album-art=false
 show-info-panel=true
 
 [desktop/sound]
 event-sounds=false
-theme-name='harmony'
-volume-sound-file='/usr/share/sounds/harmony/stereo/audio-volume-change.ogg'
+theme-name='linux-mint-21'
+volume-sound-file='/usr/share/sounds/linux-mint-21/stereo/audio-volume-change.ogg'
 
 [gestures]
-enabled=true
-pinch-in-2=''
-pinch-percent-threshold=uint32 40
-swipe-percent-threshold=uint32 20
-
-[keybindings/custom-keybindings/custom0]
-binding=['<Super>l']
-command=''
-name=''
-
-[settings-daemon/peripherals/keyboard]
-numlock-state='off'
-
-[settings-daemon/peripherals/touchscreen]
-orientation-lock=false
+swipe-down-2='PUSH_TILE_DOWN::end'
+swipe-down-3='TOGGLE_OVERVIEW::end'
+swipe-down-4='VOLUME_DOWN::end'
+swipe-left-2='PUSH_TILE_LEFT::end'
+swipe-left-3='WORKSPACE_NEXT::end'
+swipe-left-4='WINDOW_WORKSPACE_PREVIOUS::end'
+swipe-right-2='PUSH_TILE_RIGHT::end'
+swipe-right-3='WORKSPACE_PREVIOUS::end'
+swipe-right-4='WINDOW_WORKSPACE_NEXT::end'
+swipe-up-2='PUSH_TILE_UP::end'
+swipe-up-3='TOGGLE_EXPO::end'
+swipe-up-4='VOLUME_UP::end'
+tap-3='MEDIA_PLAY_PAUSE::end'
 
 [settings-daemon/plugins/media-keys]
 screensaver="['<Super>l']"
@@ -165,27 +134,23 @@ screensaver="['<Super>l']"
 button-power='blank'
 critical-battery-action='shutdown'
 lid-close-ac-action='nothing'
-lid-close-battery-action='suspend'
 lock-on-suspend=true
-sleep-display-ac=0
-sleep-display-battery=300
 sleep-inactive-ac-timeout=0
-sleep-inactive-battery-timeout=0
 
 [sounds]
-close-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
-login-file='/usr/share/sounds/harmony/stereo/desktop-login.ogg'
-logout-file='/usr/share/sounds/harmony/stereo/desktop-logout.ogg'
-map-file='/usr/share/sounds/harmony/stereo/window-new.ogg'
-maximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
-minimize-file='/usr/share/sounds/harmony/stereo/window-minimized.ogg'
+close-file='/usr/share/sounds/linux-mint-21/stereo/window-close.ogg'
+login-file='/usr/share/sounds/linux-mint-21/stereo/desktop-login.ogg'
+logout-file='/usr/share/sounds/linux-mint-21/stereo/desktop-logout.ogg'
+map-file='/usr/share/sounds/linux-mint-21/stereo/window-new.ogg'
+maximize-file='/usr/share/sounds/linux-mint-21/stereo/window-maximized.ogg'
+minimize-file='/usr/share/sounds/linux-mint-21/stereo/window-minimized.ogg'
 notification-enabled=true
-notification-file='/usr/share/sounds/teampixel/notifications/Material Adventures/Gradient.ogg'
-plug-file='/usr/share/sounds/harmony/stereo/device-added.ogg'
-switch-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
-tile-file='/usr/share/sounds/harmony/stereo/window-slide.ogg'
-unmaximize-file='/usr/share/sounds/harmony/stereo/window-unminimized.ogg'
-unplug-file='/usr/share/sounds/harmony/stereo/device-removed.ogg'
+notification-file='/usr/share/sounds/teampixel/notifications/Material Adventures/Moondrop.ogg'
+plug-file='/usr/share/sounds/linux-mint-21/stereo/power-plug.ogg'
+switch-file='/usr/share/sounds/linux-mint-21/stereo/window-switch.ogg'
+tile-file='/usr/share/sounds/linux-mint-21/stereo/window-tile.ogg'
+unmaximize-file='/usr/share/sounds/linux-mint-21/stereo/window-minimized.ogg'
+unplug-file='/usr/share/sounds/linux-mint-21/stereo/power-unplug.ogg'
 
 [theme]
 name='Mint-Y-Dark-Blue'

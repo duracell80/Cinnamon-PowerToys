@@ -31,6 +31,7 @@ set_sound () {
     fi
 }
 
+mkdir -p $HOME/.local/bin
 cp -f $CWD/sounds/scripts/set_sound_theme.sh $HOME/.local/bin/set_sound_theme
 chmod u+x $HOME/.local/bin/set_sound_theme
 
