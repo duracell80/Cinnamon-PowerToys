@@ -1,0 +1,12 @@
+LAN01;Sans les droits sudo, vous ne pouvez pas installer de paquets avec APT, ajoutez le groupe sudo à votre compte utilisateur
+LAN02;Choisissez les paquets à installer ou à supprimer
+LAN03;Importer
+LAN04;Ensemble d'arrière-plan
+LAN05;Index
+LAN20;Mot de passe Sudo nécessaire pour APT
+LAN21;Action Nemo terminée - Arrière-plans précédents
+LAN22;Les forfaits suivants sont maintenant disponibles
+LAN23;Rendre disponibles les arrière-plans choisis
+LAN24;Installation des arrière-plans précédents de Mint
+LAN60;Mot de passe non saisi, sortie
+LAN90;Une erreur inattendue s'est produite
