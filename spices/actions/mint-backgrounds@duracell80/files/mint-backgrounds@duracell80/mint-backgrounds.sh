@@ -5,37 +5,77 @@
 USR=$(whoami)
 
 # GET THE USERS LANGUAGE
-LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f1)
+LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f2)
+REGI=$(locale | grep LANGUAGE | cut -d= -f2)
 #LANG="fr"
 
-#FRENCH
+# FRENCH
 if [ "${LANG,,}" = "fr" ]; then
 	export LC_ALL="fr_FR.utf-8"
 	LANG_INS="installé"
-#SPANISH
+
+# SPANISH
 elif [ "${LANG,,}" = "es" ]; then
         export LC_ALL="es_ES.utf-8"
-        LANG_INS="instalado" #instalada
-#GERMAN
+        LANG_INS="instalado" #fem instalada
+
+# PORTUGUESE - BRAZIL
+elif [ "${REGI,,}" = "pt_br" ]; then
+        export LC_ALL="pt_BR.utf-8"
+        LANG_INS="instalado" #fem instalada
+	LANG="pt"
+
+# PORTUGUESE
+elif [ "${LANG,,}" = "pt" ]; then
+        export LC_ALL="pt_PT.utf-8"
+        LANG_INS="instalado" #fem instalada
+
+# GERMAN
 elif [ "${LANG,,}" = "de" ]; then
         export LC_ALL="de_DE.utf-8"
         LANG_INS="installiert"
-#ITALIAN
+
+# ITALIAN
 elif [ "${LANG,,}" = "it" ]; then
         export LC_ALL="it_IT.utf-8"
         LANG_INS="installato"
-#DANISH
+
+# DANISH
 elif [ "${LANG,,}" = "da" ]; then
         export LC_ALL="da_DK.utf-8"
         LANG_INS="installeret"
-#FINNISH
+
+# FINNISH
 elif [ "${LANG,,}" = "fi" ]; then
         export LC_ALL="fi_FI.utf-8"
         LANG_INS="asennettu"
-#HUNGARIAN
+
+# NORWEGIAN NYNORSK
+elif [ "${LANG,,}" = "nn" ]; then
+        export LC_ALL="nn_NO.utf-8"
+        LANG_INS="installed"
+
+# HUNGARIAN
 elif [ "${LANG,,}" = "hu" ]; then
         export LC_ALL="hu_HU.utf-8"
         LANG_INS="telepítve"
+
+# TURKISH
+elif [ "${LANG,,}" = "tr" ]; then
+        export LC_ALL="tr_TR.utf-8"
+        LANG_INS="kurulu"
+
+# UKRAINIAN
+elif [ "${REGI,,}" = "ru_ua" ]; then
+        export LC_ALL="ru_UA.utf-8"
+        LANG_INS="установлен"
+	LANG="ru"
+
+# RUSSIAN
+elif [ "${LANG,,}" = "ru" ]; then
+        export LC_ALL="ru_RU.utf-8"
+        LANG_INS="установлен"
+
 else
 	export LC_ALL="en_US.utf-8"
 	LANG_INS="installed"
@@ -139,7 +179,7 @@ case $? in
 		) | zenity 	--progress \
 				--title="${LAN23}" \
 				--text="${LAN24}\n\n${PKGI}" \
-				--percentage=0 --width=500 --timeout=180
+				--percentage=15 --width=500 --timeout=180
 
 		;;
          1)

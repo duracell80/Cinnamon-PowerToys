@@ -1,0 +1,12 @@
+LAN01;Uten sudo-rettigheter kan du ikke installere pakker med apt, legg til sudo-gruppe i brukerkontoen din
+LAN02;Velg pakker som skal installeres eller fjernes
+LAN03;Importer
+LAN04;Bakgrunnssett
+LAN05;Indeks
+LAN20;Sudopassord kreves for apt
+LAN21;Nemo handling fullført - tidligere bakgrunner
+LAN22;Følgende pakker er nå tilgjengelige
+LAN23;Gjøre valgte bakgrunner tilgjengelige
+LAN24;Installere tidligere Mint-bakgrunner
+LAN60;Passord ikke oppgitt, avslutter
+LAN90;Det har oppstått en uventet feil

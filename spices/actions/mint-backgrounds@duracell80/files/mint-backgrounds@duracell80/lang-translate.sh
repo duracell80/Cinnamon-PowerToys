@@ -4,11 +4,21 @@
 #LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f1)
 #LANG="fr"
 
+# TAKE FROM COMMAND LINE PARAMS
 LANG="${1}"
 
+# AVAILABLE LANGUAGES
+#https://en.wikipedia.org/wiki/ISO_639-1
+
+
 if ! [ -x "$(which translate-cli)" ]; then
-        echo "[i] Translator Module Not Found, supply sudo password to install via apt"
-        sudo apt install python3-translate
+        echo "[i] Translator Module Not Found; Supply sudo password to install git and translate-cli ..."
+        sudo apt install git
+	mkdir -p deps
+	cd deps
+	git clone https://github.com/terryyin/translate-python
+	cd translate-python
+	sudo python3 setup.py install
 fi
 
 
