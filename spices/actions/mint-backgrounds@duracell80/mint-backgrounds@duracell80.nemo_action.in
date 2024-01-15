@@ -1,6 +1,6 @@
 [Nemo Action]
 _Name=Manage Mint Backgrounds
-_Comment=Zenity based UI written in bash to interface with apt to install or uninstall mint background packages
+#_Comment=Zenity based UI written in bash to interface with apt to install or uninstall mint background packages
 Icon-Name=cs-backgrounds-symbolic
 Exec=<mint-backgrounds@duracell80/mint-backgrounds.sh>
 Selection=none
