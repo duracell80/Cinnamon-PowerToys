@@ -89,8 +89,9 @@ fi
 BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' -f1))
 BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
 
+
 #PO-EN
-LAN00="Apt Error: mint-background packages not available, add linux mint packages your apt sources or install manually from"
+LAN00="Apt Information: mint-background packages not available, add linux mint packages your apt sources or install manually from"
 LAN01="Without sudo rights you're not able to install packages with apt, add sudo group to your user account"
 LAN02="Choose packages to install or remove"
 LAN03="Import"
@@ -116,25 +117,26 @@ if [ "${LANG}" != "en" ]; then
 	done < "lang_${LANG,,}.txt"
 fi
 
+# CHECK IF USER HAS SUDO GROUP
+if [ -z "$(groups ${USR} | grep sudo)" ]; then
+	zenity --error --icon-name=security-high-symbolic --text="${LAN01} (usermod -aG sudo ${USER})"
+	exit
+fi
+
 # GET THE USERS CURRENT REPO LIST TO SEE IF THEY HAVE THE MINT-BACKGROUND PACKAGES AVAILABLE
 PKGF=$HOME/.cache/current.repos.list
 
 if [ ! -f $PKGF ]; then
         grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
+	exit
 else
         PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
         if [ "${PKGC}" = "0" ]; then
-                echo "[!] ${LAN00}"
                 zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
-		exit
+
+                # LOOKUP PACKAGES FROM POOL
+                BACK_GET=($(curl -s "http://packages.linuxmint.com/pool/main/m/" | grep -i "mint-backgrounds" | cut -d "-" -f3 | cut -d "/" -f1))
         fi
-fi
-
-
-# CHECK IF USER HAS SUDO GROUP
-if [ -z "$(groups ${USR} | grep sudo)" ]; then
-	zenity --error --icon-name=security-high-symbolic --text="${LAN01} (usermod -aG sudo ${USER})"
-	exit
 fi
 
 ZCMD='zenity \
@@ -164,18 +166,19 @@ done
 PKGI=""
 PKGU=""
 PKGN=""
+PKGD=""
 ZCMD_OUT=$(eval "$ZCMD")
 IFS='|' read -ra BACK_SET <<< "$ZCMD_OUT"
 
 # IN/UNINSTALL
 for b in "${BACK_GET[@]}"
 do
-    if [[ "${ZCMD_OUT,,}" == *"${b,,}"* ]]; then
-        PKGI+="mint-backgrounds-${b,,} "
-	PKGN+="${b,,} "
-    else
-        PKGU+="mint-backgrounds-${b,,} "
-    fi
+    	if [[ "${ZCMD_OUT,,}" == *"${b,,}"* ]]; then
+		PKGI+="mint-backgrounds-${b,,} "
+		PKGN+="${b,,} "
+    	else
+        	PKGU+="mint-backgrounds-${b,,} "
+    	fi
 done
 
 if [ "${PKGN}" = "" ]; then
@@ -195,12 +198,33 @@ case $? in
 		echo "22"
 		sudo -S <<< $SESAME apt update
 		echo "25"
-		sudo -S <<< $SESAME apt -y install $PKGI
-		echo "35"
+		if [ "${PKGC}" = "0" ]; then
+		        if [ "${PKGC}" = "92" ]; then
+        			# INSTALL FROM WEBSITE INSTEAD
+        			echo "30"
+				DIR_DWN="${HOME}/Downloads/mint-backgrounds"
+
+				mkdir -p $DIR_DWN
+			        IFS=' ' read -r -a PKGW <<< "$PKGN"
+        		for d in "${PKGW[@]}"
+        		do
+                		if ! [ -f "${DIR_DWN}/${d}.deb" ]; then
+                        		PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/" | grep -i ".deb" | cut -d ">" -f3 | cut -d '"' -f2)
+                        		curl -o "${DIR_DWN}/${d}.deb" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/${PKGF}"
+
+                        		sudo -S <<< $SESAME apt install "${DIR_DWN}/${d}.deb"
+                		fi
+        		done
+			fi
+
+		else
+			sudo -S <<< $SESAME apt -y install $PKGI
+		fi
+		echo "55"
 		# UNINSTALL BACKGROUNDS THAT ARE UNCHECKED
 		sudo -S <<< $SESAME apt -y remove $PKGU
-		echo "45"; sleep 0.5
-		for i in {45..99}
+		echo "65"; sleep 0.5
+		for i in {65..99}
                 do
                         echo $i; sleep 0.15
                 done
