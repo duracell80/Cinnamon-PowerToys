@@ -1,3 +1,4 @@
+LAN00;Apt-fejl: mint-baggrundspakker er ikke tilgængelige, tilføj linux mint-pakker dine apt-kilder eller installer manuelt fra
 LAN01;Uden sudo-rettigheder kan du ikke installere pakker med apt. Føj sudo-gruppe til din brugerkonto
 LAN02;Vælg pakker, der skal installeres eller fjernes
 LAN03;Importer

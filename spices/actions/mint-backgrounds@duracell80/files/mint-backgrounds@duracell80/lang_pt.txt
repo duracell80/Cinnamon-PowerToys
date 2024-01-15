@@ -1,3 +1,4 @@
+LAN00;Erro Apt: pacotes mint-background não disponíveis, adicione pacotes linux mint às suas fontes apt ou instale manualmente a partir de
 LAN01;Sem direitos sudo, não é possível instalar pacotes com o apt, adicione o grupo sudo à sua conta de utilizador
 LAN02;Escolha pacotes para instalar ou remover
 LAN03;Importar

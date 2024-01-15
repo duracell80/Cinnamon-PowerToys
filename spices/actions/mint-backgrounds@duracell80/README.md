@@ -1,4 +1,4 @@
-Cinnamon Backgrounds
+Mint Backgrounds
 ==============
 
 Selects and de-selects mint-backgrounds packages directly from the desktop context menu.
@@ -11,6 +11,6 @@ This action brings previous mint backgrounds to the cinnamon desktop. The images
 DEPENDENCIES
 ------------
 
-The following programs must be installed and available:
+The following programs must be installed and available; Additionally for non-Mint Debian based distros, the Linux Mint packages must be available to apt:
 
 * `sudo`, `apt`, `zenity` for UI and package management

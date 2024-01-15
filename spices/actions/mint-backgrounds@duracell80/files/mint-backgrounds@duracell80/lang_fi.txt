@@ -1,3 +1,4 @@
+LAN00;Apt Error: mint-taustapaketteja ei ole saatavilla, lisää linux mint -paketit apt-lähteisiin tai asenna manuaalisesti osoitteesta
 LAN01;Ilman sudo-oikeuksia et voi asentaa paketteja apt: llä, lisää sudo-ryhmä käyttäjätilillesi
 LAN02;Valitse asennettavat tai poistettavat paketit
 LAN03;Tuo

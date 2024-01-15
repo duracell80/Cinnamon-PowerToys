@@ -76,6 +76,11 @@ elif [ "${LANG,,}" = "ru" ]; then
         export LC_ALL="ru_RU.utf-8"
         LANG_INS="установлен"
 
+# AMERICAN
+elif [ "${LANG,,}" = "us" ]; then
+        export LC_ALL="en_US.utf-8"
+        LANG_INS="installed"
+
 else
 	export LC_ALL="en_US.utf-8"
 	LANG_INS="installed"
@@ -85,6 +90,7 @@ BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' 
 BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
 
 #PO-EN
+LAN00="Apt Error: mint-background packages not available, add linux mint packages your apt sources or install manually from"
 LAN01="Without sudo rights you're not able to install packages with apt, add sudo group to your user account"
 LAN02="Choose packages to install or remove"
 LAN03="Import"
@@ -107,9 +113,22 @@ if [ "${LANG}" != "en" ]; then
 
 		suffix="${col[0]}"
 		declare $suffix="${col[1]}"
-	done < "lang_${LANG}.txt"
+	done < "lang_${LANG,,}.txt"
 fi
 
+# GET THE USERS CURRENT REPO LIST TO SEE IF THEY HAVE THE MINT-BACKGROUND PACKAGES AVAILABLE
+PKGF=$HOME/.cache/current.repos.list
+
+if [ ! -f $PKGF ]; then
+        grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
+else
+        PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
+        if [ "${PKGC}" = "0" ]; then
+                echo "[!] ${LAN00}"
+                zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
+		exit
+        fi
+fi
 
 
 # CHECK IF USER HAS SUDO GROUP
@@ -174,9 +193,9 @@ case $? in
 		echo "20"
 		# INSTALL BACKGROUNDS THAT ARE CHECKED
 		echo "22"
-		sudo apt update
+		sudo -S <<< $SESAME apt update
 		echo "25"
-		sudo  -S <<< $SESAME apt -y install $PKGI
+		sudo -S <<< $SESAME apt -y install $PKGI
 		echo "35"
 		# UNINSTALL BACKGROUNDS THAT ARE UNCHECKED
 		sudo -S <<< $SESAME apt -y remove $PKGU

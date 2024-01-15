@@ -1,3 +1,4 @@
+LAN00;Apt Hatası: nane arka plan paketleri mevcut değil, apt kaynaklarınıza linux nane paketleri ekleyin veya manuel olarak yükleyin
 LAN01;Sudo hakları olmadan Apt ile paket yükleyemezsiniz, kullanıcı hesabınıza sudo grubu ekleyin
 LAN02;Yüklenecek veya kaldırılacak paketleri seçin
 LAN03;İçe Aktar

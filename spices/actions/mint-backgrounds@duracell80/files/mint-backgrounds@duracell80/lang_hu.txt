@@ -1,3 +1,4 @@
+LAN00;Apt-hiba: a mint-háttércsomagok nem érhetők el, adjon hozzá linux mint csomagokat az apt-forrásokhoz, vagy telepítse manuálisan innen
 LAN01;Sudo-jogok nélkül nem tudsz csomagokat telepíteni az APT-vel, adj hozzá sudo-csoportot a felhasználói fiókodhoz
 LAN02;Válassza ki a telepítendő vagy eltávolítandó csomagokat
 LAN03;Importálás
