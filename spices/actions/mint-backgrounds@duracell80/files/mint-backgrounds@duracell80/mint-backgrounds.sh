@@ -84,8 +84,6 @@ fi
 BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' -f1))
 BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
 
-
-
 #PO-EN
 LAN01="Without sudo rights you're not able to install packages with apt, add sudo group to your user account"
 LAN02="Choose packages to install or remove"
@@ -146,6 +144,7 @@ done
 # OPEN CHOICE LIST
 PKGI=""
 PKGU=""
+PKGN=""
 ZCMD_OUT=$(eval "$ZCMD")
 IFS='|' read -ra BACK_SET <<< "$ZCMD_OUT"
 
@@ -154,32 +153,47 @@ for b in "${BACK_GET[@]}"
 do
     if [[ "${ZCMD_OUT,,}" == *"${b,,}"* ]]; then
         PKGI+="mint-backgrounds-${b,,} "
+	PKGN+="${b,,} "
     else
         PKGU+="mint-backgrounds-${b,,} "
     fi
 done
 
+if [ "${PKGN}" = "" ]; then
+	exit
+fi
+
 SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="${LAN20}"`
 case $? in
          0)
 	 	(
+		for i in {1..20}
+		do
+			echo $i; sleep 0.15
+		done
+		echo "20"
 		# INSTALL BACKGROUNDS THAT ARE CHECKED
-		echo "15"
-		sudo  -S <<< $SESAME apt -y install $PKGI
+		echo "22"
+		sudo apt update
 		echo "25"
+		sudo  -S <<< $SESAME apt -y install $PKGI
+		echo "35"
 		# UNINSTALL BACKGROUNDS THAT ARE UNCHECKED
 		sudo -S <<< $SESAME apt -y remove $PKGU
-		echo "50"; sleep 0.5
-		echo "75"; sleep 0.5
-		echo "85"; sleep 0.5
+		echo "45"; sleep 0.5
+		for i in {45..99}
+                do
+                        echo $i; sleep 0.15
+                done
+
 			notify-send 	--urgency=normal \
-					--icon=cs-backgrounds-symbolic "${LAN21}" "${LAN22}:\n\n${PKGI}"
+					--icon=cs-backgrounds-symbolic "${LAN21}" "${LAN22}:\n\n${PKGN}"
 		echo "100"
 		cinnamon-settings backgrounds
 		) | zenity 	--progress \
 				--title="${LAN23}" \
-				--text="${LAN24}\n\n${PKGI}" \
-				--percentage=15 --width=500 --timeout=180
+				--text="${LAN24}\n\n${PKGN}" \
+				--width=500 --timeout=180
 
 		;;
          1)
