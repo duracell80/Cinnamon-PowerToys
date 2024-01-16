@@ -12,6 +12,8 @@ elif [[ "${UNM,,}" == *"ubuntu"* ]]; then
         DIS="deb"
 elif [[ "${UNM,,}" == *"debian"* ]]; then
         DIS="deb"
+elif [[ "${UNM,,}" == *"fedora"* ]]; then
+        DIS="rpm"
 else
         DIS="non"
 	# CHECK IF SYSTEM HAS APT
@@ -23,6 +25,7 @@ else
         fi
 fi
 
+
 # CHECK IF SYSTEM HAS MINT PACKAGES
 PKGF=$HOME/.cache/current.repos.list
 if [ ! -f $PKGF ]; then
@@ -32,10 +35,17 @@ fi
 USR=$(whoami)
 
 
-# GET THE USERS LANGUAGE
+# GET THE USERS LANGUAGE AND REGION VARIANT
 LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f2)
 REGI=$(locale | grep LANGUAGE | cut -d= -f2)
-#LANG="fr"
+if [ "${LANG}" = "" ]; then
+	LANG="en"
+fi
+
+if [ "${REGI}" = "" ]; then
+        REGI="US"
+fi
+
 
 # FRENCH
 if [ "${LANG,,}" = "fr" ]; then
@@ -151,7 +161,7 @@ if [ -z "$(groups ${USR} | grep sudo)" ]; then
 	exit
 fi
 
-# DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon)
+# DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon and Fedora / Arch without apt/dpkg)
 if [ -f $PKGF ]; then
         PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
         if [ "${PKGC}" = "0" ]; then
@@ -161,8 +171,20 @@ if [ -f $PKGF ]; then
 		if ! [ -x "$(which curl)" ]; then
 		        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
 
-		        sudo -S <<< $SESAME apt update
-		        sudo -S <<< $SESAME apt install -y curl
+			# DEAL WITH MISSING CURL BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
+			if [ "${DIS}" = "deb" ]; then
+		        	sudo -S <<< $SESAME apt update
+		        	sudo -S <<< $SESAME apt install -y curl
+			elif [ "${DIS}" = "rpm" ]; then
+				if [ -x "$(which dnf)" ]; then
+					sudo -S <<< $SESAME dnf install -y curl
+				else
+					exit
+				fi
+			else
+				echo "Please install curl manually or with your relevant package manager"
+				exit
+			fi
 		fi
 
                 # LOOKUP PACKAGES FROM POOL
@@ -231,24 +253,41 @@ case $? in
 
 
 		if [ "${PKGC}" = "0" ]; then
-       			# INSTALL FROM WEBSITE INSTEAD
-       			echo "30"
+       			# PREPARE POSSIBLITY SYSTEM IS NON-MINT
+			echo "30"
 			DIR_DWN="${HOME}/Downloads/mint-backgrounds"
 
 			mkdir -p $DIR_DWN
 		        IFS=' ' read -r -a PKGW <<< "$PKGN"
 
-			for d in "${PKGW[@]}"
-       			do
-               			if ! [ -f "${DIR_DWN}/${d}.deb" ]; then
-                       			PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/" | grep -i ".deb" | cut -d ">" -f3 | cut -d '"' -f2)
-                       			curl -o "${DIR_DWN}/${d}.deb" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/${PKGF}"
 
-                       			sudo -S <<< $SESAME apt install "${DIR_DWN}/${d}.deb" > /dev/null 2>&1
-               			fi
-       			done
+			# SINCE PACKAGES ONLY SOURCED FROM MINT GET THE ARCHIVES IF THERE IS NO APT
+                        if ! [ -x "$(which apt)" ]; then
+				for d in "${PKGW[@]}"
+                                do
+                                        if ! [ -f "${DIR_DWN}/${d,,}.tar.gz" ]; then
+                                                PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".tar.gz" | cut -d ">" -f3 | cut -d '"' -f2)
+                                                curl -o "${DIR_DWN}/${d,,}.tar.gz" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/${PKGF,,}"
+						tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" > /dev/null 2>&1
+
+						sudo -S <<< $SESAME cp -rn "${DIR_DWN}/mint-backgrounds-${d,,}/backgrounds/linuxmint-${d,,}" "/usr/share/backgrounds/"
+
+                                        fi
+                                done
+			# BUT IF APT IS AVAILABLE AND NON-MINT/DEBIAN SYSTEMS MAKE PACKAGE MANAGEMENT THE BETTER CHOICE
+			else
+				for d in "${PKGW[@]}"
+       				do
+               				if ! [ -f "${DIR_DWN}/${d,,}.deb" ]; then
+                       				PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".deb" | cut -d ">" -f3 | cut -d '"' -f2)
+                       				curl -o "${DIR_DWN}/${d,,}.deb" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/${PKGF,,}"
+
+	                       			sudo -S <<< $SESAME apt install "${DIR_DWN}/${d,,}.deb" > /dev/null 2>&1
+        	       			fi
+       				done
+			fi
 		else
-			# SYSTEM IS VERY LIKELY NATIVE MINT OK TO USE PACKAGES
+			# SYSTEM IS VERY LIKELY NATIVE MINT OK TO USE PACKAGES BY NAME
 			sudo -S <<< $SESAME apt -y install $PKGI > /dev/null 2>&1
 		fi
 
