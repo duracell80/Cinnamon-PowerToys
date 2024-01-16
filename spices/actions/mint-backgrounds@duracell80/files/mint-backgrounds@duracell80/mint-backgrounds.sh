@@ -3,12 +3,18 @@
 # @git:duracell80
 
 # CHECK IF SYSTEM IS DEBIAN
-if [[ "${UNM,,}" == *"ubuntu"* ]]; then
+DIS=""
+UNM=$(uname -a)
+
+if [[ "${UNM,,}" == *"ubuntu-cinnamon"* ]]; then
+        DIS="deb"
+elif [[ "${UNM,,}" == *"ubuntu"* ]]; then
         DIS="deb"
 elif [[ "${UNM,,}" == *"debian"* ]]; then
         DIS="deb"
 else
-        # CHECK IF SYSTEM HAS APT
+        DIS="non"
+	# CHECK IF SYSTEM HAS APT
         if ! [ -x "$(which apt)" ]; then
                 DIS="non"
                 exit
@@ -23,8 +29,6 @@ if [ ! -f $PKGF ]; then
         grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
 fi
 
-DIS=""
-UNM=$(uname -a)
 USR=$(whoami)
 
 
@@ -152,6 +156,14 @@ if [ -f $PKGF ]; then
         PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
         if [ "${PKGC}" = "0" ]; then
                 zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
+
+		# CHECK IF SYSTEM HAS CURL
+		if ! [ -x "$(which curl)" ]; then
+		        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
+
+		        sudo -S <<< $SESAME apt update
+		        sudo -S <<< $SESAME apt install -y curl
+		fi
 
                 # LOOKUP PACKAGES FROM POOL
                 BACK_GET=($(curl -s "http://packages.linuxmint.com/pool/main/m/" | grep -i "mint-backgrounds" | cut -d "-" -f3 | cut -d "/" -f1))
