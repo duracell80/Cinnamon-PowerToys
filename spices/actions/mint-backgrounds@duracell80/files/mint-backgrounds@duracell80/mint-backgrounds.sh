@@ -2,7 +2,31 @@
 # Manage previous Linux Mint Backgrounds from the desktop
 # @git:duracell80
 
+# CHECK IF SYSTEM IS DEBIAN
+if [[ "${UNM,,}" == *"ubuntu"* ]]; then
+        DIS="deb"
+elif [[ "${UNM,,}" == *"debian"* ]]; then
+        DIS="deb"
+else
+        # CHECK IF SYSTEM HAS APT
+        if ! [ -x "$(which apt)" ]; then
+                DIS="non"
+                exit
+        else
+                DIS="non"
+        fi
+fi
+
+# CHECK IF SYSTEM HAS MINT PACKAGES
+PKGF=$HOME/.cache/current.repos.list
+if [ ! -f $PKGF ]; then
+        grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
+fi
+
+DIS=""
+UNM=$(uname -a)
 USR=$(whoami)
+
 
 # GET THE USERS LANGUAGE
 LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f2)
@@ -123,13 +147,8 @@ if [ -z "$(groups ${USR} | grep sudo)" ]; then
 	exit
 fi
 
-# GET THE USERS CURRENT REPO LIST TO SEE IF THEY HAVE THE MINT-BACKGROUND PACKAGES AVAILABLE
-PKGF=$HOME/.cache/current.repos.list
-
-if [ ! -f $PKGF ]; then
-        grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
-	exit
-else
+# DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon)
+if [ -f $PKGF ]; then
         PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
         if [ "${PKGC}" = "0" ]; then
                 zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
@@ -193,36 +212,39 @@ case $? in
 		do
 			echo $i; sleep 0.15
 		done
-		echo "20"
 		# INSTALL BACKGROUNDS THAT ARE CHECKED
 		echo "22"
-		sudo -S <<< $SESAME apt update
+		#sudo -S <<< $SESAME apt update > /dev/null 2>&1
 		echo "25"
+
+
 		if [ "${PKGC}" = "0" ]; then
-		        if [ "${PKGC}" = "92" ]; then
-        			# INSTALL FROM WEBSITE INSTEAD
-        			echo "30"
-				DIR_DWN="${HOME}/Downloads/mint-backgrounds"
+       			# INSTALL FROM WEBSITE INSTEAD
+       			echo "30"
+			DIR_DWN="${HOME}/Downloads/mint-backgrounds"
 
-				mkdir -p $DIR_DWN
-			        IFS=' ' read -r -a PKGW <<< "$PKGN"
-        		for d in "${PKGW[@]}"
-        		do
-                		if ! [ -f "${DIR_DWN}/${d}.deb" ]; then
-                        		PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/" | grep -i ".deb" | cut -d ">" -f3 | cut -d '"' -f2)
-                        		curl -o "${DIR_DWN}/${d}.deb" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/${PKGF}"
+			mkdir -p $DIR_DWN
+		        IFS=' ' read -r -a PKGW <<< "$PKGN"
 
-                        		sudo -S <<< $SESAME apt install "${DIR_DWN}/${d}.deb"
-                		fi
-        		done
-			fi
+			for d in "${PKGW[@]}"
+       			do
+               			if ! [ -f "${DIR_DWN}/${d}.deb" ]; then
+                       			PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/" | grep -i ".deb" | cut -d ">" -f3 | cut -d '"' -f2)
+                       			curl -o "${DIR_DWN}/${d}.deb" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d}/${PKGF}"
 
+                       			sudo -S <<< $SESAME apt install "${DIR_DWN}/${d}.deb" > /dev/null 2>&1
+               			fi
+       			done
 		else
-			sudo -S <<< $SESAME apt -y install $PKGI
+			# SYSTEM IS VERY LIKELY NATIVE MINT OK TO USE PACKAGES
+			sudo -S <<< $SESAME apt -y install $PKGI > /dev/null 2>&1
 		fi
+
+
+
 		echo "55"
 		# UNINSTALL BACKGROUNDS THAT ARE UNCHECKED
-		sudo -S <<< $SESAME apt -y remove $PKGU
+		sudo -S <<< $SESAME apt -y remove $PKGU > /dev/null 2>&1
 		echo "65"; sleep 0.5
 		for i in {65..99}
                 do
