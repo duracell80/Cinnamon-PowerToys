@@ -3,28 +3,28 @@
 # @git:duracell80
 
 # CHECK IF SYSTEM IS DEBIAN
-DIS=""
+DIS="non"
 UNM=$(uname -a)
 
-if [[ "${UNM,,}" == *"ubuntu-cinnamon"* ]]; then
+
+if [[ "${UNM,,}" == *"debian"* ]]; then
         DIS="deb"
 elif [[ "${UNM,,}" == *"ubuntu"* ]]; then
         DIS="deb"
-elif [[ "${UNM,,}" == *"debian"* ]]; then
+elif [[ "${UNM,,}" == *"ubuntu-cinnamon"* ]]; then
         DIS="deb"
 elif [[ "${UNM,,}" == *"fedora"* ]]; then
+	#FEDORA
         DIS="rpm"
+elif [[ "${UNM,,}" == *"fc"* ]]; then
+        # FEDORA
+	DIS="rpm"
 else
-        DIS="non"
 	# CHECK IF SYSTEM HAS APT
-        if ! [ -x "$(which apt)" ]; then
-                DIS="non"
-                exit
-        else
+        if [[ $(compgen -c | grep -iw 'apt' | head -n1 | wc -c) == "0" ]]; then
                 DIS="non"
         fi
 fi
-
 
 # CHECK IF SYSTEM HAS MINT PACKAGES
 PKGF=$HOME/.cache/current.repos.list
@@ -124,9 +124,10 @@ else
 	LANG_INS="installed"
 fi
 
-BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' -f1))
-BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
-
+if [[ "${DIS,,}" == "deb" ]]; then
+	BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' -f1))
+	BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
+fi
 
 #PO-EN
 LAN00="Apt Information: mint-background packages not available, add linux mint packages your apt sources or install manually from"
@@ -156,9 +157,11 @@ if [ "${LANG}" != "en" ]; then
 fi
 
 # CHECK IF USER HAS SUDO GROUP
-if [ -z "$(groups ${USR} | grep sudo)" ]; then
-	zenity --error --icon-name=security-high-symbolic --text="${LAN01} (usermod -aG sudo ${USER})"
-	exit
+if [[ "${DIS,,}" = "deb" ]]; then
+	if [ -z "$(groups ${USR} | grep sudo)" ]; then
+		zenity --error --icon-name=security-high-symbolic --text="${LAN01} (usermod -aG sudo ${USER})"
+		exit
+	fi
 fi
 
 # DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon and Fedora / Arch without apt/dpkg)
@@ -168,7 +171,7 @@ if [ -f $PKGF ]; then
                 zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
 
 		# CHECK IF SYSTEM HAS CURL
-		if ! [ -x "$(which curl)" ]; then
+		if [[ $(compgen -c | grep -iw 'curl' | head -n1 | wc -c) == "0" ]]; then
 		        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
 
 			# DEAL WITH MISSING CURL BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
@@ -176,18 +179,13 @@ if [ -f $PKGF ]; then
 		        	sudo -S <<< $SESAME apt update
 		        	sudo -S <<< $SESAME apt install -y curl
 			elif [ "${DIS}" = "rpm" ]; then
-				if [ -x "$(which dnf)" ]; then
-					sudo -S <<< $SESAME dnf install -y curl
-				else
-					exit
-				fi
+				sudo -S <<< $SESAME dnf install -y curl
 			else
-				echo "Please install curl manually or with your relevant package manager"
 				exit
 			fi
 		fi
 
-                # LOOKUP PACKAGES FROM POOL
+                # LOOKUP PACKAGES FROM MINT REPO
                 BACK_GET=($(curl -s "http://packages.linuxmint.com/pool/main/m/" | grep -i "mint-backgrounds" | cut -d "-" -f3 | cut -d "/" -f1))
         fi
 fi
@@ -247,32 +245,51 @@ case $? in
 			echo $i; sleep 0.15
 		done
 		# INSTALL BACKGROUNDS THAT ARE CHECKED
-		echo "22"
+		echo "22"; sleep 0.5
 		#sudo -S <<< $SESAME apt update > /dev/null 2>&1
 		echo "25"
 
 
 		if [ "${PKGC}" = "0" ]; then
-       			# PREPARE POSSIBLITY SYSTEM IS NON-MINT
+       			# PREPARE FOR SYSTEM BEING NON-MINT
 			echo "30"
 			DIR_DWN="${HOME}/Downloads/mint-backgrounds"
+			DIR_TGT="/usr/share/backgrounds"
 
 			mkdir -p $DIR_DWN
+			sudo -S <<< $SESAME mkdir -p $DIR_TGT
 		        IFS=' ' read -r -a PKGW <<< "$PKGN"
 
 
 			# SINCE PACKAGES ONLY SOURCED FROM MINT GET THE ARCHIVES IF THERE IS NO APT
-                        if ! [ -x "$(which apt)" ]; then
+                        if [[ $(compgen -c | grep -iw 'apt' | head -n1 | wc -c) == "0" ]]; then
+
+
 				for d in "${PKGW[@]}"
                                 do
-                                        if ! [ -f "${DIR_DWN}/${d,,}.tar.gz" ]; then
-                                                PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".tar.gz" | cut -d ">" -f3 | cut -d '"' -f2)
-                                                curl -o "${DIR_DWN}/${d,,}.tar.gz" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/${PKGF,,}"
-						tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" > /dev/null 2>&1
+					echo "35"
+					# IF ARCHIVE ALREADY IN DOWNLOADS, SKIP DOWNLOAD
+					if ! [ -f "${DIR_DWN}/${d,,}.tar.gz" ]; then
+						PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".tar.gz" | cut -d ">" -f3 | cut -d '"' -f2)
+						curl -o "${DIR_DWN}/${d,,}.tar.gz" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/${PKGF,,}"
+						echo "40"
+					fi
 
-						sudo -S <<< $SESAME cp -rn "${DIR_DWN}/mint-backgrounds-${d,,}/backgrounds/linuxmint-${d,,}" "/usr/share/backgrounds/"
+					# CHECK ARCHIVE FOR STRUTURE (eg does this hav /usr base?)
+					TAR1=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/backgrounds/" | wc -c)
+					TAR2=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/usr" | wc -c)
 
-                                        fi
+					if [ "${TAR1}" -gt "0" ]; then
+						# NEW FORMAT
+						sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
+						sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=2 "mint-backgrounds-${d,,}/backgrounds/linuxmint-${d,,}/"
+					elif [ "${TAR2}" -gt "0" ]; then
+						# OLD FORMAT
+						sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
+						sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=4 "mint-backgrounds-${d,,}/usr/share/backgrounds/linuxmint-${d,,}/"
+					fi
+					echo "45"
+
                                 done
 			# BUT IF APT IS AVAILABLE AND NON-MINT/DEBIAN SYSTEMS MAKE PACKAGE MANAGEMENT THE BETTER CHOICE
 			else
