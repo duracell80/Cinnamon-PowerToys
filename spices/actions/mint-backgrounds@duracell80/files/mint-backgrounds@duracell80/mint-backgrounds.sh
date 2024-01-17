@@ -276,17 +276,17 @@ case $? in
 					fi
 
 					# CHECK ARCHIVE FOR STRUTURE (eg does this hav /usr base?)
-					TAR1=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/backgrounds/" | wc -c)
-					TAR2=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/usr" | wc -c)
+					TAR2=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/backgrounds/" | wc -c)
+					TAR1=$(tar -tf "${DIR_DWN}/${d,,}.tar.gz" | grep -i "/usr/share/backgrounds/" | wc -c)
 
 					if [ "${TAR1}" -gt "0" ]; then
+                                                # OLD FORMAT
+                                                sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
+                                                sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=4 "mint-backgrounds-${d,,}/usr/share/backgrounds/linuxmint-${d,,}/"
+					elif [ "${TAR2}" -gt "0" ]; then
 						# NEW FORMAT
 						sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
 						sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=2 "mint-backgrounds-${d,,}/backgrounds/linuxmint-${d,,}/"
-					elif [ "${TAR2}" -gt "0" ]; then
-						# OLD FORMAT
-						sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
-						sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=4 "mint-backgrounds-${d,,}/usr/share/backgrounds/linuxmint-${d,,}/"
 					fi
 					echo "45"
 
