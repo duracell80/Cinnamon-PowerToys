@@ -52,11 +52,10 @@ if [[ "${DIS,,}" == "deb" ]]; then
 	fi
 fi
 
-DIS="non"
 
 # GET THE USERS LANGUAGE AND REGION VARIANT
 USR=$(whoami)
-LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f2)
+LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f1)
 REGI=$(locale | grep LANGUAGE | cut -d= -f2)
 if [ "${LANG}" = "" ]; then
 	LANG="en"
@@ -69,74 +68,74 @@ fi
 
 # FRENCH
 if [ "${LANG,,}" = "fr" ]; then
-	export LC_ALL="fr_FR.utf-8"
+	#export LC_ALL="fr_FR.utf-8"
 	LANG_INS="installé"
 
 # SPANISH
 elif [ "${LANG,,}" = "es" ]; then
-        export LC_ALL="es_ES.utf-8"
+        #export LC_ALL="es_ES.utf-8"
         LANG_INS="instalado" #fem instalada
 
 # PORTUGUESE - BRAZIL
 elif [ "${REGI,,}" = "pt_br" ]; then
-        export LC_ALL="pt_BR.utf-8"
+        #export LC_ALL="pt_BR.utf-8"
         LANG_INS="instalado" #fem instalada
 	LANG="pt"
 
 # PORTUGUESE
 elif [ "${LANG,,}" = "pt" ]; then
-        export LC_ALL="pt_PT.utf-8"
+        #export LC_ALL="pt_PT.utf-8"
         LANG_INS="instalado" #fem instalada
 
 # GERMAN
 elif [ "${LANG,,}" = "de" ]; then
-        export LC_ALL="de_DE.utf-8"
+        #export LC_ALL="de_DE.utf-8"
         LANG_INS="installiert"
 
 # ITALIAN
 elif [ "${LANG,,}" = "it" ]; then
-        export LC_ALL="it_IT.utf-8"
+        #export LC_ALL="it_IT.utf-8"
         LANG_INS="installato"
 
 # DANISH
 elif [ "${LANG,,}" = "da" ]; then
-        export LC_ALL="da_DK.utf-8"
+        #export LC_ALL="da_DK.utf-8"
         LANG_INS="installeret"
 
 # FINNISH
 elif [ "${LANG,,}" = "fi" ]; then
-        export LC_ALL="fi_FI.utf-8"
+        #export LC_ALL="fi_FI.utf-8"
         LANG_INS="asennettu"
 
 # NORWEGIAN NYNORSK
 elif [ "${LANG,,}" = "nn" ]; then
-        export LC_ALL="nn_NO.utf-8"
+        #export LC_ALL="nn_NO.utf-8"
         LANG_INS="installed"
 
 # HUNGARIAN
 elif [ "${LANG,,}" = "hu" ]; then
-        export LC_ALL="hu_HU.utf-8"
+        #export LC_ALL="hu_HU.utf-8"
         LANG_INS="telepítve"
 
 # TURKISH
 elif [ "${LANG,,}" = "tr" ]; then
-        export LC_ALL="tr_TR.utf-8"
+        #export LC_ALL="tr_TR.utf-8"
         LANG_INS="kurulu"
 
 # UKRAINIAN
-elif [ "${REGI,,}" = "ru_ua" ]; then
-        export LC_ALL="ru_UA.utf-8"
+elif [ "${REGI,,}" = "ua" ]; then
+        #export LC_ALL="ru_UA.utf-8"
         LANG_INS="установлен"
 	LANG="ru"
 
 # RUSSIAN
 elif [ "${LANG,,}" = "ru" ]; then
-        export LC_ALL="ru_RU.utf-8"
+        #export LC_ALL="ru_RU.utf-8"
         LANG_INS="установлен"
 
-# AMERICAN
-elif [ "${LANG,,}" = "us" ]; then
-        export LC_ALL="en_US.utf-8"
+# ENGLISH
+elif [ "${LANG,,}" = "en" ]; then
+        export LC_ALL="en_GB.utf-8"
         LANG_INS="installed"
 
 else
@@ -293,7 +292,7 @@ case $? in
 					echo "35"
 					# IF ARCHIVE ALREADY IN DOWNLOADS, SKIP DOWNLOAD
 					if ! [ -f "${DIR_DWN}/${d,,}.tar.gz" ]; then
-						PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".tar.gz" | cut -d ">" -f3 | cut -d '"' -f2)
+						PKGF=$(curl -s "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/" | grep -i ".tar.gz" | cut -d ">" -f3 | cut -d '"' -f2 | head -n1)
 						curl -o "${DIR_DWN}/${d,,}.tar.gz" "http://packages.linuxmint.com/pool/main/m/mint-backgrounds-${d,,}/${PKGF,,}"
 						echo "40"
 					fi
@@ -311,7 +310,12 @@ case $? in
 						sudo -S <<< $SESAME mkdir -p "${DIR_TGT}/linuxmint-${d,,}"
 						sudo -S <<< $SESAME tar -xvzf "${DIR_DWN}/${d,,}.tar.gz" -C "${DIR_TGT}" --strip=2 "mint-backgrounds-${d,,}/backgrounds/linuxmint-${d,,}/"
 					fi
+
+					# SET PERMISSIONS
+					sudo -S <<< $SESAME chmod -R a+r "${DIR_TGT}/linuxmint-${d,,}"
 					echo "45"
+					echo "${DIR_TGT}/linuxmint-${d,,}" >> $HOME/.config/cinnamon/backgrounds/user-folders.lst
+					sleep 0.5; echo "48"
 
                                 done
 			# BUT IF APT IS AVAILABLE AND NON-MINT/DEBIAN SYSTEMS MAKE PACKAGE MANAGEMENT THE BETTER CHOICE
@@ -335,8 +339,35 @@ case $? in
 		if [[ "${DIS,,}" == "mnt" ]]; then
 			sudo -S <<< $SESAME apt -y remove $PKGU > /dev/null 2>&1
 		else
-			notify-send     --urgency=normal \
-                                        --icon=cs-backgrounds-symbolic "To remove:" "${PKGR}"
+			IFS=' ' read -r -a PKRM <<< "$PKGR"
+			for r in "${PKRM[@]}"
+			do
+				# SAFE GUARD AGAINST REMOVING ENTIRE BACKGROUNDS DIRECTORY
+				# AND FURTHER SAFEGUARD FILES BY MOVING TO USERS TRASH DIRECTORY
+				# RELY LESS ON VARIABLES USE DIRECT STRINGS FOR VERIFICATION
+				sed -i "\|/usr/share/backgrounds/linuxmint-${r,,}|d" $HOME/.config/cinnamon/backgrounds/user-folders.lst
+				if [[ -n "$r" ]]; then
+					if [ -d "${HOME}/.local/share/Trash/files/mint-backgrounds" ]; then
+						if [ -d "/usr/share/backgrounds/linuxmint-${r,,}" ]; then
+  							if [ -d "${HOME}/.local/share/Trash/files/mint-backgrounds/linuxmint-${r,,}" ]; then
+								# ITS ALREADY IN THE TRASH
+								sudo -S <<< $SESAME rm -rf "/usr/share/backgrounds/linuxmint-${r,,}"
+							else
+								sudo -S <<< $SESAME mv -f "/usr/share/backgrounds/linuxmint-${r,,}" "${HOME}/.local/share/Trash/files/mint-backgrounds"
+							fi
+						fi
+					else
+						mkdir -p "${HOME}/.local/share/Trash/files/mint-backgrounds"
+					fi
+
+					echo "59"
+				else
+					# DO NOTHING IF DIRECTORY VAR IS EMPTY
+					echo "60"
+				fi
+			done
+			sort $HOME/.config/cinnamon/backgrounds/user-folders.lst | uniq > $HOME/.config/cinnamon/backgrounds/user-folders.lst.tmp && mv -f $HOME/.config/cinnamon/backgrounds/user-folders.lst.tmp $HOME/.config/cinnamon/backgrounds/user-folders.lst
+			echo "62"
 		fi
 
 		echo "65"; sleep 0.5

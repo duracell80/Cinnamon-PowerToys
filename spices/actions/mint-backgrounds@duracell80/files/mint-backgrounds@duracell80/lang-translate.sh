@@ -65,3 +65,5 @@ if [ "${LANG}" != "en" ]; then
 fi
 
 echo $MSG01
+
+sudo dpkg-reconfigure locales
