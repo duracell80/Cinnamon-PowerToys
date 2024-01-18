@@ -2,6 +2,12 @@
 # Manage previous Linux Mint Backgrounds from the desktop
 # @git:duracell80
 
+
+# ENVIRONMENT VARS
+DIR_DWN="${HOME}/Downloads/mint-backgrounds"
+DIR_TGT="/usr/share/backgrounds"
+
+
 # CHECK IF SYSTEM IS DEBIAN
 DIS="non"
 UNM=$(uname -a)
@@ -20,22 +26,36 @@ elif [[ "${UNM,,}" == *"fc"* ]]; then
         # FEDORA
 	DIS="rpm"
 else
+	DIS="non"
 	# CHECK IF SYSTEM HAS APT
         if [[ $(compgen -c | grep -iw 'apt' | head -n1 | wc -c) == "0" ]]; then
                 DIS="non"
         fi
 fi
 
-# CHECK IF SYSTEM HAS MINT PACKAGES
-PKGF=$HOME/.cache/current.repos.list
-if [ ! -f $PKGF ]; then
-        grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
+
+# CHECK IF DEBIAN AND IF MINT
+if [[ "${DIS,,}" == "deb" ]]; then
+	PKGF=$HOME/.cache/current.repos.list
+	if [ ! -f $PKGF ]; then
+        	grep -h ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* >> $PKGF
+		PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
+	else
+		PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
+	fi
+
+	# FINALLY ASSURE SCRIPT IF IT HAS PACKAGE ACCESS TO MINT REPO
+	if [[ "${PKGC}" == "0" ]]; then
+		DIS="deb"
+	else
+		DIS="mnt"
+	fi
 fi
 
-USR=$(whoami)
-
+DIS="non"
 
 # GET THE USERS LANGUAGE AND REGION VARIANT
+USR=$(whoami)
 LANG=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f2)
 REGI=$(locale | grep LANGUAGE | cut -d= -f2)
 if [ "${LANG}" = "" ]; then
@@ -124,24 +144,26 @@ else
 	LANG_INS="installed"
 fi
 
-if [[ "${DIS,,}" == "deb" ]]; then
+
+# COLLECT INFORMATION ON WHAT BACKGROUNDS ARE INSTALLED ALREADY IF ANY
+if [[ "${DIS,,}" == "mnt" ]] || [[ "${DIS,,}" == "deb" ]]; then
 	BACK_GET=($(apt list | grep -i "mint-backgrounds" | cut -d '-' -f3 | cut -d '/' -f1))
 	BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
 fi
 
 #PO-EN
-LAN00="Apt Information: mint-background packages not available, add linux mint packages your apt sources or install manually from"
-LAN01="Without sudo rights you're not able to install packages with apt, add sudo group to your user account"
+LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
+LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
 LAN02="Choose packages to install or remove"
 LAN03="Import"
 LAN04="Background Set"
 LAN05="Index"
 
 LAN20="Sudo password needed for apt"
-LAN21="Nemo Action Completed - Previous Backgrounds"
+LAN21="Desktop Action Completed - Previous Backgrounds"
 LAN22="The following packages are now available"
 LAN23="Making chosen backgrounds available"
-LAN24="Installing Previous Mint Backgrounds"
+LAN24="Installing Mint Backgrounds"
 
 LAN60="Password not entered, exiting"
 LAN90="An unexpected error has occurred"
@@ -157,38 +179,37 @@ if [ "${LANG}" != "en" ]; then
 fi
 
 # CHECK IF USER HAS SUDO GROUP
-if [[ "${DIS,,}" = "deb" ]]; then
+if [[ "${DIS,,}" == "mnt" ]] || [[ "${DIS,,}" == "deb" ]]; then
 	if [ -z "$(groups ${USR} | grep sudo)" ]; then
 		zenity --error --icon-name=security-high-symbolic --text="${LAN01} (usermod -aG sudo ${USER})"
 		exit
 	fi
 fi
 
-# DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon and Fedora / Arch without apt/dpkg)
-if [ -f $PKGF ]; then
-        PKGC=$(cat $PKGF | grep -i "linuxmint_main" | wc -c)
-        if [ "${PKGC}" = "0" ]; then
-                zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
+# DEAL WITH NON-MINT SYSTEMS (eg Ubuntu Cinnamon and Fedora Cinnamon)
+if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
+	zenity --error --icon-name=security-high-symbolic --text="${LAN00} http://packages.linuxmint.com/pool/main/m/"
 
-		# CHECK IF SYSTEM HAS CURL
-		if [[ $(compgen -c | grep -iw 'curl' | head -n1 | wc -c) == "0" ]]; then
-		        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
+	# CHECK IF SYSTEM HAS CURL
+	if [[ $(compgen -c | grep -iw 'curl' | head -n1 | wc -c) == "0" ]]; then
+	        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
 
-			# DEAL WITH MISSING CURL BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
-			if [ "${DIS}" = "deb" ]; then
-		        	sudo -S <<< $SESAME apt update
-		        	sudo -S <<< $SESAME apt install -y curl
-			elif [ "${DIS}" = "rpm" ]; then
-				sudo -S <<< $SESAME dnf install -y curl
-			else
-				exit
-			fi
+		# DEAL WITH MISSING CURL BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
+		if [ "${DIS}" = "deb" ]; then
+	        	sudo -S <<< $SESAME apt update
+	        	sudo -S <<< $SESAME apt install -y curl
+		elif [ "${DIS}" = "rpm" ]; then
+			sudo -S <<< $SESAME dnf install -y curl
+		else
+			exit
 		fi
+	fi
 
-                # LOOKUP PACKAGES FROM MINT REPO
-                BACK_GET=($(curl -s "http://packages.linuxmint.com/pool/main/m/" | grep -i "mint-backgrounds" | cut -d "-" -f3 | cut -d "/" -f1))
-        fi
+	# LOOKUP PACKAGES FROM MINT REPO
+	BACK_GOT=$(ls -d /usr/share/backgrounds/linuxmint-* | sed "s|${DIR_TGT}/linuxmint-||g" | sort -u)
+	BACK_GET=($(curl -s "http://packages.linuxmint.com/pool/main/m/" | grep -i "mint-backgrounds" | cut -d "-" -f3 | cut -d "/" -f1 | sort -u))
 fi
+
 
 ZCMD='zenity \
 	--list \
@@ -229,6 +250,7 @@ do
 		PKGN+="${b,,} "
     	else
         	PKGU+="mint-backgrounds-${b,,} "
+		PKGR+="${b,,} "
     	fi
 done
 
@@ -250,11 +272,13 @@ case $? in
 		echo "25"
 
 
-		if [ "${PKGC}" = "0" ]; then
-       			# PREPARE FOR SYSTEM BEING NON-MINT
+		if [[ "${DIS,,}" == "mnt" ]]; then
+			# SYSTEM IS VERY LIKELY NATIVE MINT OK TO USE PACKAGES BY NAME
+			sudo -S <<< $SESAME apt -y install $PKGI > /dev/null 2>&1
+
+		else
+			# PREPARE FOR SYSTEM BEING NON-MINT
 			echo "30"
-			DIR_DWN="${HOME}/Downloads/mint-backgrounds"
-			DIR_TGT="/usr/share/backgrounds"
 
 			mkdir -p $DIR_DWN
 			sudo -S <<< $SESAME mkdir -p $DIR_TGT
@@ -262,8 +286,7 @@ case $? in
 
 
 			# SINCE PACKAGES ONLY SOURCED FROM MINT GET THE ARCHIVES IF THERE IS NO APT
-                        if [[ $(compgen -c | grep -iw 'apt' | head -n1 | wc -c) == "0" ]]; then
-
+                        if [[ "${DIS,,}" == "non" ]]; then
 
 				for d in "${PKGW[@]}"
                                 do
@@ -292,7 +315,7 @@ case $? in
 
                                 done
 			# BUT IF APT IS AVAILABLE AND NON-MINT/DEBIAN SYSTEMS MAKE PACKAGE MANAGEMENT THE BETTER CHOICE
-			else
+			elif [[ "${DIS,,}" == "deb" ]]; then
 				for d in "${PKGW[@]}"
        				do
                				if ! [ -f "${DIR_DWN}/${d,,}.deb" ]; then
@@ -303,16 +326,19 @@ case $? in
         	       			fi
        				done
 			fi
-		else
-			# SYSTEM IS VERY LIKELY NATIVE MINT OK TO USE PACKAGES BY NAME
-			sudo -S <<< $SESAME apt -y install $PKGI > /dev/null 2>&1
 		fi
 
 
 
 		echo "55"
 		# UNINSTALL BACKGROUNDS THAT ARE UNCHECKED
-		sudo -S <<< $SESAME apt -y remove $PKGU > /dev/null 2>&1
+		if [[ "${DIS,,}" == "mnt" ]]; then
+			sudo -S <<< $SESAME apt -y remove $PKGU > /dev/null 2>&1
+		else
+			notify-send     --urgency=normal \
+                                        --icon=cs-backgrounds-symbolic "To remove:" "${PKGR}"
+		fi
+
 		echo "65"; sleep 0.5
 		for i in {65..99}
                 do
