@@ -38,10 +38,10 @@ for LANG in ${LANGS_OUT[@]}; do
 		MSG00="\n[i] Generating translation ... en -> ${LANG}\n\n"
 
 		# REMOVE EXISTING DESTINATION FILE
-		rm -f "lang_${LANG}.txt"; echo -e "${MSG00}"
+		rm -f "./po-sh/lang_${LANG,,}.txt"; echo -e "${MSG00}"
 
 		# CHECK FOR SOURCE TRANSLATION FILE
-		if [ -f "lang_${LANGS}.txt" ]; then
+		if [ -f "./po-sh/lang_${LANGS,,}.txt" ]; then
 		        while read line
 		        do
                 		IFS=';' read -ra col <<< "$line"
@@ -51,11 +51,11 @@ for LANG in ${LANGS_OUT[@]}; do
 				echo -e "Source: ${col[1]}"
 
 				if [ "${LANG}" != "${LANGS}" ]; then
-					LANGT=$(translate-cli -t "${LANG}" "${col[1]}" -o); echo "${suffix};${LANGT}" >> "lang_${LANG}.txt"
+					LANGT=$(translate-cli -t "${LANG}" "${col[1]}" -o); echo "${suffix};${LANGT}" >> "./po-sh/lang_${LANG,,}.txt"
 					echo -e "Output: ${LANGT}\n\n"
 				fi
 
-		        done < "lang_${LANGS,,}.txt"
+		        done < "./po-sh/lang_${LANGS,,}.txt"
 		else
 			echo "[!] Source language file doesn't exist (lang_${LANG})"
 		fi

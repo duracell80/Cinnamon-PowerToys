@@ -4,10 +4,15 @@
 
 
 # ENVIRONMENT VARS
-LANG="en"
-DIR_DWN="${HOME}/Downloads/mint-backgrounds"
-DIR_TGT="/usr/share/backgrounds"
 DIR_PWD=$(pwd)
+DIR_TGT="/usr/share/backgrounds"
+DIR_DWN="${HOME}/Downloads/mint-backgrounds"
+
+if [[ "${PWD,,}" == "${HOME}" ]]; then
+	DIR_APP="${HOME}/.local/share/nemo/actions/devtest-mint-backgrounds@duracell80"
+else
+	DIR_APP="${PWD}"
+fi
 
 # CHECK IF SYSTEM IS DEBIAN
 DIS="non"
@@ -69,28 +74,28 @@ fi
 
 # FRENCH
 if [ "${LANG,,}" = "fr" ]; then
-	#export LC_ALL="fr_FR.utf-8"
+	export LC_ALL="fr_FR.utf-8"
 	LANG_INS="installé"
 
 # SPANISH
 elif [ "${LANG,,}" = "es" ]; then
-        #export LC_ALL="es_ES.utf-8"
+        export LC_ALL="es_ES.utf-8"
         LANG_INS="instalado" #fem instalada
 
 # PORTUGUESE - BRAZIL
 elif [ "${REGI,,}" = "pt_br" ]; then
-        #export LC_ALL="pt_BR.utf-8"
+        export LC_ALL="pt_BR.utf-8"
         LANG_INS="instalado" #fem instalada
 	LANG="pt"
 
 # PORTUGUESE
 elif [ "${LANG,,}" = "pt" ]; then
-        #export LC_ALL="pt_PT.utf-8"
+        export LC_ALL="pt_PT.utf-8"
         LANG_INS="instalado" #fem instalada
 
 # GERMAN
 elif [ "${LANG,,}" = "de" ]; then
-        #export LC_ALL="de_DE.utf-8"
+        export LC_ALL="de_DE.utf-8"
         LANG_INS="installiert"
 
 # ITALIAN
@@ -100,38 +105,38 @@ elif [ "${LANG,,}" = "it" ]; then
 
 # DANISH
 elif [ "${LANG,,}" = "da" ]; then
-        #export LC_ALL="da_DK.utf-8"
+        export LC_ALL="da_DK.utf-8"
         LANG_INS="installeret"
 
 # FINNISH
 elif [ "${LANG,,}" = "fi" ]; then
-        #export LC_ALL="fi_FI.utf-8"
+        export LC_ALL="fi_FI.utf-8"
         LANG_INS="asennettu"
 
 # NORWEGIAN NYNORSK
 elif [ "${LANG,,}" = "nn" ]; then
-        #export LC_ALL="nn_NO.utf-8"
+        export LC_ALL="nn_NO.utf-8"
         LANG_INS="installed"
 
 # HUNGARIAN
 elif [ "${LANG,,}" = "hu" ]; then
-        #export LC_ALL="hu_HU.utf-8"
+        export LC_ALL="hu_HU.utf-8"
         LANG_INS="telepítve"
 
 # TURKISH
 elif [ "${LANG,,}" = "tr" ]; then
-        #export LC_ALL="tr_TR.utf-8"
+        export LC_ALL="tr_TR.utf-8"
         LANG_INS="kurulu"
 
 # UKRAINIAN
 elif [ "${REGI,,}" = "ua" ]; then
-        #export LC_ALL="ru_UA.utf-8"
+        export LC_ALL="ru_UA.utf-8"
         LANG_INS="установлен"
 	LANG="ru"
 
 # RUSSIAN
 elif [ "${LANG,,}" = "ru" ]; then
-        #export LC_ALL="ru_RU.utf-8"
+        export LC_ALL="ru_RU.utf-8"
         LANG_INS="установлен"
 
 # ENGLISH
@@ -153,32 +158,32 @@ fi
 
 
 # READ THE LANGUAGE FILE
-if [ -f "lang_${LANG,,}.txt" ]; then
+if [ -f "${DIR_APP}/po-sh/lang_${LANG,,}.txt" ]; then
 	while read line
 	do
    		IFS=';' read -ra col <<< "$line"
 
 		suffix="${col[0]}"
 		declare $suffix="${col[1]}"
-	done < "lang_${LANG,,}.txt"
+	done < "${DIR_APP}/po-sh/lang_${LANG,,}.txt"
 else
-	echo "[!] Language file not found"
+	#notify-send "Desktop Action - Error" "[!] Language file not found"
 	#XT-EN
-	#LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
-	#LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
-	#LAN02="Choose packages to install or remove"
-	#LAN03="Import"
-	#LAN04="Background Set"
-	#LAN05="Index"
+	LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
+	LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
+	LAN02="Choose packages to install or remove"
+	LAN03="Import"
+	LAN04="Background Set"
+	LAN05="Index"
 
-	#LAN20="Sudo password needed for installation"
-	#LAN21="Desktop Action Completed - Previous Backgrounds"
-	#LAN22="The following packages are now available"
-	#LAN23="Making chosen backgrounds available"
-	#LAN24="Installing Mint Backgrounds"
+	LAN20="Sudo password needed for installation"
+	LAN21="Desktop Action Completed - Previous Backgrounds"
+	LAN22="The following packages are now available"
+	LAN23="Making chosen backgrounds available"
+	LAN24="Installing Mint Backgrounds"
 
-	#LAN60="Password not entered, exiting"
-	#LAN90="An unexpected error has occurred"
+	LAN60="Password not entered, exiting"
+	LAN90="An unexpected error has occurred"
 
 fi
 
