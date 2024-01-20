@@ -41,6 +41,14 @@ elif [[ "${UNM,,}" == *"garuda-cinnamon"* ]]; then
     # ARCH
     DIS="non"
     PKG="pac"
+elif [[ "${UNM,,}" == *"arch-linux"* ]]; then
+    # ARCH
+    DIS="non"
+    PKG="pac"
+elif [[ -f "/etc/arch-release" ]]; then
+    # ARCH
+    DIS="non"
+    PKG="pac"
 else
 	DIS="non"
 	PKG="tar"
@@ -53,6 +61,9 @@ else
 		PKG="apt"
 	fi
 fi
+
+
+
 
 
 # CHECK IF DEBIAN AND IF MINT
