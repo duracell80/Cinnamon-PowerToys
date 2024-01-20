@@ -34,9 +34,13 @@ elif [[ "${UNM,,}" == *"fedora"* ]]; then
         DIS="non"
 	PKG="dnf"
 elif [[ "${UNM,,}" == *"fc"* ]]; then
-        # FEDORA
+    # FEDORA
 	DIS="non"
 	PKG="dnf"
+elif [[ "${UNM,,}" == *"garuda-cinnamon"* ]]; then
+    # ARCH
+    DIS="non"
+    PKG="pac"
 else
 	DIS="non"
 	PKG="tar"
@@ -220,6 +224,8 @@ if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
 	        	sudo -S <<< $SESAME apt install -y curl
 		elif [ "${PKG}" = "dnf" ]; then
 			sudo -S <<< $SESAME dnf install -y curl
+        elif [ "${PKG}" = "pac" ]; then
+			sudo -S <<< $SESAME pacman -Sy --noconfirm curl
 		else
 			exit
 		fi
@@ -235,6 +241,8 @@ if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
                         sudo -S <<< $SESAME apt install -y libnotify-bin
                 elif [ "${PKG}" = "dnf" ]; then
                         sudo -S <<< $SESAME dnf install -y libnotify-bin
+                elif [ "${PKG}" = "pac" ]; then
+                        sudo -S <<< $SESAME pacman -Sy --noconfirm libnotify
                 else
                         exit
                 fi
@@ -324,7 +332,8 @@ case $? in
                         if [[ "${DIS,,}" == "non" ]]; then
 
 				if ! [ -f "${HOME}/.config/cinnamon/backgrounds/user-folders.lst"]; then
-					touch "${HOME}/.config/cinnamon/backgrounds/user-folders.lst"
+                    mkdir -p "${HOME}/.config/cinnamon/backgrounds"					
+                    touch "${HOME}/.config/cinnamon/backgrounds/user-folders.lst"
 				fi
 
 				for d in "${PKGW[@]}"
