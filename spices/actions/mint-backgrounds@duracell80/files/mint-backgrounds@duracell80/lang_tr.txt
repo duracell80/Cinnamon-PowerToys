@@ -1,0 +1,13 @@
+LAN00;Yükleme Bilgileri: mint - arka plan paketleri mevcut değil, arşivden çıkarmaya devam edin
+LAN01;Sudo hakları olmadan paket yükleyemezsiniz, kullanıcı hesabınıza sudo grubu ekleyin
+LAN02;Yüklenecek veya kaldırılacak paketleri seçin
+LAN03;İçe Aktar
+LAN04;Arka Plan Seti
+LAN05;Dizin
+LAN20;Kurulum için Sudo şifresi gerekli
+LAN21;Masaüstü Eylemi Tamamlandı - Önceki Arka Planlar
+LAN22;Aşağıdaki paketler artık kullanılabilir
+LAN23;Seçilen geçmişlerin kullanılabilir hale getirilmesi
+LAN24;Nane Arka Planlarını Yükleme
+LAN60;Parola girilmedi, çıkış yapılıyor
+LAN90;Beklenmeyen bir hata oluştu

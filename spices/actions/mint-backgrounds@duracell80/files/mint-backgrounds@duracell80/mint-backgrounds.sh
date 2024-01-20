@@ -4,9 +4,10 @@
 
 
 # ENVIRONMENT VARS
+LANG="en"
 DIR_DWN="${HOME}/Downloads/mint-backgrounds"
 DIR_TGT="/usr/share/backgrounds"
-
+DIR_PWD=$(pwd)
 
 # CHECK IF SYSTEM IS DEBIAN
 DIS="non"
@@ -150,31 +151,35 @@ if [[ "${DIS,,}" == "mnt" ]] || [[ "${DIS,,}" == "deb" ]]; then
 	BACK_GOT=$(apt list | grep -i "mint-backgrounds" | grep -i "${LANG_INS}" | cut -d '-' -f3 | cut -d '/' -f1)
 fi
 
-#PO-EN
-#LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
-#LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
-#LAN02="Choose packages to install or remove"
-#LAN03="Import"
-#LAN04="Background Set"
-#LAN05="Index"
 
-#LAN20="Sudo password needed for installation"
-#LAN21="Desktop Action Completed - Previous Backgrounds"
-#LAN22="The following packages are now available"
-#LAN23="Making chosen backgrounds available"
-#LAN24="Installing Mint Backgrounds"
-
-#LAN60="Password not entered, exiting"
-#LAN90="An unexpected error has occurred"
-
-if [ "${LANG}" == "en" ]; then
+# READ THE LANGUAGE FILE
+if [ -f "lang_${LANG,,}.txt" ]; then
 	while read line
 	do
    		IFS=';' read -ra col <<< "$line"
 
 		suffix="${col[0]}"
 		declare $suffix="${col[1]}"
-	done < "xt/lang_${LANG,,}.txt"
+	done < "lang_${LANG,,}.txt"
+else
+	echo "[!] Language file not found"
+	#XT-EN
+	#LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
+	#LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
+	#LAN02="Choose packages to install or remove"
+	#LAN03="Import"
+	#LAN04="Background Set"
+	#LAN05="Index"
+
+	#LAN20="Sudo password needed for installation"
+	#LAN21="Desktop Action Completed - Previous Backgrounds"
+	#LAN22="The following packages are now available"
+	#LAN23="Making chosen backgrounds available"
+	#LAN24="Installing Mint Backgrounds"
+
+	#LAN60="Password not entered, exiting"
+	#LAN90="An unexpected error has occurred"
+
 fi
 
 # CHECK IF USER HAS SUDO GROUP

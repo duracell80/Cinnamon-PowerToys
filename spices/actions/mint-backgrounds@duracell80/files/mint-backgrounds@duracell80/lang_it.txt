@@ -1,0 +1,13 @@
+LAN00;Informazioni di installazione: pacchetti con sfondo menta non disponibili, continuare a tentare di estrarre dall'archivio
+LAN01;Senza i diritti sudo non sei in grado di installare pacchetti, aggiungi il gruppo sudo al tuo account utente
+LAN02;Scegli i pacchetti da installare o rimuovere
+LAN03;Importa
+LAN04;Set di sfondi
+LAN05;Indice
+LAN20;Password Sudo necessaria per l'installazione
+LAN21;Azione desktop completata - Sfondi precedenti
+LAN22;Sono ora disponibili i seguenti pacchetti
+LAN23;Rendere disponibili gli sfondi scelti
+LAN24;Installazione degli sfondi Mint
+LAN60;Password non inserita, uscita
+LAN90;Si è verificato un errore imprevisto
