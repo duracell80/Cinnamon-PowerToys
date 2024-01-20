@@ -6,4 +6,4 @@ Exec=<mint-backgrounds@duracell80/mint-backgrounds.sh>
 Selection=none
 Extensions=any;
 Conditions=desktop;
-Dependencies=apt;zenity
+Dependencies=zenity

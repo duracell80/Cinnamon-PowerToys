@@ -16,27 +16,38 @@ fi
 
 # CHECK IF SYSTEM IS DEBIAN
 DIS="non"
+PKG="tar"
 UNM=$(uname -a)
 
 
 if [[ "${UNM,,}" == *"debian"* ]]; then
         DIS="deb"
+	PKG="apt"
 elif [[ "${UNM,,}" == *"ubuntu"* ]]; then
         DIS="deb"
+	PKG="apt"
 elif [[ "${UNM,,}" == *"ubuntu-cinnamon"* ]]; then
         DIS="deb"
+	PKG="apt"
 elif [[ "${UNM,,}" == *"fedora"* ]]; then
 	#FEDORA
-        DIS="rpm"
+        DIS="non"
+	PKG="dnf"
 elif [[ "${UNM,,}" == *"fc"* ]]; then
         # FEDORA
-	DIS="rpm"
+	DIS="non"
+	PKG="dnf"
 else
 	DIS="non"
+	PKG="tar"
 	# CHECK IF SYSTEM HAS APT
         if [[ $(compgen -c | grep -iw 'apt' | head -n1 | wc -c) == "0" ]]; then
                 DIS="non"
-        fi
+		PKG="tar"
+        else
+		DIS="deb"
+		PKG="apt"
+	fi
 fi
 
 
@@ -204,10 +215,10 @@ if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
 	        SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install Curl"`
 
 		# DEAL WITH MISSING CURL BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
-		if [ "${DIS}" = "deb" ]; then
+		if [ "${PKG}" = "apt" ]; then
 	        	sudo -S <<< $SESAME apt update
 	        	sudo -S <<< $SESAME apt install -y curl
-		elif [ "${DIS}" = "rpm" ]; then
+		elif [ "${PKG}" = "dnf" ]; then
 			sudo -S <<< $SESAME dnf install -y curl
 		else
 			exit
@@ -219,10 +230,10 @@ if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
                 SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install LibNotify"`
 
                 # DEAL WITH MISSING LIBNOTIFY BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
-                if [ "${DIS}" = "deb" ]; then
+                if [ "${PKG}" = "deb" ]; then
                         sudo -S <<< $SESAME apt update
                         sudo -S <<< $SESAME apt install -y libnotify-bin
-                elif [ "${DIS}" = "rpm" ]; then
+                elif [ "${PKG}" = "dnf" ]; then
                         sudo -S <<< $SESAME dnf install -y libnotify-bin
                 else
                         exit
@@ -311,6 +322,10 @@ case $? in
 
 			# SINCE PACKAGES ONLY SOURCED FROM MINT GET THE ARCHIVES IF THERE IS NO APT
                         if [[ "${DIS,,}" == "non" ]]; then
+
+				if ! [ -f "${HOME}/.config/cinnamon/backgrounds/user-folders.lst"]; then
+					touch "${HOME}/.config/cinnamon/backgrounds/user-folders.lst"
+				fi
 
 				for d in "${PKGW[@]}"
                                 do
