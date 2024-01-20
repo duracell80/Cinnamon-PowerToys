@@ -1,0 +1,13 @@
+LAN00;Telepítési információk: verde-háttér csomagok nem állnak rendelkezésre, továbbra is megpróbálja kinyerni az archívumból
+LAN01;Sudo-jogok nélkül nem tudsz csomagokat telepíteni, adj hozzá sudo-csoportot a felhasználói fiókodhoz
+LAN02;Válassza ki a telepítendő vagy eltávolítandó csomagokat
+LAN03;Importálás
+LAN04;Háttérkészlet
+LAN05;Tárgymutató
+LAN20;A telepítéshez Sudo jelszó szükséges
+LAN21;Asztali művelet befejezve - korábbi hátterek
+LAN22;A következő csomagok már elérhetők
+LAN23;A kiválasztott hátterek elérhetővé tétele
+LAN24;Menta hátterek telepítése
+LAN60;A jelszó nincs megadva, kilépés
+LAN90;Váratlan hiba történt

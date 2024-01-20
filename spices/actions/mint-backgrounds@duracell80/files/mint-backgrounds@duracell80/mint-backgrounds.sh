@@ -151,30 +151,30 @@ if [[ "${DIS,,}" == "mnt" ]] || [[ "${DIS,,}" == "deb" ]]; then
 fi
 
 #PO-EN
-LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
-LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
-LAN02="Choose packages to install or remove"
-LAN03="Import"
-LAN04="Background Set"
-LAN05="Index"
+#LAN00="Install Information: mint-background packages not available, continue to attempt to extract from archive"
+#LAN01="Without sudo rights you're not able to install packages, add sudo group to your user account"
+#LAN02="Choose packages to install or remove"
+#LAN03="Import"
+#LAN04="Background Set"
+#LAN05="Index"
 
-LAN20="Sudo password needed for apt"
-LAN21="Desktop Action Completed - Previous Backgrounds"
-LAN22="The following packages are now available"
-LAN23="Making chosen backgrounds available"
-LAN24="Installing Mint Backgrounds"
+#LAN20="Sudo password needed for installation"
+#LAN21="Desktop Action Completed - Previous Backgrounds"
+#LAN22="The following packages are now available"
+#LAN23="Making chosen backgrounds available"
+#LAN24="Installing Mint Backgrounds"
 
-LAN60="Password not entered, exiting"
-LAN90="An unexpected error has occurred"
+#LAN60="Password not entered, exiting"
+#LAN90="An unexpected error has occurred"
 
-if [ "${LANG}" != "en" ]; then
+if [ "${LANG}" == "en" ]; then
 	while read line
 	do
    		IFS=';' read -ra col <<< "$line"
 
 		suffix="${col[0]}"
 		declare $suffix="${col[1]}"
-	done < "lang_${LANG,,}.txt"
+	done < "xt/lang_${LANG,,}.txt"
 fi
 
 # CHECK IF USER HAS SUDO GROUP
@@ -203,6 +203,21 @@ if [[ "${DIS,,}" == "deb" ]] || [[ "${DIS,,}" == "non" ]]; then
 			exit
 		fi
 	fi
+
+	# CHECK IF SYSTEM HAS NOTIFY-SEND
+        if [[ $(compgen -c | grep -iw 'notify-send' | head -n1 | wc -c) == "0" ]]; then
+                SESAME=`zenity --password --icon-name=security-high-symbolic --width=500 --title="Install LibNotify"`
+
+                # DEAL WITH MISSING LIBNOTIFY BASED ON DISTRIBUTION TO MAXIMIZE NON-MINT USAGE
+                if [ "${DIS}" = "deb" ]; then
+                        sudo -S <<< $SESAME apt update
+                        sudo -S <<< $SESAME apt install -y libnotify-bin
+                elif [ "${DIS}" = "rpm" ]; then
+                        sudo -S <<< $SESAME dnf install -y libnotify-bin
+                else
+                        exit
+                fi
+        fi
 
 	# LOOKUP PACKAGES FROM MINT REPO
 	BACK_GOT=$(ls -d /usr/share/backgrounds/linuxmint-* | sed "s|${DIR_TGT}/linuxmint-||g" | sort -u)

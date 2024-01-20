@@ -1,0 +1,13 @@
+LAN00;Informações de instalação: os pacotes de fundo perfeito não estão disponíveis, continue a tentar extrair do arquivo
+LAN01;Sem os direitos do sudo, não é possível instalar pacotes, adicione o grupo sudo à sua conta de utilizador
+LAN02;Escolha pacotes para instalar ou remover
+LAN03;Importar
+LAN04;Conjunto de Fundo
+LAN05;Índice
+LAN20;Senha Sudo necessária para a instalação
+LAN21;Ação da Área de Trabalho Concluída - Antecedentes Anteriores
+LAN22;Os seguintes pacotes já estão disponíveis
+LAN23;Disponibilização dos fundos escolhidos
+LAN24;Instalação de Fundos de Casa da Moeda
+LAN60;Palavra-passe não introduzida, a sair
+LAN90;Ocorreu um erro inesperado
