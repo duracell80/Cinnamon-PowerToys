@@ -39,7 +39,7 @@ for LANG in ${LANGS_OUT[@]}; do
 
 		# REMOVE EXISTING DESTINATION FILE
 		rm -f "./po-sh/lang_${LANG,,}.txt"; echo -e "${MSG00}"
-        touch "./po-sh/lang_${LANG,,}.txt"
+		touch "./po-sh/lang_${LANG,,}.txt"
 
 		# CHECK FOR SOURCE TRANSLATION FILE
 		if [ -f "./po-sh/lang_${LANGS,,}.txt" ]; then
@@ -61,7 +61,8 @@ for LANG in ${LANGS_OUT[@]}; do
 			echo "[!] Source language file doesn't exist (lang_${LANG})"
 		fi
 	fi
-	echo "[i] Resting the API for a minute or two ..."; sleep 90
+	#echo "[i] Resting the API for a minute or two ..."
+	#sleep 30
 
 done
 
