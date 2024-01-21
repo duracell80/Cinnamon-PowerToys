@@ -15,10 +15,9 @@ fi
 
 
 
-
 # READ THE LANGUAGE FILE
 if [[ "${PWD,,}" == "${HOME}" ]]; then
-	DIR_APP="${HOME}/.local/share/nemo/actions/devtest-cinnamon-take-screenshot@duracell80"
+	DIR_APP="${HOME}/.local/share/nemo/actions/cinnamon-take-screenshot@duracell80"
 else
 	DIR_APP="${PWD}"
 fi
@@ -33,82 +32,49 @@ if [ "${REGI}" = "" ]; then
         REGI="US"
 fi
 
-
 # FRENCH
 if [ "${LANG,,}" = "fr" ]; then
 	export LC_ALL="fr_FR.utf-8"
-	LANG_INS="installé"
-
 # SPANISH
 elif [ "${LANG,,}" = "es" ]; then
         export LC_ALL="es_ES.utf-8"
-        LANG_INS="instalado" #fem instalada
-
 # PORTUGUESE - BRAZIL
 elif [ "${REGI,,}" = "pt_br" ]; then
         export LC_ALL="pt_BR.utf-8"
-        LANG_INS="instalado" #fem instalada
-	LANG="pt"
-
+	    LANG="pt"
 # PORTUGUESE
 elif [ "${LANG,,}" = "pt" ]; then
-        export LC_ALL="pt_PT.utf-8"
-        LANG_INS="instalado" #fem instalada
-
+        export LC_ALL="pt_PT.utf-8"        
 # GERMAN
 elif [ "${LANG,,}" = "de" ]; then
         export LC_ALL="de_DE.utf-8"
-        LANG_INS="installiert"
-
 # ITALIAN
 elif [ "${LANG,,}" = "it" ]; then
-        #export LC_ALL="it_IT.utf-8"
-        LANG_INS="installato"
-
+        export LC_ALL="it_IT.utf-8"
 # DANISH
 elif [ "${LANG,,}" = "da" ]; then
         export LC_ALL="da_DK.utf-8"
-        LANG_INS="installeret"
-
 # FINNISH
 elif [ "${LANG,,}" = "fi" ]; then
         export LC_ALL="fi_FI.utf-8"
-        LANG_INS="asennettu"
-
 # NORWEGIAN NYNORSK
 elif [ "${LANG,,}" = "nn" ]; then
         export LC_ALL="nn_NO.utf-8"
         LANG_INS="installed"
-
 # HUNGARIAN
 elif [ "${LANG,,}" = "hu" ]; then
         export LC_ALL="hu_HU.utf-8"
-        LANG_INS="telepítve"
-
 # TURKISH
 elif [ "${LANG,,}" = "tr" ]; then
         export LC_ALL="tr_TR.utf-8"
-        LANG_INS="kurulu"
-
-# UKRAINIAN
-elif [ "${REGI,,}" = "ua" ]; then
-        export LC_ALL="ru_UA.utf-8"
-        LANG_INS="установлен"
-	    LANG="ru"
-
 # RUSSIAN
 elif [ "${LANG,,}" = "ru" ]; then
         export LC_ALL="ru_RU.utf-8"
-        LANG_INS="установлен"
-
 # ENGLISH
 elif [ "${LANG,,}" = "en" ]; then
     export LC_ALL="en_GB.utf-8"
-    LANG_INS="installed"
-
 else
 	export LC_ALL="en_US.utf-8"
-	LANG_INS="installed"
 fi
 
 
@@ -128,7 +94,7 @@ fi
 
 
 
-# IF GNOME SCREEN SHOT AVAILABLE
+# IF GNOME SCREEN SHOT AVAILABLE - TODO SUPPORT OTHER NON MINT ENVIRONMENTS
 # OFFER THE AREA SELECTION TOOL, SAVE DIRECTLY TO PICTURES AND OPEN IN PIX
 if [[ $(compgen -c | grep -iw 'gnome-screenshot' | head -n1 | wc -l) == "0" ]]; then
     zenity --error --icon-name=security-high-symbolic --text="${LAN00}";

@@ -9,7 +9,7 @@ DIR_TGT="/usr/share/backgrounds"
 DIR_DWN="${HOME}/Downloads/mint-backgrounds"
 
 if [[ "${PWD,,}" == "${HOME}" ]]; then
-	DIR_APP="${HOME}/.local/share/nemo/actions/devtest-mint-backgrounds@duracell80"
+	DIR_APP="${HOME}/.local/share/nemo/actions/mint-backgrounds@duracell80"
 else
 	DIR_APP="${PWD}"
 fi
@@ -126,7 +126,7 @@ elif [ "${LANG,,}" = "de" ]; then
 
 # ITALIAN
 elif [ "${LANG,,}" = "it" ]; then
-        #export LC_ALL="it_IT.utf-8"
+        export LC_ALL="it_IT.utf-8"
         LANG_INS="installato"
 
 # DANISH
@@ -153,12 +153,6 @@ elif [ "${LANG,,}" = "hu" ]; then
 elif [ "${LANG,,}" = "tr" ]; then
         export LC_ALL="tr_TR.utf-8"
         LANG_INS="kurulu"
-
-# UKRAINIAN
-elif [ "${REGI,,}" = "ua" ]; then
-        export LC_ALL="ru_UA.utf-8"
-        LANG_INS="установлен"
-	LANG="ru"
 
 # RUSSIAN
 elif [ "${LANG,,}" = "ru" ]; then
