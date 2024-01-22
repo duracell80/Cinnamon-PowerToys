@@ -1,0 +1,7 @@
+{
+    "description": "Select multiple image frames to sequence into a non-looped video",
+    "uuid": "sequence-to-video@duracell80",
+    "name": "Sequence as Video",
+    "author": "duracell80",
+    "version": "1.0"
+}

@@ -1,0 +1,8 @@
+[Nemo Action]
+_Name=Sequence as Video
+_Comment=Select multiple image frames to sequence into a non-looped video
+Icon-Name=video-display-symbolic
+Exec=<sequence-to-video@duracell80/sequence-to-video.sh %F>
+Selection=notnone
+Extensions=png;jpeg;jpg
+Dependencies=ffmpeg;zenity
