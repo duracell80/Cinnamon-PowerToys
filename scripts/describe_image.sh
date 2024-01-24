@@ -96,6 +96,10 @@ if [ "$AI_MODEL" = "llava" ]; then
 	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
 	RESPTEXT=$(cat "${HOME}/ollama_response.txt")
 
+	echo "${RESPTEXT}" > "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp"
+	exiftool -overwrite_original -Exif:ImageDescription="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" -Description="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" "${1}"
+	rm -f "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp"
+
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPTEXT}\n\n" >> "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.txt"
 
 	notify-send --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
