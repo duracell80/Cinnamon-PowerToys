@@ -44,7 +44,7 @@ if [ "$3" = "ask" ]; then
 		"03" "What is normal about this image?" \
 		"04" "Can you tell me about the location of this image?" \
 		"05" "Can you tell me about the objects in this image?" \
-		"06" "Can you count the objects in this image?" \
+		"06" "Can you provide a list of keywords for this image?" \
 		"07" "In this image is the scene located indoors or outdoors?" \
 		"08" "What kind of movie is the scene pictured in this image from?" \
 		"09" "Can you write some short trivia questions based on this image?" \
@@ -62,7 +62,7 @@ if [ "$3" = "ask" ]; then
 	elif [ "$PQ" = "05" ]; then
                 PROMPT="Tell me about the objects in this image, how many there are and anything else to note about the objects"
 	elif [ "$PQ" = "06" ]; then
-                PROMPT="Count the number of objects in this image and give a brief description of each"
+                PROMPT="Provide an extensive list of keywords that describe objects in this image"
 	elif [ "$PQ" = "07" ]; then
                 PROMPT="In this image, is the scene located indoors or outdoors and describe your reasoning why you came to this conclusion"
 	elif [ "$PQ" = "08" ]; then
@@ -100,7 +100,8 @@ if [ "$AI_MODEL" = "llava" ]; then
 	exiftool -overwrite_original -Exif:ImageDescription="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" -Description="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" "${1}"
 	rm -f "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp"
 
-	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPTEXT}\n\n" >> "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.txt"
+	mkdir -p "${FILE_DIR}/.comments"
+	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPTEXT}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
 
 	notify-send --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
 
