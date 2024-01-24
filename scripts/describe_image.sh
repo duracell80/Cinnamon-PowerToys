@@ -92,13 +92,15 @@ echo "50"
 if [ "$AI_MODEL" = "llava" ]; then
 	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
 
+	TS=$(date +%s)
+
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
 	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
 	RESPTEXT=$(cat "${HOME}/ollama_response.txt")
 
-	echo "${RESPTEXT}" > "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp"
-	exiftool -overwrite_original -Exif:ImageDescription="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" -Description="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp)" "${1}"
-	rm -f "${FILE_DIR}/${FILE_NME}_${FILE_EXT}.tmp"
+	echo "${RESPTEXT}" > "${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp"
+	exiftool -overwrite_original -Exif:ImageDescription="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp)" -Description="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp)" "${1}"
+	rm -f "${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp"
 
 	mkdir -p "${FILE_DIR}/.comments"
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPTEXT}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
