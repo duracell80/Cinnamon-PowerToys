@@ -41,9 +41,9 @@ if [[ $(compgen -c | grep -iw 'ffmpeg' | head -n1 | wc -l) == "0" ]]; then
     zenity --error --icon-name=security-high-symbolic --text="${LAN00}";
 else
    
-    # US date format: 2024-01-21 16:27 = +%Y-%m-%d %H:%M
-    # ELSE USE UNIVERSAL SECONDS FOR FILE NAME
     TIS=$(date +%s)
+    TIC=$(date +%c | sed 's/:/-/g' | sed 's/ /_/g')
+
     touch "${DIR_TGT}/ffseq_${TIS}.txt"
     
 
@@ -88,7 +88,7 @@ else
         echo "file '${f}'" >> "${DIR_TGT}/ffseq_${TIS}.txt"
     done
 
-    ffmpeg -r 30 -f concat -safe 0 -i "${DIR_TGT}/ffseq_${TIS}.txt" -c:v libx264 -pix_fmt yuv420p "${DIR_TGT}/sequence_${TIS}.mp4"   
-    celluloid ${DIR_TGT}/sequence_${TIS}.mp4
+    ffmpeg -r 30 -f concat -safe 0 -i "${DIR_TGT}/ffseq_${TIS}.txt" -c:v libx264 -pix_fmt yuv420p "${DIR_TGT}/sequence_${TIC,,}.mp4"   
+    celluloid ${DIR_TGT}/sequence_${TIC,,}.mp4
     rm -f "${DIR_TGT}/ffseq_${TIS}.txt"
 fi
