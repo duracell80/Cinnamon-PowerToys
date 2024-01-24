@@ -40,13 +40,51 @@ fi
 if [[ $(compgen -c | grep -iw 'ffmpeg' | head -n1 | wc -l) == "0" ]]; then
     zenity --error --icon-name=security-high-symbolic --text="${LAN00}";
 else
-   # US date format: 2024-01-21 16:27 = +%Y-%m-%d %H:%M
-   # ELSE USE UNIVERSAL SECONDS FOR FILE NAME
+   
+    # US date format: 2024-01-21 16:27 = +%Y-%m-%d %H:%M
+    # ELSE USE UNIVERSAL SECONDS FOR FILE NAME
     TIS=$(date +%s)
     touch "${DIR_TGT}/ffseq_${TIS}.txt"
     
-    for f in "$@"
-    do
+
+    #ASK FOR A SORTING ORDER
+    SORT=$(zenity --list \
+        --width=500 \
+        --height=400 \
+        --title="Choose a sorting method" \
+        --column="Choice" --column="Description" \
+            "01" "Filename ascending" \
+	        "02" "Filename descending" \
+            "03" "Filename unique (ascending)" \
+            "04" "Filename unique (descending)" \
+            "05" "Filename random" )
+
+    if [ "$SORT" = "01" ]; then
+        # LOWER TO HIGHER
+        SORTED=($(sort -f <(printf "%s\n" "$@")))
+
+    elif [ "$SORT" = "02" ]; then
+        # HIGHER TO LOWER
+        SORTED=($(sort -fr <(printf "%s\n" "$@")))
+
+    elif [ "$SORT" = "03" ]; then
+        # UNIQUE ASC        
+        SORTED=($(sort -fu <(printf "%s\n" "$@")))
+
+    elif [ "$SORT" = "04" ]; then
+        # UNIQUE DESC    
+        SORTED=($(sort -fur <(printf "%s\n" "$@")))
+
+    elif [ "$SORT" = "05" ]; then
+        # RANDOM
+        SORTED=($(sort -fR <(printf "%s\n" "$@")))
+
+    else
+        # USER HITS CANCEL            
+        exit        
+    fi
+
+    for f in "${SORTED[@]}"; do
         echo "file '${f}'" >> "${DIR_TGT}/ffseq_${TIS}.txt"
     done
 
