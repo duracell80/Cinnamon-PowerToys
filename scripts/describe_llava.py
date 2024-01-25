@@ -5,7 +5,6 @@
 
 import subprocess, argparse, requests, base64, time, json, sys, os
 
-home_dir = "~/"
 
 # note: including the start server code in this script for demo purposes. You might want to seperately start the server so that you're not starting the server every time you make the call. 
 def start_ollama_server():
@@ -33,10 +32,7 @@ def analyze_image(image_path, custom_prompt):
 	response = requests.post(url, json=payload)
 
 	try:
-		# Split the response text into separate lines
 		response_lines = response.text.strip().split('\n')
-
-		# Extract and concatenate the 'response' part from each line
 		full_response = ''.join(json.loads(line)['response'] for line in response_lines if 'response' in json.loads(line))
 
 		return full_response
@@ -54,7 +50,9 @@ if __name__ == "__main__":
 
 	start_ollama_server()
 	result = analyze_image(args.image, args.prompt)
-	home_expand = os.path.expanduser(home_dir)
-	with open(f'{home_expand}/ollama_response.txt', 'w', encoding='utf-8') as f:
-		f.write(result)
-	#print(result)
+	print(result)
+
+	#home_dir = "~/"
+	#home_expand = os.path.expanduser(home_dir)
+	#with open(f'{home_expand}/ollama_response.txt', 'w', encoding='utf-8') as f:
+	#	f.write(result)

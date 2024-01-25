@@ -48,8 +48,9 @@ if [ "$3" = "ask" ]; then
 		"07" "In this image is the scene located indoors or outdoors?" \
 		"08" "What kind of movie is the scene pictured in this image from?" \
 		"09" "Can you write some short trivia questions based on this image?" \
-		"10" "Give me some I Spy recommendations from this image" \
-		"30" "Ask my own prompt ...")
+		"11" "Give me some I Spy recommendations from this image" \
+		"12" "Give me some recommendations on improving the composition" \
+		"30" "Provide your own prompt ...")
 
 	if [ "$PQ" = "01" ]; then
 		PROMPT="Describe this image in detail"
@@ -62,15 +63,17 @@ if [ "$3" = "ask" ]; then
 	elif [ "$PQ" = "05" ]; then
                 PROMPT="Tell me about the objects in this image, how many there are and anything else to note about the objects"
 	elif [ "$PQ" = "06" ]; then
-                PROMPT="Provide an extensive list of keywords that describe objects in this image"
+                PROMPT="Provide an extensive comma separated list of keywords that describe objects in this image"
 	elif [ "$PQ" = "07" ]; then
                 PROMPT="In this image, is the scene located indoors or outdoors and describe your reasoning why you came to this conclusion"
 	elif [ "$PQ" = "08" ]; then
-                PROMPT="What movie do you think the scene in the image is from and what kind of movie is it?"
+                PROMPT="What movie or television show do you think the scene in the image is from and what kind of movie or show is it?"
 	elif [ "$PQ" = "09" ]; then
                 PROMPT="Write a few trivia questions based on details that you see in this image"
-	elif [ "$PQ" = "10" ]; then
+	elif [ "$PQ" = "11" ]; then
                 PROMPT="The objective of the game Eye Spy is to pick random objects from a scene and note what letter they begin with; can you find 3 objects in the image and say what letter they begin with?"
+	elif [ "$PQ" = "12" ]; then
+                PROMPT="Provide some recommendations on improving the composition or framing of this photograph and explain the reasoning behind these choices"
 	else
 		UQ=$(zenity --entry --width=500 --height=100 --title="What would you like to ask of this image?")
 		PROMPT="In this image; ${UQ}"
@@ -92,22 +95,17 @@ echo "50"
 if [ "$AI_MODEL" = "llava" ]; then
 	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
 
-	TS=$(date +%s)
-
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
 	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
-	RESPTEXT=$(cat "${HOME}/ollama_response.txt")
 
-	echo "${RESPTEXT}" > "${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp"
-	exiftool -overwrite_original -Exif:ImageDescription="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp)" -Description="$(cat ${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp)" "${1}"
-	rm -f "${FILE_DIR}/${FILE_NME}_${FILE_EXT}_${TS}.tmp"
+	exiftool -overwrite_original -Exif:ImageDescription="${RESPONSE}" -Description="${RESPONSE}" "${1}"
 
 	mkdir -p "${FILE_DIR}/.comments"
-	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPTEXT}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
+	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
 
-	notify-send --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
+	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
 
-	echo "${RESPTEXT}" | xclip -sel clip
+	echo "${RESPONSE}" | xclip -sel clip
 fi
 
 echo "75" ; sleep 1
