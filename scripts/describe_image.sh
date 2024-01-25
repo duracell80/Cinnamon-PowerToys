@@ -108,7 +108,6 @@ if [ "$AI_MODEL" = "llava" ]; then
 
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
 
-	zenity --info --text="${RESPONSE}"
 	echo "${RESPONSE}" | xclip -sel clip
 fi
 
@@ -116,7 +115,8 @@ echo "75" ; sleep 1
 echo "# Completed ${FILE_NME}.${FILE_EXTDEST}"
 echo "100" ; sleep 1
 ) |
-zenity --progress --title="Describing image" --text="Running image description model" --percentage=25 --width=500 --timeout=900
+zenity --progress --title="Describing image" --text="Running image description model" --percentage=25 --width=500 --timeout=400
+zenity --info --text="${RESPONSE}"
 
 #zenity --text-info --title="Description of image" --filename="${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
 
