@@ -50,9 +50,11 @@ if __name__ == "__main__":
 
 	start_ollama_server()
 	result = analyze_image(args.image, args.prompt)
-	print(result)
 
 	#home_dir = "~/"
 	#home_expand = os.path.expanduser(home_dir)
-	#with open(f'{home_expand}/ollama_response.txt', 'w', encoding='utf-8') as f:
-	#	f.write(result)
+	with open(f'{args.image}.txt', 'w', encoding='utf-8') as f:
+		f.write(result)
+
+	time.sleep(2)
+	print(result)

@@ -90,39 +90,49 @@ PROMPT="${PROMPT} ${1}"
 
 
 (
-echo "50"
+echo "15"
 
 TS=$(date +%s)
 if [ "$AI_MODEL" = "llava" ]; then
 	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
 
+	touch "${1}.txt"
 
-	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
-	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
+	notify-send --hint=string:image-path:"${1}" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
 
+	${HOME}/.local/share/powertoys/describe_llava.py -i "${1}" -p "${PROMPT}"
+
+	c=15
+	while [[ $(cat "${1}.txt" | wc -c) == "0" ]]
+	do
+        	c=$(( $c + 1 ))
+        	echo "${c}"
+        	sleep 2
+	done
+
+	RESPONSE=$(cat "${1}.txt")
 	exiftool -overwrite_original -Exif:ImageDescription="${RESPONSE}" -Description="${RESPONSE}" "${1}"
 
 	mkdir -p "${FILE_DIR}/.comments"
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
-	echo "${RESPONSE}" > "${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
 
-	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
+	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been appended to a file named ${FILE_NME}_${FILE_EXT}.txt in the .comments folder. Thank you for using LLaVA Visual Assistant!"
 
-	echo "${RESPONSE}" | xclip -sel clip
+	#echo "${RESPONSE}" | xclip -sel clip
 fi
 
-echo "75" ; sleep 1
+echo "95" ; sleep 1
 echo "# Completed ${FILE_NME}.${FILE_EXTDEST}"
 echo "100" ; sleep 1
 ) |
 zenity --progress --title="Describing image" --text="Running image description model" --percentage=25 --width=500 --timeout=400
-zenity --info --text="${RESPONSE}"
+#zenity --info --text="$(cat $1.txt)"
 
-#zenity --text-info --title="Description of image" --filename="${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
+zenity --text-info --title="Description of image" --filename="${1}.txt"
 
 if [ "$?" = -1 ] ; then
         zenity --error \
           --text="Conversion canceled"
 fi
 
-rm -f "${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
+rm -f "${1}.txt"
