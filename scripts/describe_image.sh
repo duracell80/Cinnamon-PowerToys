@@ -92,8 +92,10 @@ PROMPT="${PROMPT} ${1}"
 (
 echo "50"
 
+TS=$(date +%s)
 if [ "$AI_MODEL" = "llava" ]; then
 	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
+
 
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
 	RESPONSE=$("${HOME}/.local/share/powertoys/describe_llava.py" -i "$1" -p "${PROMPT}")
@@ -102,9 +104,11 @@ if [ "$AI_MODEL" = "llava" ]; then
 
 	mkdir -p "${FILE_DIR}/.comments"
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
+	echo "${RESPONSE}" > "${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
 
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been copied to your clipboard and appended to a file named ${FILE_NME}_${FILE_EXT}.txt. Thank you for using LLaVA Visual Assistant!"
 
+	zenity --info --text="${RESPONSE}"
 	echo "${RESPONSE}" | xclip -sel clip
 fi
 
@@ -112,11 +116,13 @@ echo "75" ; sleep 1
 echo "# Completed ${FILE_NME}.${FILE_EXTDEST}"
 echo "100" ; sleep 1
 ) |
-zenity --progress --title="Describing image" --text="Running image description model" --percentage=25 --width=500 --timeout=600
+zenity --progress --title="Describing image" --text="Running image description model" --percentage=25 --width=500 --timeout=900
 
-zenity --text-info --title="Description of image" --filename="${HOME}/ollama_response.txt"
+#zenity --text-info --title="Description of image" --filename="${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
 
 if [ "$?" = -1 ] ; then
         zenity --error \
           --text="Conversion canceled"
 fi
+
+rm -f "${FILE_DIR}/.comments/${FILE_NME}_${TS}.txt"
