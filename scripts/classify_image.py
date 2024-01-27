@@ -65,6 +65,9 @@ def analyze_image(image_file, image_mode = "classify"):
 	keychain = keychain[:-2]
 	os.system(f"exiftool -overwrite_original -keywords^='{keychain}' {image_file}")
 
+	#with open(f'{args.image}_keys.txt', 'w', encoding='utf-8') as f:
+	#	f.write(keychain)
+
 	return keychain
 
 

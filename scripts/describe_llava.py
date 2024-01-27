@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
 	#home_dir = "~/"
 	#home_expand = os.path.expanduser(home_dir)
+
 	with open(f'{args.image}.txt', 'w', encoding='utf-8') as f:
 		f.write(result)
 

@@ -111,8 +111,16 @@ if [ "$AI_MODEL" = "llava" ]; then
 	done
 
 	RESPONSE=$(cat "${1}.txt")
-	exiftool -overwrite_original -Exif:ImageDescription="${RESPONSE}" -Description="${RESPONSE}" "${1}"
 
+	IMG_KEYS=$(exiftool -keywords "${1}" | cut -d ":" -f2)
+	IMG_COMB="Keywords:${IMG_KEYS} Description:${RESPONSE}"
+	IMG_XPCO=$(exiftool -XPComment "${1}")
+
+	if [[ "${IMG_XPCO}" == "" ]]; then
+		exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
+	else
+		exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Exif:XPComment="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
+	fi
 	mkdir -p "${FILE_DIR}/.comments"
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
 
