@@ -3,6 +3,6 @@ Name=Classify Image
 Comment=Uses local AI models to produce keywords to add to an image's exif data
 EscapeSpaces=true
 Exec=~/.local/share/powertoys/classify_image.sh %F classify
-Selection=S
+Selection=M
 Extensions=jpg;jpeg
 Dependencies=exiftool;zenity
