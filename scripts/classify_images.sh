@@ -9,18 +9,24 @@ if ! [ "which zenity" ]; then
 fi
 
 AI_MODEL="classify"
+IMG_LOOPS=$#
 
 (
-echo "15"
+echo "0"
 
 if [ "$AI_MODEL" = "classify" ]; then
-
+	i=0
 	for IMG_FILE in "$@"
 	do
-		echo "# Passing the image ${IMG_FILE} to MediaPipe to classify ..."
+		i=$(( $i + 1 ))
+		echo "# Passing the image ${i} of ${IMG_LOOPS} to MediaPipe to classify ..."
 		${HOME}/.local/share/powertoys/classify_images.py -i "${IMG_FILE}"
-		c=15
-		while [ $c -le 75 ]
+		if [ $i -lt 95 ]; then
+			c=$i
+		else
+			c=0
+		fi
+		while [ $c -le 95 ]
 	    	do
         		echo "${c}"
         		c=$(( $c + 1 ))
@@ -29,12 +35,11 @@ if [ "$AI_MODEL" = "classify" ]; then
 	done
 fi
 
-echo "85"; sleep 0.5
 echo "# Completed classification of all selected image files"
 sleep 2
 echo "100"; sleep 1
 ) |
-zenity --progress --title="Classify image" --text="Running image classification model" --percentage=15 --width=500
+zenity --progress --title="Classify image" --text="Running image classification model" --percentage=0 --width=500
 
 #rm -f "${1}_keys.txt"
 

@@ -80,5 +80,5 @@ def parse_arguments():
 if __name__ == "__main__":
 	args = parse_arguments()
 
-	result = analyze_image(args.image, args.mode)
+	result = analyze_image(args.image)
 	print(result)
