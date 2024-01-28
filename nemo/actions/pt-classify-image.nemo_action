@@ -1,8 +1,8 @@
 [Nemo Action]
-Name=Classify Image
+Name=Classify Image(s)
 Comment=Uses local AI models to produce keywords to add to an image's exif data
 EscapeSpaces=true
-Exec=~/.local/share/powertoys/classify_image.sh %F classify
-Selection=M
+Exec=/home/lee/.local/share/powertoys/classify_images.sh %F
+Selection=notnone
 Extensions=jpg;jpeg
 Dependencies=exiftool;zenity

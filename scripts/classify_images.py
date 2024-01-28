@@ -33,7 +33,7 @@ def unique(list1):
 	return(np.unique(x))
 
 
-def analyze_image(image_file, image_mode = "classify"):
+def analyze_image(image_file):
 
 	BaseOptions = mp.tasks.BaseOptions
 	ImageClassifier = mp.tasks.vision.ImageClassifier
@@ -74,7 +74,6 @@ def analyze_image(image_file, image_mode = "classify"):
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='MediaPipe Image Analysis')
 	parser.add_argument('-i', '--image', required=True, help='Path to the image file')
-	parser.add_argument('-m', '--mode', default='objects', help='The type of model to run')
 
 	return parser.parse_args()
 
