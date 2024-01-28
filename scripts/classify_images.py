@@ -3,7 +3,7 @@
 
 # python3 -m pip install mediapipe numpy cv
 
-import os, sys, argparse
+import os, sys, argparse, random
 import numpy as np
 import mediapipe as mp
 from mediapipe.tasks import python
@@ -13,7 +13,7 @@ import urllib.request
 
 global model_file, model_conf
 
-model_conf	= 40
+model_conf	= 20
 model_path	= f"{os.path.expanduser('~/')}.local/share/tensorflow"
 model_file 	= f"efficientnet_lite2.tflite"
 model_dest      = f"{model_path}/{model_file}"
@@ -56,10 +56,11 @@ def analyze_image(image_file):
 
 	keychain = ""
 	keywords = unique(keywords)
+	keyrands = sorted(keywords, key=lambda x: random.random())
 	i=0
-	for keyword in keywords:
+	for keyword in keyrands:
 		i+=1
-		if i < 5:
+		if i < 6:
 			keychain+= f"{keyword}, "
 
 	keychain = keychain[:-2]
@@ -80,5 +81,7 @@ def parse_arguments():
 if __name__ == "__main__":
 	args = parse_arguments()
 
-	result = analyze_image(args.image)
-	print(result)
+	keywords_len = os.popen(f"exiftool -keywords {args.image} | cut -d ':' -f2 | wc -c").read()
+	if int(keywords_len) < 1:
+		result = analyze_image(args.image)
+		print(result)
