@@ -42,7 +42,7 @@ def analyze_image(image_file, image_verbosity = "fluid"):
 
 	if image_verbosity == "strict":
 		conf_results = 1
-		model_conf = 80
+		model_conf = 70
 	else:
 		conf_results = 15
 		model_conf = 40
@@ -58,8 +58,10 @@ def analyze_image(image_file, image_verbosity = "fluid"):
 	keywords = []
 	for index in classification_result.classifications:
 		for item in index.categories:
-			if item.score > (model_conf / 10000):
+			if item.score > (model_conf / 100):
 				keywords.append(item.category_name)
+			else:
+				keywords.append("Unknown")
 
 	keychain = ""
 	keywords = unique(keywords)
