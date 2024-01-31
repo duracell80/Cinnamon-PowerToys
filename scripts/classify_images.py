@@ -14,8 +14,8 @@ import urllib.request
 global model_file, model_conf
 
 model_path	= f"{os.path.expanduser('~/')}.local/share/tensorflow"
-#model_file 	= f"efficientnet_lite2.tflite"
-model_file	= f"classify-petimages_fp16.tflite"
+model_file 	= f"efficientnet_lite2.tflite"
+#model_file	= f"classify-petimages_fp16.tflite"
 model_dest      = f"{model_path}/{model_file}"
 
 
@@ -43,9 +43,12 @@ def analyze_image(image_file, image_verbosity = "fluid"):
 	if image_verbosity == "strict":
 		conf_results = 1
 		model_conf = 70
+	elif image_verbosity == "fluid":
+		conf_results = 5
+		model_conf = 2
 	else:
-		conf_results = 15
-		model_conf = 40
+		conf_results = 20
+		model_conf = 35
 
 
 	options = ImageClassifierOptions( base_options=BaseOptions(model_asset_path = model_dest), max_results=conf_results, running_mode=VisionRunningMode.IMAGE)
@@ -61,7 +64,8 @@ def analyze_image(image_file, image_verbosity = "fluid"):
 			if item.score > (model_conf / 100):
 				keywords.append(item.category_name)
 			else:
-				keywords.append("Unknown")
+				if image_verbosity == "strict":
+					keywords.append("Unknown")
 
 	keychain = ""
 	keywords = unique(keywords)
