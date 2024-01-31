@@ -3,7 +3,7 @@
 
 # python3 -m pip install mediapipe numpy cv
 
-import os, sys, argparse, random
+import os, sys, argparse
 import numpy as np
 import mediapipe as mp
 from mediapipe.tasks import python
@@ -13,9 +13,9 @@ import urllib.request
 
 global model_file, model_conf
 
-model_conf	= 20
 model_path	= f"{os.path.expanduser('~/')}.local/share/tensorflow"
-model_file 	= f"efficientnet_lite2.tflite"
+#model_file 	= f"efficientnet_lite2.tflite"
+model_file	= f"classify-petimages_fp16.tflite"
 model_dest      = f"{model_path}/{model_file}"
 
 
@@ -33,15 +33,22 @@ def unique(list1):
 	return(np.unique(x))
 
 
-def analyze_image(image_file):
+def analyze_image(image_file, image_verbosity = "fluid"):
 
 	BaseOptions = mp.tasks.BaseOptions
 	ImageClassifier = mp.tasks.vision.ImageClassifier
 	ImageClassifierOptions = mp.tasks.vision.ImageClassifierOptions
 	VisionRunningMode = mp.tasks.vision.RunningMode
 
+	if image_verbosity == "strict":
+		conf_results = 1
+		model_conf = 80
+	else:
+		conf_results = 15
+		model_conf = 40
 
-	options = ImageClassifierOptions( base_options=BaseOptions(model_asset_path = model_dest), max_results=25, running_mode=VisionRunningMode.IMAGE)
+
+	options = ImageClassifierOptions( base_options=BaseOptions(model_asset_path = model_dest), max_results=conf_results, running_mode=VisionRunningMode.IMAGE)
 
 	with ImageClassifier.create_from_options(options) as classifier:
 		classification_result = classifier.classify(mp.Image.create_from_file(f"{image_file}"))
@@ -56,18 +63,17 @@ def analyze_image(image_file):
 
 	keychain = ""
 	keywords = unique(keywords)
-	keyrands = sorted(keywords, key=lambda x: random.random())
 	i=0
-	for keyword in keyrands:
+	for keyword in keywords:
 		i+=1
-		if i < 6:
+		if i < 5:
 			keychain+= f"{keyword}, "
 
 	keychain = keychain[:-2]
 	os.system(f"exiftool -overwrite_original -keywords^='{keychain}' {image_file}")
 
-	#with open(f'{args.image}_keys.txt', 'w', encoding='utf-8') as f:
-	#	f.write(keychain)
+	with open(f'{args.image}_keys.txt', 'w', encoding='utf-8') as f:
+		f.write(keychain)
 
 	return keychain
 
@@ -75,13 +81,12 @@ def analyze_image(image_file):
 def parse_arguments():
 	parser = argparse.ArgumentParser(description='MediaPipe Image Analysis')
 	parser.add_argument('-i', '--image', required=True, help='Path to the image file')
+	parser.add_argument('-v', '--verbosity', required=False, help='Level of verboseness')
 
 	return parser.parse_args()
 
 if __name__ == "__main__":
 	args = parse_arguments()
 
-	keywords_len = os.popen(f"exiftool -keywords {args.image} | cut -d ':' -f2 | wc -c").read()
-	if int(keywords_len) < 1:
-		result = analyze_image(args.image)
-		print(result)
+	result = analyze_image(args.image, args.verbosity)
+	print(result)
