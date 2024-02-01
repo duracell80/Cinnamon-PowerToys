@@ -1,51 +1,52 @@
 #!/home/lee/git/examples/modelmaker/bin/python3.9
-
 # https://learnopencv.com/tensorflow-lite-model-maker-create-models-for-on-device-machine-learning/
-
-#Importing zipfile
-#import zipfile
-#Downloading the Cats and Dogs Dataset from Microsoft Download
-# wget --no-check-certificate https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_5340.zip -O cats-and-dogs.zip
-
-#Saving zip file
-#local_zip = 'cats-and-dogs.zip'
-#zip_ref   = zipfile.ZipFile(local_zip, 'r')
-
-#Extracting zip file
-#zip_ref.extractall('/content/')
-#zip_ref.close()
-
 
 #Importing libraries
 from PIL import Image
 import glob
 import os
+import sys
 from pathlib import Path
 
-#Converting images in cat folder to png format
-current_dir = Path('./content/PetImages/Cat').resolve()
-outputdir = Path('./content/Dataset').resolve()
-out_dir = outputdir / "Cat"
-os.mkdir(out_dir)
-cnt = 0
+import logging
+import threading
+import time
 
-for img in glob.glob(str(current_dir / "*.jpg")):
-	filename = Path(img).stem
-	Image.open(img).save(str(out_dir / f'{filename}.png'))
-	cnt = cnt + 1
-	print(cnt)
 
-#Converting images in dog folder to png format
-current_dir = Path('./content/PetImages/Dog/').resolve()
-outputdir = Path('./content/Dataset/').resolve()
-out_dir = outputdir / "Dog"
-os.mkdir(out_dir)
-cnt = 0
+def thread_function(name, category):
+	print(f"[i] Processing {category}")
+	time.sleep(2)
 
-for img in glob.glob(str(current_dir / "*.jpg")):
-	filename = Path(img).stem
-	Image.open(img).convert('RGB').save(str(out_dir / f'{filename}.png'))
-	cnt = cnt + 1
-	print(cnt)
+	current_dir = Path(f'./content/PetImages/{category}').resolve()
+	outputdir = Path(f'./content/Dataset').resolve()
+	out_dir = f"{outputdir}/{category}"
+	os.mkdir(out_dir)
+	cnt = 0
 
+	for img in glob.glob(str(f"{current_dir}/*.jpg")):
+		filename = Path(img).stem
+		Image.open(img).save(str(f"{out_dir}/{filename}.png"))
+		cnt = cnt + 1
+		print(cnt)
+
+if __name__ == "__main__":
+	format = "%(asctime)s: %(message)s"
+	logging.basicConfig(format=format, level=logging.INFO,
+                        datefmt="%H:%M:%S")
+
+	threads = list()
+	for index in range(2):
+		if index == 0:
+			category = "Cat"
+		elif index == 1:
+			category = "Dog"
+		else:
+			category = "None"
+
+		x = threading.Thread(target=thread_function, args=(index, category))
+		threads.append(x)
+		x.start()
+
+	for index, thread in enumerate(threads):
+		thread.join()
 
