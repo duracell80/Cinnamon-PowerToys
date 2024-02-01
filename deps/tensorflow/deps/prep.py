@@ -25,9 +25,12 @@ def thread_function(name, category):
 
 	for img in glob.glob(str(f"{current_dir}/*.jpg")):
 		filename = Path(img).stem
-		Image.open(img).save(str(f"{out_dir}/{filename}.png"))
+		try:
+			Image.open(img).save(str(f"{out_dir}/{filename}.png"))
+		except:
+			print(f"[ERROR - {cnt}] - {category}-{filename}")
 		cnt = cnt + 1
-		print(cnt)
+		print(f"[{cnt}] - {category}-{filename}")
 
 if __name__ == "__main__":
 	format = "%(asctime)s: %(message)s"
