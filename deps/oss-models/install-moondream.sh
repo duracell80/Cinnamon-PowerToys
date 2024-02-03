@@ -20,3 +20,6 @@ python3 "${PTH}/sample.py" --image="${CWD}/media/test.jpg" --prompt="describe th
 
 cp -r "${PTH}/moondream" "${APP}"
 cp "${PTH}/sample.py" "${APP}"
+
+mkdir -p $HOME/.local/share/oss-models
+cp -r "${PTH}/${ENV}" "${HOME}/.local/share/oss-models"
