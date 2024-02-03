@@ -7,3 +7,4 @@ apps/cinnamon-spices-applets/
 sounds/scripts/cinnamon_desktop.backup
 deps/Python-3.9.7.tgz
 deps/Python-3.9.7
+deps/oss-models/moondream/
