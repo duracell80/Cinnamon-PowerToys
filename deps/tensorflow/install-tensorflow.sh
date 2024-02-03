@@ -4,7 +4,7 @@ CWD=$(pwd)
 
 git clone https://github.com/tensorflow/examples
 
-sudo apt install -y libbz2-dev libffi-dev libssl-dev libssl3
+sudo apt install -y libbz2-dev libffi-dev libssl-dev libssl3 liblzma-dev lzma
 
 wget -nc https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tgz
 tar -xvzf Python-3.9.7.tgz
