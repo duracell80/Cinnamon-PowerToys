@@ -24,13 +24,21 @@ FILE_TIM=$(date -d "today" +"%Y%m%d%H%M%S")
 
 if [ "$2" = "llava" ]; then
 	AI_MODEL="llava"
-else
+	AI_MODEL_SET="yes"
+elif [ "$2" = "moondream" ]; then
+        AI_MODEL="moondream"
+	AI_MODEL_SET="yes"
+elif [ "$2" = "ask" ]; then
+	AI_MODEL_SET="yes"
 	AI_MODEL=$(zenity --list \
 	--width=500 \
 	--height=300 \
 	--title="Choose a conversion profile" \
 	--column="Profile" --column="Description" \
-		llava "Describe using the LLaVA image model")
+		llava "Describe using the LLaVA image model" \
+		moondream "Describe using the Moondream image model" )
+else
+	AI_MODEL_SET="no"
 fi
 
 if [ "$3" = "ask" ]; then
@@ -93,14 +101,18 @@ PROMPT="${PROMPT} ${1}"
 echo "15"
 
 TS=$(date +%s)
-if [ "$AI_MODEL" = "llava" ]; then
-	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to LLaVA, please be patient ..."
+if [ "$AI_MODEL_SET" = "yes" ]; then
+	echo "# Passing the image ${FILE_NME}.${FILE_EXT} to ${AI_MODEL}, please be patient ..."
 
 	touch "${1}.txt"
 
-	notify-send --hint=string:image-path:"${1}" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (LLaVA)" "An action is being run on your local machine only to describe the selected image. More than 8GB of total system RAM may be needed to run this local model in Ollama and some patience. A dialog will appear with the resulting description once completed."
+	notify-send --hint=string:image-path:"${1}" --urgency=normal --icon=dialog-information-symbolic "Nemo Action - Describe Image (${AI_MODEL})" "An action is being run on your local machine only to describe the selected image. More than 16GB of total system RAM may be needed to run this local model and some patience. A dialog will appear with the resulting description once completed."
 
-	${HOME}/.local/share/powertoys/describe_llava.py -i "${1}" -p "${PROMPT}"
+	if [ "$AI_MODEL" = "llava" ]; then
+		${HOME}/.local/share/powertoys/describe_llava.py -i "${1}" -p "${PROMPT}"
+	elif [ "$AI_MODEL" = "moondream" ]; then
+		${HOME}/.local/bin/moondream "${1}" "${PROMPT}"
+	fi
 
 	c=15
 	while [[ $(cat "${1}.txt" | wc -c) == "0" ]]
@@ -114,19 +126,16 @@ if [ "$AI_MODEL" = "llava" ]; then
 
 	IMG_KEYS=$(exiftool -keywords "${1}" | cut -d ":" -f2)
 	IMG_COMB="Keywords:${IMG_KEYS} Description:${RESPONSE}"
-	IMG_XPCO=$(exiftool -XPComment "${1}")
 
-	if [[ "${IMG_XPCO}" == "" ]]; then
-		exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
-	else
-		exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Exif:XPComment="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
-	fi
+	exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Exif:XPComment="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
+
 	mkdir -p "${FILE_DIR}/.comments"
 	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
 
-	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (LLaVA)" "An image description has been appended to a file named ${FILE_NME}_${FILE_EXT}.txt in the .comments folder. Thank you for using LLaVA Visual Assistant!"
+	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (${AI_MODEL})" "An image description has been appended to a file named ${FILE_NME}_${FILE_EXT}.txt in the .comments folder. Thank you for using Visual Assistant!"
 
 	#echo "${RESPONSE}" | xclip -sel clip
+
 fi
 
 echo "95" ; sleep 1

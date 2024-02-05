@@ -10,7 +10,9 @@ END=$(date +%s)
 TOTAL=$(( $END - $START ))
 
 RESPONSE=$(cat "${1}.txt")
-exiftool -overwrite_original -Exif:ImageDescription="${RESPONSE}" -Description="${RESPONSE}" "${1}"
+IMG_KEYS=$(exiftool -keywords "${1}" | cut -d ":" -f2)
+IMG_COMB="Keywords:${IMG_KEYS} Description:${RESPONSE}"
 
-echo "Running time: ${TOTAL}s"
-exit
+exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Exif:XPComment="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
+
+echo "Running time: ${TOTAL}s \nDescription: ${RESPONSE}"
