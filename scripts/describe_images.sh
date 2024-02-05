@@ -20,7 +20,7 @@ shift
 for IMG_FILE in "$@"
 do
         i=$(( $i + 1 ))
-        echo "# Passing image ${i} of ${IMG_LOOPS} to ${AI_MODEL} to classify ..."
+        echo "# Passing image ${i} of ${IMG_LOOPS} to ${AI_MODEL} to describe ..."
 
 	if [ "$AI_MODEL" = "moondream" ]; then
                 ${HOME}/.local/bin/moondream "${IMG_FILE}" "describe this image"
