@@ -4,5 +4,5 @@ Comment=Uses local AI models to produce a text description of an image
 EscapeSpaces=true
 Exec=/home/lee/.local/share/powertoys/describe_image.sh %F moondream ask
 Selection=S
-Extensions=jpg;jpeg;png;webp
+Extensions=jpg;jpeg
 Dependencies=moondream;python3.9;zenity
