@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Describe Image(s)
+Comment=Uses Moondream to add descriptions to exif data
+EscapeSpaces=true
+Exec=/home/lee/.local/share/powertoys/describe_images.sh moondream %F
+Selection=notnone
+Extensions=jpg;jpeg;png;webp;tiff
+Dependencies=exiftool;zenity

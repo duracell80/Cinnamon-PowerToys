@@ -5,4 +5,4 @@ EscapeSpaces=true
 Exec=/home/lee/.local/share/powertoys/describe_image.sh %F moondream ask
 Selection=S
 Extensions=jpg;jpeg;png;webp
-Dependencies=ollama;zenity
+Dependencies=moondream;python3.9;zenity

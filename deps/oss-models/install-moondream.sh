@@ -10,7 +10,6 @@ BIH="${HOME}/.local/bin"
 INS="${HOME}/.local/share/oss-models/${NME}"
 APH="${INS}/app"
 
-
 #sudo apt install lzma
 
 echo "[i] Installing Moondream from GIT"
@@ -52,5 +51,8 @@ cp "${CWD}/scripts/${NME}-main.sh" "${BIH}/${NME}"
 chmod +x "${APH}/main.sh"
 chmod +x "${APH}/main.py"
 
+cp -f "../../nemo/actions/pt-describe-image-${NME,,}.nemo_action" "${HOME}/.local/share/nemo/actions"
+cp -f "../../scripts/describe_image.sh" "${HOME}/.local/share/powertoys"
+#cp -f "../../scripts/describe_llava.py" "${HOME}/.local/share/powertoys"
 
 echo "[i] Done!"

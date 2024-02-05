@@ -1,5 +1,6 @@
 #!/bin/sh
 # https://www.louisbouchard.ai/llava
+# https://github.com/vikhyat/moondream
 
 if ! [ "which zenity" ]; then
 	echo 'Error: Zenity is not installed.' >&2
@@ -130,7 +131,7 @@ if [ "$AI_MODEL_SET" = "yes" ]; then
 	exiftool -overwrite_original -Exif:ImageDescription="${IMG_COMB}" -Exif:XPComment="${IMG_COMB}" -Description="${IMG_COMB}" "${1}"
 
 	mkdir -p "${FILE_DIR}/.comments"
-	echo "[Description Generated: ${FILE_TIM} with ${PROMPT} ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
+	echo "[Description Generated with ${AI_MODEL}: ${FILE_TIM} with prompt '${PROMPT}' ]\n${RESPONSE}\n\n" >> "${FILE_DIR}/.comments/${FILE_NME}_${FILE_EXT}.txt"
 
 	notify-send --hint=string:image-path:"$1" --urgency=normal --icon=emblem-ok-symbolic "Nemo Action Completed - Describe Image (${AI_MODEL})" "An image description has been appended to a file named ${FILE_NME}_${FILE_EXT}.txt in the .comments folder. Thank you for using Visual Assistant!"
 
