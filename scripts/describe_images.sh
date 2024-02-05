@@ -22,20 +22,30 @@ do
         i=$(( $i + 1 ))
         echo "# Passing image ${i} of ${IMG_LOOPS} to ${AI_MODEL} to describe ..."
 
-	if [ "$AI_MODEL" = "moondream" ]; then
-                ${HOME}/.local/bin/moondream "${IMG_FILE}" "describe this image"
-        else
-                exit
-        fi
+	DESC_LEN=$(exiftool -description "${IMG_FILE}" | cut -d ":" -f4 | wc -c)
 
-        RESPONSE=$(cat "${IMG_FILE}.txt")
+	if [ "${DESC_LEN}" -eq "0" ]; then
+		c=0
+	        while [ $c -le 95 ]
+        	do
+                	echo "${c}"
+	                c=$(( $c + 1 ))
+        	        sleep 0.005
+	        done
+		echo "${i}"
 
-	echo "# Image ${i} of ${IMG_LOOPS} completed!"
-        if [ $i -lt 95 ]; then
-	        c=$i
+		if [ "$AI_MODEL" = "moondream" ]; then
+        	        ${HOME}/.local/bin/moondream "${IMG_FILE}" "describe this image"
+	        else
+        	        exit
+	        fi
+
+	        RESPONSE=$(cat "${IMG_FILE}.txt")
+
+		echo "# Image ${i} of ${IMG_LOOPS} completed!"
         else
-        	c=0
-        fi
+		echo "# Image ${i} of ${IMG_LOOPS} previously described, skipping ..."
+	fi
 
 
 	while [ $c -le 95 ]

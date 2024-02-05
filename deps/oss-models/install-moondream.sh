@@ -51,8 +51,10 @@ cp "${CWD}/scripts/${NME}-main.sh" "${BIH}/${NME}"
 chmod +x "${APH}/main.sh"
 chmod +x "${APH}/main.py"
 
-cp -f "../../nemo/actions/pt-describe-image-${NME,,}.nemo_action" "${HOME}/.local/share/nemo/actions"
-cp -f "../../scripts/describe_image.sh" "${HOME}/.local/share/powertoys"
+cp -f "${CWD}/../../nemo/actions/pt-describe-images.nemo_action" "${HOME}/.local/share/nemo/actions"
+cp -f "${CWD}/../../nemo/actions/pt-describe-image-${NME,,}.nemo_action" "${HOME}/.local/share/nemo/actions"
+cp -f "${CWD}/../../scripts/describe_images.sh" "${HOME}/.local/share/powertoys"
+cp -f "${CWD}/../../scripts/describe_image.sh" "${HOME}/.local/share/powertoys"
 #cp -f "../../scripts/describe_llava.py" "${HOME}/.local/share/powertoys"
 
 echo "[i] Done!"
