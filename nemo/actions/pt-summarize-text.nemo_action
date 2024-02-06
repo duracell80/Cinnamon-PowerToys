@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Summarize Text
+Comment=Uses mistral in ollama to summarize a text file
+EscapeSpaces=true
+Exec=/home/lee/.local/share/powertoys/summarize_text.sh %F 2000
+Selection=s
+Extensions=txt;log
+Dependencies=ollama;zenity
