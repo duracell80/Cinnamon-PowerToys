@@ -2,7 +2,7 @@
 import sys, re, requests, json, time, argparse
 
 if len(sys.argv) < 4:
-	print("Usage: python summarize.py --model=mistral:latest --text=<path/to/file.txt> --words=1000 --prompt='summarize this text'")
+	print("Usage: python summarize_text.py --model=mistral:latest --text=<path/to/file.txt> --words=1000 --prompt='summarize this text'")
 	sys.exit()
 
 def limit(s,n): return s[:n-1-(s+" ")[n-1::-1].find(" ")]
