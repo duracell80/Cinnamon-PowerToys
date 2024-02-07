@@ -32,7 +32,7 @@ case $yn in
         no ) echo "[i] Skipping Mistral Lite";;
 esac
 
-read -p "Do you wish to install Phi (1.6GB image description model)? (yes/no) " yn
+read -p "Do you wish to install Phi (1.6GB small language model)? (yes/no) " yn
 
 case $yn in
         yes ) ollama pull phi;;

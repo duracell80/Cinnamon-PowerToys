@@ -1,0 +1,40 @@
+#!/bin/bash
+
+CWD=$(pwd)
+NME="whisper"
+ENV="${NME}-venv"
+PTH="${CWD}/${NME}"
+APP="${PTH}/${ENV}/app"
+BIN="${PTH}/${ENV}/bin"
+BIH="${HOME}/.local/bin"
+INS="${HOME}/.local/share/oss-models/${NME}"
+APH="${INS}/app"
+
+#sudo apt install lzma
+
+echo "[i] Installing ${NME} from GIT"
+
+if [ -d "${PTH}" ]; then
+	cd $NME
+	git fetch
+	git pull
+	cd ../
+else
+	git clone https://github.com/SYSTRAN/faster-whisper.git $NME
+fi
+cd "${PTH}" && chmod +x "${PTH}/setup.py"
+
+echo "[i] Creating Python VENV"
+python3.9 -m venv "${PTH}/${ENV}"
+source "${BIN}/activate" && mkdir -p "${APP}"
+
+pip install wheel argparse
+pip install -r "${PTH}/requirements.txt"
+
+cp -r "${PTH}/faster_whisper" "${APP}"
+
+cp -f "${CWD}/scripts/whisper-test.py" "${APP}"
+echo "[i] Running a test transcription ..."
+python3 "${APP}/whisper-test.py" --cpu --model=base --audio="${CWD}/media/test.mp3"
+
+echo "[i] Done!"

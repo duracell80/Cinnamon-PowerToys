@@ -33,5 +33,5 @@ else
           --text="Error: Supplied file is not a .txt or .log"
 fi
 
-zenity --text-info --title="Description of image" --filename="${1}_summary.txt"
+zenity --text-info --title="Summary of text" --filename="${1}_summary.txt"
 
