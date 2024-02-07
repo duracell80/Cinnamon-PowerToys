@@ -1,4 +1,6 @@
-import argparse
+#!../bin/python3
+
+import argparse, time
 from faster_whisper import WhisperModel
 
 
@@ -19,9 +21,13 @@ if __name__ == "__main__":
 	else:
 		model = WhisperModel(model_size, device="cuda", compute_type="float16")
 
+	start_time = time.time()
 	segments, info = model.transcribe(f"{args.audio}", beam_size=5)
 
 	print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
 
 	for segment in segments:
 		print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
+
+	total_time = time.time() - start_time
+	print(f"[i] Task took {round(total_time)}s")
