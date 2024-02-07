@@ -28,7 +28,7 @@ echo "[i] Creating Python VENV"
 python3.9 -m venv "${PTH}/${ENV}"
 source "${BIN}/activate" && mkdir -p "${APP}"
 
-pip install wheel argparse
+pip install wheel argparse pysubs2
 pip install -r "${PTH}/requirements.txt"
 
 cp -r "${PTH}/faster_whisper" "${APP}"

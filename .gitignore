@@ -9,3 +9,5 @@ deps/Python-3.9.7.tgz
 deps/Python-3.9.7
 deps/oss-models/moondream/
 deps/oss-models/whisper/
+deps/oss-models/media/test.mp4
+deps/oss-models/media/test.srt
