@@ -46,14 +46,16 @@ if __name__ == "__main__":
 	if ".mp3" in args.audio:
 		subs.save(f"{str(args.audio).replace('.mp3', '.srt')}")
 		subs.save(f"{str(args.audio).replace('.mp3', '.ass')}")
+		transcription_file = str(args.audio).replace('.mp3', '.txt')
 	elif ".wav" in args.audio:
 		subs.save(f"{str(args.audio).replace('.wav', '.srt')}")
 		subs.save(f"{str(args.audio).replace('.wav', '.ass')}")
+		transcription_file = str(args.audio).replace('.wav', '.txt')
 
 	end_time = time.time()
 	total_time = round(end_time - start_time)
 
-	with open(f"{args.audio}.txt", "w") as file:
+	with open(transcription_file, "w") as file:
 		file.write(f"{str(paras).replace('. .', '.')}")
 
 	print(f"[i] Task took: {total_time}s")
