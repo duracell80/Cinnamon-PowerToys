@@ -33,7 +33,9 @@ pip install -r "${PTH}/requirements.txt"
 
 cp -r "${PTH}/faster_whisper" "${APP}"
 
-cp -f "${CWD}/scripts/whisper-test.py" "${APP}"
+cp -f "${CWD}/scripts/whisper/whisper-test.py" "${APP}"
+cp -f "${CWD}/scripts/whisper/main.py" "${APP}/main.py"
+cp -f "${CWD}/scripts/whisper/main.sh" "${APP}/main.sh"
 echo "[i] Running a test transcription ..."
 python3 "${APP}/whisper-test.py" --cpu --model=base --audio="${CWD}/media/test.mp3"
 
