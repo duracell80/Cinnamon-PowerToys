@@ -15,7 +15,9 @@ fi
 
 
 if [[ $FILE_EXT == *"mp3"* ]] || [[ $FILE_EXT == *"wav"* ]]; then
-	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -i "${FILE_DIR}/${FILE_NME}.jpg" -c:v libx264 -pix_fmt yuv420p -vf scale=1280:720 -c:s mov_text -c:a copy "${FILE_DIR}/${FILE_NME}_captioned.mp4"
+	ffmpeg -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
+
+	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -i "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" -c:v libx264 -pix_fmt yuv420p -vf scale=1280:720 -c:s mov_text -c:a copy "${FILE_DIR}/${FILE_NME}_captioned.mp4"
 elif [[ $FILE_EXT == *"mp4"* ]] || [[ $FILE_EXT == *"mkv"* ]]; then
 	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -c:s mov_text -c:v copy -c:a copy "${FILE_DIR}/${FILE_NME}_captioned.mp4"
 fi
