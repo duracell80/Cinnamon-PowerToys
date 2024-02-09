@@ -7,17 +7,25 @@ FILE_EXT="${FILE_FUL##*.}"
 FILE_NME="${FILE_FUL%.*}"
 mkdir -p "${FILE_DIR}/.meta"
 
-ffmpeg -hide_banner -loglevel error -n -i "${1}" -b:a 192K -vn "${FILE_DIR}/.meta/${FILE_NME}_audio.mp3"
+if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.mp3" ]; then
+	ffmpeg -hide_banner -loglevel error -n -i "${1}" -b:a 192K -vn "${FILE_DIR}/.meta/${FILE_NME}_audio.mp3"
+fi
 
-if [ -f "${FILE_DIR}/.meta/${FILE_NME}_audio.mp3" ]; then
+if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" ]; then
 	./main.py --cpu --model=small.en --file="${FILE_DIR}/.meta/${FILE_NME}_audio.mp3"
 fi
 
 
 if [[ $FILE_EXT == *"mp3"* ]] || [[ $FILE_EXT == *"wav"* ]]; then
-	ffmpeg -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
-
-	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -i "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" -c:v libx264 -pix_fmt yuv420p -vf scale=1280:720 -c:s mov_text -c:a copy "${FILE_DIR}/${FILE_NME}_captioned.mp4"
+	if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" ]; then
+		ffmpeg -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
+	fi
+	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" -c:v libx264 -pix_fmt yuv420p -vf scale=1280:720 -c:a copy -vf "ass=${FILE_DIR}/.meta/${FILE_NME}_audio.ass" "${FILE_DIR}/${FILE_NME}_captioned.mp4"
 elif [[ $FILE_EXT == *"mp4"* ]] || [[ $FILE_EXT == *"mkv"* ]]; then
-	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -c:s mov_text -c:v copy -c:a copy "${FILE_DIR}/${FILE_NME}_captioned.mp4"
+	if [ -f "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" ]; then
+		ffmpeg -hide_banner -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_audio.srt" -c:s mov_text -c:v copy -c:a copy "${FILE_DIR}/${FILE_NME}_subtitled.mp4"
+	fi
+	if [ -f "${FILE_DIR}/.meta/${FILE_NME}_audio.ass" ]; then
+                ffmpeg -hide_banner -y -i "${1}" -c:a copy -vf "ass=${FILE_DIR}/.meta/${FILE_NME}_audio.ass" "${FILE_DIR}/${FILE_NME}_captioned.mp4"
+        fi
 fi
