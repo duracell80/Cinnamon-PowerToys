@@ -36,7 +36,7 @@ fi
 
 if [[ $FILE_EXT == *"oga"* ]] || [[ $FILE_EXT == *"mp3"* ]] || [[ $FILE_EXT == *"wav"* ]]; then
 	if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" ]; then
-		ffmpeg -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
+		ffmpeg -hide_banner -loglevel error -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
 	fi
 	ffmpeg -hide_banner -loglevel error -y -i "${1}" -i "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" -c:v libx264 -pix_fmt yuv420p -vf scale=1280:720 -c:a copy -vf "ass=${FILE_DIR}/.meta/${FILE_NME}_audio.ass" "${FILE_DIR}/${FILE_NME}_captioned.mp4"
 elif [[ $FILE_EXT == *"mp4"* ]] || [[ $FILE_EXT == *"mkv"* ]] || [[ $FILE_EXT == *"avi"* ]]; then
@@ -53,4 +53,4 @@ TOTAL=$(( $END - $START ))
 
 deactivate
 
-echo "Running time: ${TOTAL}s"
+echo "[i] Total task time: ${TOTAL}s"
