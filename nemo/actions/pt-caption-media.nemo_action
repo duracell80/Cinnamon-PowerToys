@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Caption Media
+Comment=Uses local AI models to caption media files, burning them in for audio to video
+EscapeSpaces=true
+Exec=/home/lee/.local/share/powertoys/caption_mediafiles.sh ask %F
+Selection=notnone
+Extensions=mp3;oga;mp4;mkv;avi
+Dependencies=ffmpeg;zenity

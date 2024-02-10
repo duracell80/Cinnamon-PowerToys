@@ -50,5 +50,9 @@ cp -f "${CWD}/scripts/${NME}/main.py" "${APH}/main.py"
 chmod +x "${APH}/main.sh"
 chmod +x "${APH}/main.py"
 
+cp -f "${CWD}/../../nemo/actions/pt-caption-media.nemo_action" "${HOME}/.local/share/nemo/actions"
+cp -f "${CWD}/../../scripts/caption_mediafiles.sh" "${HOME}/.local/share/powertoys"
+
+
 
 echo "[i] Done!"
