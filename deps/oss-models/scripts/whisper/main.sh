@@ -17,6 +17,7 @@ if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.mp3" ]; then
 fi
 
 if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.ass" ]; then
+	echo "[i] Transcribing audio"
 	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --model=small.en --file='${FILE_DIR}/.meta/${FILE_NME}_audio.mp3'"
 
 	while IFS= read -r line
@@ -33,7 +34,7 @@ if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.ass" ]; then
 
 fi
 
-
+echo "[i] Creating captioned media ..."
 if [[ $FILE_EXT == *"oga"* ]] || [[ $FILE_EXT == *"mp3"* ]] || [[ $FILE_EXT == *"wav"* ]]; then
 	if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4" ]; then
 		ffmpeg -hide_banner -loglevel error -y -i  "${1}" -filter_complex "aformat=channel_layouts=mono,showwaves=mode=cline:s=1280X720:colors=White[v]" -map "[v]" -pix_fmt yuv420p "${FILE_DIR}/.meta/${FILE_NME}_waveform.mp4"
@@ -51,6 +52,7 @@ fi
 END=$(date +%s)
 TOTAL=$(( $END - $START ))
 
+echo "[i] Deactivating Python VENV"
 deactivate
 
 echo "[i] Total task time: ${TOTAL}s"
