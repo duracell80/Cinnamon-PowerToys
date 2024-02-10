@@ -39,4 +39,16 @@ cp -f "${CWD}/scripts/whisper/main.sh" "${APP}/main.sh"
 echo "[i] Running a test transcription ..."
 python3 "${APP}/whisper-test.py" --cpu --model=base --audio="${CWD}/media/test.mp3"
 
+
+mkdir -p $HOME/.local/share/oss-models
+rm -rf "${HOME}/.local/share/oss-models/${NME}"
+mv -f "${PTH}/${ENV}" "${INS}"
+
+cp -f "${CWD}/scripts/${NME}/main.sh" "${APH}/main.sh"
+cp -f "${CWD}/scripts/${NME}/main.py" "${APH}/main.py"
+
+chmod +x "${APH}/main.sh"
+chmod +x "${APH}/main.py"
+
+
 echo "[i] Done!"
