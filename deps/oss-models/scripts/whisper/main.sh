@@ -25,7 +25,9 @@ if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.ass" ]; then
         	if [[ "${line}" == *"Dialogue"* ]]; then
                 	if [[ "${line:0-1}" == "." ]];then
                         	echo "${line}"
-                	else
+                	elif [[ "${line:0-1}" == "," ]];then
+				echo "${line} ..."
+			else
                         	echo "${line} ..."
                         	sed -i "s|${line}|${line} ...|g" "${FILE_DIR}/.meta/${FILE_NME}_audio.ass"
                 	fi
