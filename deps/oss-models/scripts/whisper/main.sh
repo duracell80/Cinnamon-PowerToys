@@ -4,6 +4,10 @@ APP="${HOME}/.local/share/oss-models/whisper"
 source "${APP}/bin/activate"
 START=$(date +%s)
 
+if [[ "${1}" = "" ]];then
+	echo "Please supply path to mediafile (mp3, oga, mp4, mkv, avi)"
+	exit
+fi
 
 FILE_FUL=$(basename "${1}")
 FILE_DIR=$(dirname "${1}")
