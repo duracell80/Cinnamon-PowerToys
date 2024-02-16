@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=TTS (Bark)
+Comment=Uses local Bark AI model to transform text into natural speech
+EscapeSpaces=true
+Exec=/home/lee/.local/share/powertoys/tts-bark.sh ask %F
+Selection=notnone
+Extensions=txt
+Dependencies=bark;ffmpeg;zenity

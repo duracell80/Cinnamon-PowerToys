@@ -1,19 +1,46 @@
 #!../bin/python3
 
-import scipy, time
+import scipy, time, pathlib, argparse, sys
 from transformers import AutoProcessor, BarkModel
 
-ts = int(time.time())
 
-processor = AutoProcessor.from_pretrained("suno/bark")
-model = BarkModel.from_pretrained("suno/bark")
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--file", type=str, required=True, help='Path to text file with short sentences of about 12 words')
+	parser.add_argument("--voice", type=str, required=True, help='A voice model for example: en_speaker_6')
+	parser.add_argument("--cpu", action="store_true")
 
-voice_preset = "v2/en_speaker_6"
+	args = parser.parse_args()
 
-inputs = processor("Severe thunderstorm warning in effect for Davidson County until 4 29 pm", voice_preset=voice_preset)
+	ts = int(time.time())
 
-audio_array = model.generate(**inputs)
-audio_array = audio_array.cpu().numpy().squeeze()
+	file_path = pathlib.Path(args.file).parent
+	file_name = pathlib.Path(args.file).name
+	file_ext = pathlib.Path(args.file).suffix
 
-sample_rate = model.generation_config.sample_rate
-scipy.io.wavfile.write(f"media/output_{str(ts)}.wav", rate=sample_rate, data=audio_array)
+
+	processor = AutoProcessor.from_pretrained("suno/bark")
+	model = BarkModel.from_pretrained("suno/bark")
+
+
+	c = 0
+	with open(args.file) as file:
+		for line in file:
+
+			words = str(line.rstrip())
+			if len(words) > 0:
+				c += 1
+				print(f"Transforming Line {c} to speech ... '{words}'")
+
+				inputs = processor(words, voice_preset = f"v2/{args.voice}")
+
+				audio_array = model.generate(**inputs)
+				audio_array = audio_array.cpu().numpy().squeeze()
+				sample_rate = model.generation_config.sample_rate
+
+				if "bark_test" in file_name:
+					file_wav = "/tmp/bark_test.wav"
+				else:
+					file_wav = f"{file_path}/{str(file_name).replace(file_ext, '_' + str(c) + '-' + str(ts) + '.wav')}"
+
+				scipy.io.wavfile.write(f"{file_wav}", rate=sample_rate, data=audio_array)

@@ -3,7 +3,6 @@
 import scipy, time
 from transformers import AutoProcessor, BarkModel
 
-ts = int(time.time())
 
 processor = AutoProcessor.from_pretrained("suno/bark")
 model = BarkModel.from_pretrained("suno/bark")
