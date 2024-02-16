@@ -39,7 +39,6 @@ cp -f "${CWD}/scripts/bark/bark-test.py" "${APP}/bark-test.py"
 #cp -f "${CWD}/scripts/whisper/main.sh" "${APP}/main.sh"
 echo "[i] Running a test transformation ..."
 python3 "${APP}/bark-test.py"
-play "/tmp/bark_test.wav"
 
 mkdir -p $HOME/.local/share/oss-models
 rm -rf "${HOME}/.local/share/oss-models/${NME}"
@@ -60,4 +59,6 @@ chmod +x "${APH}/main.py"
 
 
 echo "[i] Done!"
+play "/tmp/bark_test.wav"
+sleep 5
 rm /tmp/bark_test.wav
