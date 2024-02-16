@@ -16,4 +16,4 @@ audio_array = model.generate(**inputs)
 audio_array = audio_array.cpu().numpy().squeeze()
 
 sample_rate = model.generation_config.sample_rate
-scipy.io.wavfile.write(f"media/output_{str(ts)}.wav", rate=sample_rate, data=audio_array)
+scipy.io.wavfile.write(f"/tmp/bark_test.wav", rate=sample_rate, data=audio_array)
