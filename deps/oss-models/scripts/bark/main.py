@@ -31,6 +31,7 @@ if __name__ == "__main__":
 			if len(words) > 0:
 				c += 1
 				print(f"Transforming Line {c} to speech ... '{words}'")
+				print(str(c * 2))
 
 				inputs = processor(words, voice_preset = f"v2/{args.voice}")
 
