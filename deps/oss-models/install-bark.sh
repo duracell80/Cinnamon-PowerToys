@@ -54,7 +54,7 @@ chmod +x "${BIH}/${NME}"
 
 cp -f "${CWD}/../../nemo/actions/pt-tts-bark.nemo_action" "${HOME}/.local/share/nemo/actions"
 cp -f "${CWD}/../../scripts/tts-bark.sh" "${HOME}/.local/share/powertoys"
-
+cp -f "${CWD}/../../scripts/test.txt" "${APH}/media/"
 
 
 echo "[i] Done!"
