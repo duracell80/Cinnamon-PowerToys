@@ -1,6 +1,6 @@
 #!../bin/python3
 
-import scipy, time, pathlib, argparse, sys
+import scipy, time, pathlib, argparse, sys, os
 from transformers import AutoProcessor, BarkModel
 
 
@@ -42,6 +42,7 @@ if __name__ == "__main__":
 				if "bark_test" in file_name:
 					file_wav = "/tmp/bark_test.wav"
 				else:
-					file_wav = f"{file_path}/{str(file_name).replace(file_ext, '_' + str(c) + '-' + str(ts) + '.wav')}"
+					os.system(f"mkdir -p {file_path}/.meta")
+					file_wav = f"{file_path}/.meta/{str(file_name).replace(file_ext, '_' + str(c) + '-' + str(ts) + '.wav')}"
 
 				scipy.io.wavfile.write(f"{file_wav}", rate=sample_rate, data=audio_array)
