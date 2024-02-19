@@ -26,7 +26,7 @@ cd "${PTH}" && chmod +x "${PTH}/setup.py"
 
 echo "[i] Creating Python VENV"
 python3.10 -m venv "${PTH}/${ENV}"
-source "${BIN}/activate" && mkdir -p "${APP}/media"
+source "${BIN}/activate" && mkdir -p "${APP}/.meta"
 
 pip install wheel scipy argparse
 pip install .
@@ -54,7 +54,7 @@ chmod +x "${BIH}/${NME}"
 
 cp -f "${CWD}/../../nemo/actions/pt-tts-bark.nemo_action" "${HOME}/.local/share/nemo/actions"
 cp -f "${CWD}/../../scripts/tts-bark.sh" "${HOME}/.local/share/powertoys"
-cp -f "${CWD}/../../scripts/test.txt" "${APH}/media/"
+cp -f "${CWD}/../../scripts/test.txt" "${APH}/.meta/"
 
 
 echo "[i] Done!"

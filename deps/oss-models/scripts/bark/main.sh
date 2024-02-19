@@ -12,8 +12,9 @@ else
 
 
 	if [ -z "$2" ]; then
-		echo "This is a test. In the event of an emergency, please do not panic." > /tmp/bark_test.txt
-		IN_TEXT="/tmp/bark_test.txt"
+		IN_TEXT="This is a test. In the event of an emergency, please do not panic."
+		IN_FILE="/tmp/bark_test.txt"
+		echo "${IN_TEXT}" > $IN_FILE
         else
 		IN_TEXT="${2}"
 	fi
@@ -32,7 +33,11 @@ APP="${HOME}/.local/share/oss-models/bark"
 source "${APP}/bin/activate"
 START=$(date +%s)
 
-bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --voice=${IN_VOICE} --file=${IN_TEXT}" 2> /dev/null
+if [ -z "$2" ]; then
+	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --voice=${IN_VOICE} --text='${IN_TEXT}'" 2> /dev/null
+else
+	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --voice=${IN_VOICE} --file=${2}" 2> /dev/null
+fi
 
 END=$(date +%s)
 TOTAL=$(( $END - $START ))

@@ -3,7 +3,6 @@
 import scipy, time, pathlib, argparse, sys, os
 from transformers import AutoProcessor, BarkModel
 
-
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--file", type=str, required=False, help='Path to text file with short sentences of about 12 words')
@@ -12,6 +11,13 @@ if __name__ == "__main__":
 	parser.add_argument("--cpu", action="store_true")
 
 	args = parser.parse_args()
+
+	if args.cpu:
+		os.environ["SUNO_OFFLOAD_CPU"] = "False"
+		os.environ["SUNO_USE_SMALL_MODELS"] = "True"
+	else:
+		os.environ["SUNO_OFFLOAD_CPU"] = "True"
+		os.environ["SUNO_USE_SMALL_MODELS"] = "False"
 
 	ts = int(time.time())
 
@@ -27,7 +33,7 @@ if __name__ == "__main__":
 	if args.text:
 		file_wav = f"/tmp/bark_{ts}.wav"
 
-		print(f"Transforming text to speech in file /tmp/bark_{ts}.wav ... '{args.text}'")
+		print(f"Transforming text to speech to audio file /tmp/bark_{ts}.wav ... '{args.text}'")
 
 		inputs = processor(args.text, voice_preset=f"v2/{args.voice}")
 
