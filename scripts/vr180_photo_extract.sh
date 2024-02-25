@@ -15,11 +15,11 @@ ffmpeg -y -hide_banner -loglevel error -i $1_left.jpg -vf "v360=input=fisheye:ou
 ffmpeg -y -hide_banner -loglevel error -i $1_right.jpg -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" $1_right_flat.jpg &
 
 
-for (( C=0; C<=5; C+=1 )); do
+for (( C=0; C<=2; C+=1 )); do
 	echo "file ${1}_left_flat.jpg" >> $1_fliplist.txt
 done
 
-for (( C=0; C<=5; C+=1 )); do
+for (( C=0; C<=2; C+=1 )); do
 	echo "file ${1}_right_flat.jpg" >> $1_fliplist.txt
 done
 
