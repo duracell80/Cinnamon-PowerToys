@@ -25,8 +25,17 @@ ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_right.jpg" 
 
 sleep 1
 
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}_anaglyph.jpg"
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}_anaglyph_bw.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_dubois.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_half.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_full.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_bw.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:aybd" "${FILE_PATH}/${FILE_NAME}_anaglyph-yb_dubois.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "vstack" "${FILE_PATH}/${FILE_NAME}_avb.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack" "${FILE_PATH}/${FILE_NAME}_sbs.jpg" &
+
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -vf "scale=iw/1.5:ih/1.5,crop=w=480:h=640,drawbox=x=470:y=0:w=10:h=640:color=black@1:t=fill" "${FILE_PATH}/${FILE_NAME}_my3d_left.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -vf "scale=iw/1.5:ih/1.5,crop=w=480:h=640,drawbox=x=0:y=0:w=10:h=640:color=black@1:t=fill" "${FILE_PATH}/${FILE_NAME}_my3d_right.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_my3d_left.jpg" -i "${FILE_PATH}/${FILE_NAME}_my3d_right.jpg" -filter_complex "hstack" "${FILE_PATH}/${FILE_NAME}_my3d.jpg" &
 
 
 
