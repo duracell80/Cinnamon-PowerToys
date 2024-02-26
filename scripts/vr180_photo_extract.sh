@@ -1,63 +1,95 @@
 #!/bin/bash
 
 # Feel free to implement amd or nvida hwa
-# sudo apt install intel-media-va-driver-non-free -- non-free needed to encode
+# For INTEL sudo apt install intel-media-va-driver-non-free -- non-free needed to encode
 
-#GPU_INTEL=$(ffmpeg -hide_banner -loglevel error -encoders | grep h264_qsv | wc -l)
-#GPU_DRIVR=$(ffmpeg -hide_banner -loglevel error -h encoder=h264_qsv | grep -i "Supported hardware devices: qsv qsv qsv" | wc -l)
-GPU_INUSE=0
 
-mkdir -p .meta
+FILE_FULL=$(basename $1)
+FILE_NAME=${FILE_FULL%.vr*}
+FILE_PATH=$(realpath $1 | sed "s|${FILE_FULL}||g")
+FILE_PATH=$(echo "${FILE_PATH}${FILE_NAME}")
 
-ffmpeg -y -hide_banner -loglevel error -i $1 $1_left.jpg && exiftool -b -ImageData $1 > $1_right.jpg
+FILE_TEMP="${FILE_PATH}/.frames"
 
-ffmpeg -y -hide_banner -loglevel error -i $1_left.jpg -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" $1_left_flat.jpg &
-ffmpeg -y -hide_banner -loglevel error -i $1_right.jpg -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" $1_right_flat.jpg &
+mkdir -p "${FILE_TEMP}"
+mkdir -p "${FILE_PATH}"
 
+echo "[i] Processing ${FILE_NAME} ..."
+
+
+ffmpeg -y -hide_banner -loglevel error -i $1 "${FILE_PATH}/${FILE_NAME}_left.jpg"
+exiftool -b -ImageData $1 > "${FILE_PATH}/${FILE_NAME}_right.jpg"
+
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left.jpg" -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" "${FILE_PATH}/${FILE_NAME}_left_flat.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_right.jpg" -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" "${FILE_PATH}/${FILE_NAME}_right_flat.jpg"
+
+sleep 1
+
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}_anaglyph.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_PATH}/${FILE_NAME}_left_flat.jpg" -i "${FILE_PATH}/${FILE_NAME}_right_flat.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}_anaglyph_bw.jpg"
+
+
+
+touch "${FILE_PATH}/${FILE_NAME}_fliplist.txt"
+for (( C=0; C<=2; C+=1 )); do
+	echo "file ${FILE_PATH}/${FILE_NAME}_left_flat.jpg" >> "${FILE_PATH}/${FILE_NAME}_fliplist.txt"
+done
 
 for (( C=0; C<=2; C+=1 )); do
-	echo "file ${1}_left_flat.jpg" >> $1_fliplist.txt
+	echo "file ${FILE_PATH}/${FILE_NAME}_right_flat.jpg" >> "${FILE_PATH}/${FILE_NAME}_fliplist.txt"
 done
 
-for (( C=0; C<=2; C+=1 )); do
-	echo "file ${1}_right_flat.jpg" >> $1_fliplist.txt
-done
-
-ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i $1_fliplist.txt -preset veryslow -filter_complex "loop=loop=20:size=90:start=0" $1_flip.mp4
-rm -f $1_fliplist.txt
+ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i "${FILE_PATH}/${FILE_NAME}_fliplist.txt" -preset slow -filter_complex "loop=loop=20:size=90:start=0" "${FILE_PATH}/${FILE_NAME}_flip.mp4"
+rm -f "${FILE_PATH}/${FILE_NAME}_fliplist.txt"
 
 
 
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=-15:roll=10:yaw=20:w=2880:h=1620" $1_pov.jpg &
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:fisheye:v_fov=120" $1_square.jpg &
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0,crop=w=3616:h=3016,scale=w=2880:h=2880" $1_circle.jpg &
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=hequirect:ih_fov=120:iv_fov=120:pitch=0:roll=0:yaw=0:output=perspective,scale=3016:3016" $1_fisheye.jpg &
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" $1_flat.jpg &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=-15:roll=10:yaw=20:w=2880:h=1620" "${FILE_PATH}/${FILE_NAME}_pov.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:fisheye:v_fov=120" "${FILE_PATH}/${FILE_NAME}_square.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0,crop=w=3616:h=3016,scale=w=2880:h=2880" "${FILE_PATH}/${FILE_NAME}_circle.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=hequirect:ih_fov=120:iv_fov=120:pitch=0:roll=0:yaw=0:output=perspective,scale=3016:3016" "${FILE_PATH}/${FILE_NAME}_fisheye.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "v360=input=fisheye:output=flat:h_fov=120:v_fov=47.5:pitch=0:roll=0:w=3840:h=2160,crop=w=1920:h=1080,scale=1920:1080,setsar=1" "${FILE_PATH}/${FILE_NAME}_flat.jpg" &
 
-for (( C=0; C<=30; C+=1 )); do
-	FRAME=$(printf "%02d\n" "${C}")
+if [ ! -f "${FILE_PATH}/${FILE_NAME}_pan.mp4" ]; then
 
-	ffmpeg -n -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=0:roll=0:yaw=${C}:w=2880:h=1620" ".meta/${1}_panright_${FRAME}.jpg" &
-	ffmpeg -n -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=0:roll=0:yaw=-${C}:w=2880:h=1620" ".meta/${1}_panleft_${FRAME}.jpg"
-done
+	for (( C=0; C<=30; C+=1 )); do
+		FRAME=$(printf "%02d\n" "${C}")
 
-rm -f test_panlist.txt
+		if [ ! -f "${FILE_TEMP}/${FILE_NAME}_panright_${FRAME}.jpg" ]; then
+			ffmpeg -n -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=0:roll=0:yaw=${C}:w=2880:h=1620" "${FILE_TEMP}/${FILE_NAME}_panright_${FRAME}.jpg"
+		fi
+		if [ ! -f "${FILE_TEMP}/${FILE_NAME}_panleft_${FRAME}.jpg" ]; then
+			ffmpeg -n -hide_banner -loglevel error -i $1 -vf "v360=input=hequirect:output=flat:h_fov=120:v_fov=120:pitch=0:roll=0:yaw=-${C}:w=2880:h=1620" "${FILE_TEMP}/${FILE_NAME}_panleft_${FRAME}.jpg"
+		fi
+	done
 
-ls --format=single-column .meta/$1_panleft* >> $1_panlist.txt
-ls --format=single-column .meta/$1_panleft* | sort -r >> $1_panlist.txt
 
-ls --format=single-column .meta/$1_panright* >> $1_panlist.txt
-ls --format=single-column .meta/$1_panright* | sort -r >> $1_panlist.txt
+	touch "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
 
-sed -i 's/^/file /' $1_panlist.txt
+	for (( C=0; C<=30; C+=1 )); do
+		FRAME=$(printf "%02d\n" "${C}")
+		echo "file '${FILE_NAME}_panleft_${FRAME}.jpg'" >> "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
+	done
 
-if [[ $GPU_INUSE == 1 ]]; then
-	ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i $1_panlist.txt -vcodec h264_qsv -preset veryslow -filter_complex "loop=loop=2:size=124:start=0" $1_pan.mp4
-else
-	ffmpeg -n -hide_banner -loglevel error -f concat -safe 0 -i $1_panlist.txt -preset veryslow -filter_complex "loop=loop=2:size=124:start=0" $1_pan.mp4
+	for (( C=30; C>=0; C-=1 )); do
+        	FRAME=$(printf "%02d\n" "${C}")
+        	echo "file '${FILE_NAME}_panleft_${FRAME}.jpg'" >> "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
+	done
+
+	for (( C=0; C<=30; C+=1 )); do
+        	FRAME=$(printf "%02d\n" "${C}")
+        	echo "file '${FILE_NAME}_panright_${FRAME}.jpg'" >> "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
+	done
+
+	for (( C=30; C>=0; C-=1 )); do
+        	FRAME=$(printf "%02d\n" "${C}")
+        	echo "file '${FILE_NAME}_panright_${FRAME}.jpg'" >> "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
+	done
+
+	sleep 10
+
+	if [ -f "${FILE_TEMP}/${FILE_NAME}_panlist.txt" ]; then
+		ffmpeg -n -hide_banner -loglevel error -f concat -safe 0 -i "${FILE_TEMP}/${FILE_NAME}_panlist.txt" -preset slow -filter_complex "loop=loop=2:size=124:start=0" "${FILE_PATH}/${FILE_NAME}_pan.mp4"
+	fi
+	rm -f "${FILE_TEMP}/${FILE_NAME}_panlist.txt"
 fi
-
-rm -f $1_panlist.txt
-
-#rm .meta/test_panleft*
-#rm .meta/test_panright*
