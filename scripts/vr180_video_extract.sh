@@ -7,17 +7,21 @@ CONF_FIL="v360=dfisheye:hequirect:output=flat:in_stereo=sbs:out_stereo=sbs:ih_fo
 CONF_SCL="scale=3840:2160"
 
 if [[ $INFO_RAM > 19000000 ]]; then
-	ffmpeg -y -i $1 -vf "${CONF_FIL},stereo3d=sbsl:ml,${CONF_SCL}" -preset fast $1_left.mp4 &
-	ffmpeg -y -i $1 -vf "${CONF_FIL},stereo3d=sbsr:mr,${CONF_SCL}" -preset fast $1_right.mp4
-	ffmpeg -y -i $1 -b:a 192K -vn $1_audio.mp3 &
+	#ffmpeg -y -hide_banner -loglevel error -i $1 -vf "${CONF_FIL},stereo3d=sbsl:ml,${CONF_SCL}" -preset fast $1_left.mp4 &
+	#ffmpeg -y -hide_banner -loglevel error -i $1 -vf "${CONF_FIL},stereo3d=sbsr:mr,${CONF_SCL}" -preset fast $1_right.mp4
+	#ffmpeg -y -hide_banner -loglevel error -i $1 -b:a 192K -vn $1_audio.mp3 &
 
-	ffmpeg -y -i $1 -vf "eq=brightness=0.05:saturation=1.5,${CONF_FIL},stereo3d=sbs2l:arcc,${CONF_SCL}" $1_anaglyph.mp4 &
-	ffmpeg -y -i $1 -vf "eq=brightness=0.05:contrast=0.5,${CONF_FIL},stereo3d=sbs2l:arcg,${CONF_SCL}" $1_anaglyph_bw.mp4
+	#ffmpeg -y -hide_banner -loglevel error -i $1 -vf "eq=brightness=0.05:saturation=1.5,${CONF_FIL},stereo3d=sbs2l:arcd,${CONF_SCL}" -preset fast $1_anaglyph.mp4 &
+	#ffmpeg -y -hide_banner -loglevel error -i $1 -vf "eq=brightness=0.05:contrast=0.5,${CONF_FIL},stereo3d=sbs2l:arcg,${CONF_SCL}" $1_anaglyph_bw.mp4
+	ffmpeg -y -hide_banner -loglevel error -i "${1}_left.mp4" -i "${1}_right.mp4" -filter_complex "hstack" -preset fast "${1}_sbs_full.mp4"
+	ffmpeg -y -hide_banner -loglevel error -i "${1}_sbs_full.mp4" -filter_complex "scale=1920:1080" -c:a copy "${1}_sbs_1080s.mp4"
 else
-	ffmpeg -n -i $1 -vf "${CONF_FIL},stereo3d=sbsl:ml,${CONF_SCL}" -preset fast $1_left.mp4
-        ffmpeg -n -i $1 -vf "${CONF_FIL},stereo3d=sbsr:mr,${CONF_SCL}" -preset fast $1_right.mp4
-        ffmpeg -y -i $1 -b:a 192K -vn $1_audio.mp3
+	#ffmpeg -n -hide_banner -loglevel error -i $1 -vf "${CONF_FIL},stereo3d=sbsl:ml,${CONF_SCL}" -preset fast $1_left.mp4
+        #ffmpeg -n -hide_banner -loglevel error -i $1 -vf "${CONF_FIL},stereo3d=sbsr:mr,${CONF_SCL}" -preset fast $1_right.mp4
+        #ffmpeg -y -hide_banner -loglevel error -i $1 -b:a 192K -vn $1_audio.mp3
 
-        ffmpeg -n -i $1 -vf "eq=brightness=0.05:saturation=1.5,${CONF_FIL},stereo3d=sbs2l:arcc,${CONF_SCL}" $1_anaglyph.mp4
-        ffmpeg -n -i $1 -vf "eq=brightness=0.05:contrast=0.5,${CONF_FIL},stereo3d=sbs2l:arcg,${CONF_SCL}" $1_anaglyph_bw.mp4
+        #ffmpeg -y -hide_banner -loglevel error -i $1 -vf "eq=brightness=0.05:saturation=1.5,${CONF_FIL},stereo3d=sbs2l:arcd,${CONF_SCL}" -preset veryfast $1_anaglyph.mp4
+        #ffmpeg -n -hide_banner -loglevel error -i $1 -vf "eq=brightness=0.05:contrast=0.5,${CONF_FIL},stereo3d=sbs2l:arcg,${CONF_SCL}" $1_anaglyph_bw.mp4
+	ffmpeg -y -hide_banner -loglevel error -i "${1}_left.mp4" -i "${1}_right.mp4" -filter_complex "hstack" -preset veryfast "${1}_sbs_full.mp4"
+        ffmpeg -y -hide_banner -loglevel error -i "${1}_sbs_full.mp4" -filter_complex "scale=1920:1080" -c:a copy "${1}_sbs_1080s.mp4"
 fi
