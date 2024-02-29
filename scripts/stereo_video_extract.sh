@@ -5,6 +5,10 @@
 # FOR: KANDAO QOOCAM EGO 2023 3D VIDEO
 # LR Eye alignment needed for this camera
 
+#ffmpeg -y -f dshow -video_size 640x480 -framerate 30 -pixel_format yuyv422 -video_device_number 0 -i video="Icatch(X) KV Series Null Device" -f dshow -video_size 640x480 -framerate 30 -pixel_format yuyv422 -video_device_number 1 -i video="Icatch(X) KV Series Null Device" -filter_complex blend=all_expr='if(eq(mod(X,2),mod(Y,2)),A,B)' -vcodec rawvideo -pix_fmt yuyv422 -f sdl "SDL output"
+
+
+
 INFO_RAM=$(awk '/^MemTotal:/{print $2}' /proc/meminfo)
 CONF_VRB="-loglevel error -hide_banner"
 CONF_SCL="scale=1920:1080"
