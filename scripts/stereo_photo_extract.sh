@@ -16,24 +16,24 @@ mkdir -p "${FILE_TEMP}"
 echo "[i] Processing ${FILE_NAME} ..."
 
 
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=0:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_left.jpg" &
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=iw/2:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_right.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=0:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_left.jpg"
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=iw/2:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_right.jpg"
 
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -vf "crop=x=iw/15:y=ih/15:w=3840:h=2160" "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -vf "crop=x=iw/15:y=ih/15:w=3840:h=2160" "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg"
 
 
 
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_dubois.jpg" &
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_half.jpg" &
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_full.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_dubois.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_half.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_full.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_bw.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:aybd" "${FILE_PATH}/${FILE_NAME}_anaglyph-yb_dubois.jpg"
 
 
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_dubois.jpg" &
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_half.jpg" &
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_full.jpg" &
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_dubois.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_half.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_full.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-cr_bw.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg" -filter_complex "hstack,stereo3d=sbsl:aybd" "${FILE_PATH}/${FILE_NAME}-16x9_anaglyph-yb_dubois.jpg"
 
