@@ -1,0 +1,8 @@
+[Nemo Action]
+_Name=Copy Filename
+_Comment=Copies filename to clipboard
+Icon-Name=font-x-generic-symbolic.symbolic
+Exec=<nemo-copy-filename@duracell80/nemo-copy-filename.sh %F>
+Selection=s
+Extensions=any;
+Dependencies=xclip

@@ -1,0 +1,7 @@
+{
+    "description": "Copy the filename of the currently selected file",
+    "uuid": "nemo-copy-filename@duracell80",
+    "name": "Copy Filename",
+    "author": "duracell80",
+    "version": "1.0"
+}
