@@ -15,8 +15,9 @@ mkdir -p "${FILE_TEMP}"
 
 echo "[i] Processing ${FILE_NAME} ..."
 
-
-CONF_CORR="0"
+CONF_FOC1=$(exiftool PHOTO/01/0016_20240301_133531.jpg | grep -i "user comment" | cut -d "=" -f10 | grep -i "focus_distance" | cut -d "," -f1 | sed 's/mm//')
+CONF_CORR=$(($CONF_FOC1 / 100))
+#CONF_CORR="0"
 
 ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=${CONF_CORR}:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_left_temp.jpg"
 ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=iw/2:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_right_temp.jpg"
