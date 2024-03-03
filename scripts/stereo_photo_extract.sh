@@ -16,15 +16,25 @@ mkdir -p "${FILE_TEMP}"
 echo "[i] Processing ${FILE_NAME} ..."
 
 
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=0:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_left.jpg"
-ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=iw/2:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_right.jpg"
+CONF_CORR="0"
 
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -vf "crop=x=iw/15:y=ih/15:w=3840:h=2160" "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg"
-ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -vf "crop=x=iw/15:y=ih/15:w=3840:h=2160" "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg"
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=${CONF_CORR}:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_left_temp.jpg"
+ffmpeg -y -hide_banner -loglevel error -i $1 -vf "crop=x=iw/2:y=0:w=iw/2:h=ih" "${FILE_TEMP}/${FILE_NAME}_right_temp.jpg"
+
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left_temp.jpg" -vf "crop=x=0:y=0:w=iw-${CONF_CORR}:h=ih" "${FILE_TEMP}/${FILE_NAME}_left.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_right_temp.jpg" -vf "crop=x=0:y=0:w=iw-${CONF_CORR}:h=ih" "${FILE_TEMP}/${FILE_NAME}_right.jpg"
+
+
+
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -vf "crop=x=iw/12:y=ih/12:w=3840/1.05:h=2160/1.05" "${FILE_TEMP}/${FILE_NAME}_left-16x9.jpg"
+ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -vf "crop=x=iw/12:y=ih/12:w=3840/1.05:h=2160/1.05" "${FILE_TEMP}/${FILE_NAME}_right-16x9.jpg"
 
 
 
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcd" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_dubois.jpg"
+
+
+
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arch" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_half.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcc" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_full.jpg"
 ffmpeg -y -hide_banner -loglevel error -i "${FILE_TEMP}/${FILE_NAME}_left.jpg" -i "${FILE_TEMP}/${FILE_NAME}_right.jpg" -filter_complex "hstack,stereo3d=sbsl:arcg" "${FILE_PATH}/${FILE_NAME}_anaglyph-cr_bw.jpg"
