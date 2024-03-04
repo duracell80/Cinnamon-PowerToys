@@ -1,0 +1,7 @@
+{
+    "description": "Take system snapshot and run update tool",
+    "uuid": "timeshift-take-snapshot@duracell80",
+    "name": "Copy Filename",
+    "author": "duracell80",
+    "version": "1.0"
+}
