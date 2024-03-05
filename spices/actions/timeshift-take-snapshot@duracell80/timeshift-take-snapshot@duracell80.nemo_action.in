@@ -1,11 +1,11 @@
 [Nemo Action]
 _Name=System Snapshot and Update
 _Comment=Takes a timeshift snapshot and starts update tool
-Icon-Name=font-x-generic-symbolic.symbolic
-Exec=<timeshift-take-snapshot@duracell80/nemo-copy-filename.sh %F>
+Icon-Name=computer-symbolic
+Exec=<timeshift-take-snapshot@duracell80/timeshift-take-snapshot.sh>
 Selection=s
 Extensions=any;
 EscapeSpaces=true
 Terminal=false
 UriScheme=computer
-Dependencies=timeshift;zenity
+Dependencies=timeshift;mintupdate;zenity
