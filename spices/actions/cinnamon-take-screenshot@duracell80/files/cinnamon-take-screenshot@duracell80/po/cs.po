@@ -9,28 +9,28 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-actions/"
 "issues\n"
 "POT-Creation-Date: 2024-04-30 23:54-0100\n"
-"PO-Revision-Date: 2024-01-21 13:39-0600\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-02-23 22:18+0100\n"
+"Last-Translator: Internet Addict <CZmisaCZ@email.cz>\n"
 "Language-Team: LANGUAGE <lang@github.com>\n"
-"Language: tr_br\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
 
 #. metadata.json->description
 msgid "Capture screenshots directly from the desktop context menu"
-msgstr "Ekran görüntülerini doğrudan masaüstü içerik menüsünden yakalayın"
+msgstr "Pořizování snímků obrazovky přímo z kontextové nabídky plochy"
 
 #. metadata.json->name
 #. cinnamon-take-screenshot@duracell80.nemo_action.in->Name
 msgid "Take Screenshot"
-msgstr "Ekran görüntüsü al"
+msgstr "Pořízení snímku obrazovky"
 
 #: cinnamon-take-screenshot.sh:9
 msgid "Screenshot app not available, exiting."
-msgstr "Ekran görüntüsü uygulaması kullanılamıyor, çıkılıyor."
+msgstr ""
 
 #: cinnamon-take-screenshot.sh:10
 msgid "The screenshot was not taken!"
