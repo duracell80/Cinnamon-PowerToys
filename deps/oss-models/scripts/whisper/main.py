@@ -18,10 +18,10 @@ if __name__ == "__main__":
 	file_name = pathlib.Path(args.file).name
 	file_extension = pathlib.Path(args.file).suffix
 
-	file_path_srt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.srt')}"
-	file_path_ass = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.ass')}"
-	file_path_txt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.txt')}"
-	file_summ_txt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '_summary.txt')}"
+	file_path_srt = f"{file_path}/{str(file_name).replace(file_extension, '.srt')}"
+	file_path_ass = f"{file_path}/{str(file_name).replace(file_extension, '.ass')}"
+	file_path_txt = f"{file_path}/{str(file_name).replace(file_extension, '.txt')}"
+	file_summ_txt = f"{file_path}/{str(file_name).replace(file_extension, '_summary.txt')}"
 
 	model_size = f"{args.model}"
 
@@ -33,6 +33,8 @@ if __name__ == "__main__":
 			model = WhisperModel(model_size, device="cuda", compute_type="float16")
 
 		start_time = time.time()
+		print(f"[i] Generating transcription of file: {args.file}")
+
 		segments, _ = model.transcribe(audio=f"{args.file}", beam_size=5)
 
 		results = []
@@ -72,7 +74,7 @@ if __name__ == "__main__":
 		contents = file.read()
 		file.close()
 
-
+		print(f"[i] Generating summary of file: {transcription_file}")
 		response = ollama.chat(model = 'llama3', keep_alive = 0, messages = [
 			{
 				'role': 'user',
