@@ -5,7 +5,7 @@ pip3 install opencv-python matplotlib pypexels pexels pexels_api requests tqdm p
 sudo systemctl enable --now atd
 
 CWD=$(pwd)
-LWD=$HOME/.local/share/powertoys
+LWD="${HOME}/.local/share/powertoys"
 LBD=$HOME/.local/bin
 
 export PATH=$LBD:$PATH
@@ -43,7 +43,7 @@ fi
 
 #cd $CWD/deps/gpu-video-wallpaper-fork
 #$CWD/deps/gpu-video-wallpaper-fork/install.sh --distro-agnostic
-#cd $CWD
+cd $CWD
 
 cp -f $CWD/scripts/*.sh $LWD
 cp -f $CWD/scripts/*.py $LWD

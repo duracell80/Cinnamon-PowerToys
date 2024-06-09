@@ -23,7 +23,7 @@ fi
 
 if [ ! -f "${FILE_DIR}/.meta/${FILE_NME}_audio.ass" ]; then
 	echo "[i] Transcribing audio"
-	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --model=small.en --file='${FILE_DIR}/.meta/${FILE_NME}_audio.mp3'"
+	bash -c "${APP}/bin/python3 ${APP}/app/main.py --model=small.en --file='${FILE_DIR}/.meta/${FILE_NME}_audio.mp3'"
 	echo "35"
 
 	while IFS= read -r line

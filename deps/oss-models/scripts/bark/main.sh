@@ -34,9 +34,9 @@ source "${APP}/bin/activate"
 START=$(date +%s)
 
 if [ -z "$2" ]; then
-	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --voice=${IN_VOICE} --text='${IN_TEXT}'" 2> /dev/null
+	bash -c "${APP}/bin/python3 ${APP}/app/main.py --gpu --voice=${IN_VOICE} --text='${IN_TEXT}'" 2> /dev/null
 else
-	bash -c "${APP}/bin/python3 ${APP}/app/main.py --cpu --voice=${IN_VOICE} --file=${2}" 2> /dev/null
+	bash -c "${APP}/bin/python3 ${APP}/app/main.py --gpu --voice=${IN_VOICE} --file=${2}" 2> /dev/null
 fi
 
 END=$(date +%s)

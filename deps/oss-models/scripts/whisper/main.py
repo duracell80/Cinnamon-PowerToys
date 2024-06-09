@@ -3,6 +3,8 @@
 import argparse, pathlib, time, sys, os, pysubs2
 from faster_whisper import WhisperModel
 
+import ollama
+
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
@@ -15,7 +17,11 @@ if __name__ == "__main__":
 	file_path = pathlib.Path(args.file).parent
 	file_name = pathlib.Path(args.file).name
 	file_extension = pathlib.Path(args.file).suffix
-	file_path_srt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '_audio.srt')}"
+
+	file_path_srt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.srt')}"
+	file_path_ass = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.ass')}"
+	file_path_txt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '.txt')}"
+	file_summ_txt = f"{file_path}/.meta/{str(file_name).replace(file_extension, '_summary.txt')}"
 
 	model_size = f"{args.model}"
 
@@ -49,16 +55,37 @@ if __name__ == "__main__":
 
 		subs = pysubs2.load_from_whisper(results)
 
-		subs.save(f"{str(args.file).replace(file_extension, '.srt')}")
-		subs.save(f"{str(args.file).replace(file_extension, '.ass')}")
+		subs.save(f"{str(file_path_srt)}")
+		subs.save(f"{str(file_path_ass)}")
 
-		transcription_file = str(args.file).replace(file_extension, '.txt')
+		transcription_file = f"{file_path_txt}"
+		summary_file = f"{file_summ_txt}"
 
 		end_time = time.time()
 		total_time = round(end_time - start_time)
 
 		with open(transcription_file, "w") as file:
 			file.write(f"{str(paras).replace('. .', '.')}")
+
+		file = open(f"{transcription_file}")
+
+		contents = file.read()
+		file.close()
+
+
+		response = ollama.chat(model = 'llama3', keep_alive = 0, messages = [
+			{
+				'role': 'user',
+				'content': 'Summerize the following text: ' + str(contents),
+			},
+		])
+		summary = str(response['message']['content'])
+		#summary = ollama.generate(model='llama3', prompt='Summerize the following text: ' + str(contents))
+		print(summary)
+
+
+		with open(summary_file, "w") as file:
+			file.write(f"{summary}")
 
 		print(f"[i] Task took: {total_time}s")
 	else:

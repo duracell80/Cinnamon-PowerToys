@@ -12,3 +12,4 @@ deps/oss-models/whisper/
 deps/oss-models/media/test.mp4
 deps/oss-models/media/test.srt
 deps/oss-models/bark/
+/deps/oss-models/piper

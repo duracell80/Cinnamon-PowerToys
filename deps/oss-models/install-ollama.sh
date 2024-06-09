@@ -2,7 +2,7 @@
 
 CWD=$(pwd)
 
-#curl https://ollama.ai/install.sh | sh
+curl https://ollama.ai/install.sh | sh
 
 read -p "Do you wish to install LLaVA (4GB image description model)? (yes/no) " yn
 
