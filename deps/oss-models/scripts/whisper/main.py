@@ -78,7 +78,7 @@ if __name__ == "__main__":
 		response = ollama.chat(model = 'llama3', keep_alive = 0, messages = [
 			{
 				'role': 'user',
-				'content': 'Summerize the following text: ' + str(contents),
+				'content': 'This text is a transcription of a meeting involving several team members. Please summerize the text, giving a section of bullet points as a key takeaways section at the end of the summary. Provide output in markdown format: ' + str(contents),
 			},
 		])
 		summary = str(response['message']['content'])
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
 
 		with open(summary_file, "w") as file:
-			file.write(f"{summary}")
+			file.write(f"{summary} \n > [!NOTE] Notes\n> Contents")
 
 		print(f"[i] Task took: {total_time}s")
 	else:
