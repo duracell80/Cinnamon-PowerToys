@@ -18,6 +18,7 @@ if __name__ == "__main__":
 	file_name = pathlib.Path(args.file).name
 	file_extension = pathlib.Path(args.file).suffix
 
+	file_path_mp3 = f"{file_path}/{str(file_name).replace(file_extension, '.mp3')}"
 	file_path_srt = f"{file_path}/{str(file_name).replace(file_extension, '.srt')}"
 	file_path_ass = f"{file_path}/{str(file_name).replace(file_extension, '.ass')}"
 	file_path_txt = f"{file_path}/{str(file_name).replace(file_extension, '.txt')}"
@@ -87,7 +88,7 @@ if __name__ == "__main__":
 
 
 		with open(summary_file, "w") as file:
-			file.write(f"{summary} \n > [!NOTE] Notes\n> Contents")
+			file.write(f"{summary} \n\n> [!NOTE] Notes\n> Contents \n\n![[{str(file_name).replace(file_extension, '.mp3')}]]")
 
 		print(f"[i] Task took: {total_time}s")
 	else:
