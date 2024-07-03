@@ -22,6 +22,7 @@ if __name__ == "__main__":
 	file_path_srt = f"{file_path}/{str(file_name).replace(file_extension, '.srt')}"
 	file_path_ass = f"{file_path}/{str(file_name).replace(file_extension, '.ass')}"
 	file_path_txt = f"{file_path}/{str(file_name).replace(file_extension, '.txt')}"
+	file_path_mkd = f"{file_path}/{str(file_name).replace(file_extension, '.md')}"
 	file_summ_txt = f"{file_path}/{str(file_name).replace(file_extension, '_summary.txt')}"
 
 	model_size = f"{args.model}"
@@ -61,6 +62,8 @@ if __name__ == "__main__":
 		subs.save(f"{str(file_path_srt)}")
 		subs.save(f"{str(file_path_ass)}")
 
+		os.popen(f"cp {file_path_srt} {file_path_mkd}")
+
 		transcription_file = f"{file_path_txt}"
 		summary_file = f"{file_summ_txt}"
 
@@ -79,7 +82,7 @@ if __name__ == "__main__":
 		response = ollama.chat(model = 'llama3', keep_alive = 0, messages = [
 			{
 				'role': 'user',
-				'content': 'This text is a transcription of a meeting involving several team members. Please summerize the text, giving a section of bullet points as a key takeaways section at the end of the summary. Provide output in markdown format: ' + str(contents),
+				'content': 'This text is a transcription. Please summerize the text, giving a section of bullet points as a key takeaways section at the end of the summary. Produce 5 tags of keywords found in the article and present these with a hashtag. Provide output in markdown format. The transcription is as follows: ' + str(contents),
 			},
 		])
 		summary = str(response['message']['content'])
