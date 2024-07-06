@@ -29,10 +29,14 @@ if __name__ == "__main__":
 
 
 	if os.path.isfile(file_path_srt) == False:
-		if args.cpu:
-			model = WhisperModel(model_size, device="cpu", compute_type="int8")
-		else:
-			model = WhisperModel(model_size, device="cuda", compute_type="float16")
+		try:
+			if args.cpu:
+				model = WhisperModel(model_size, device="cpu", compute_type="int8")
+			else:
+				model = WhisperModel(model_size, device="cuda", compute_type="float16")
+		except:
+			print(f"[i] Loading Whisper failed, exiting without transcribing :(")
+			sys.exit()
 
 		start_time = time.time()
 		print(f"[i] Generating transcription of file: {args.file}")
