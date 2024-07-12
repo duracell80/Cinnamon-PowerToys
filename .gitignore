@@ -13,3 +13,8 @@ deps/oss-models/media/test.mp4
 deps/oss-models/media/test.srt
 deps/oss-models/bark/
 /deps/oss-models/piper
+deps/tensorflow/Python-3.7.9.tgz
+/deps/tensorflow/Python-3.7.9
+deps/tensorflow/Python-3.8.19.tgz
+/deps/tensorflow/Python-3.8.19
+deps/tensorflow/Python-3.9.7.tgz

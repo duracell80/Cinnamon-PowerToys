@@ -83,7 +83,7 @@ if __name__ == "__main__":
 		file.close()
 
 		print(f"[i] Generating summary of file: {transcription_file}")
-		response = ollama.chat(model = 'llama3', keep_alive = 0, messages = [
+		response = ollama.chat(model = 'llama3', keep_alive = 0, timeout = 600, messages = [
 			{
 				'role': 'user',
 				'content': 'This text is a transcription. Please summerize the text, giving a section of bullet points as a key takeaways section at the end of the summary. Produce 5 tags of keywords found in the article and present these with a hashtag. Provide output in markdown format. The transcription is as follows: ' + str(contents),
