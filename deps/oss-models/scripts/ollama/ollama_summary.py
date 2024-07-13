@@ -7,9 +7,10 @@ from ollama import Client
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--file", type=str, required=True)
-	parser.add_argument("--model", type=str, required=True)
-	parser.add_argument("--prompt", type=str, required=False)
-	parser.add_argument("--context", type=str, required=False)
+	parser.add_argument("--model", type=str, default="llama3", required=False)
+	parser.add_argument("--prompt", type=str, default="Please summarize the text, giving a section of bullet points as a key takeaways section at the end of the summary.", required=False)
+	parser.add_argument("--context", type=str, default="transcription", required=False)
+	parser.add_argument('--no-gpu', default=True, required=False, action=argparse.BooleanOptionalAction)
 
 	# args.context = "transcription"
 
@@ -73,5 +74,5 @@ if __name__ == "__main__":
 	end_time = time.time()
 	total_time = round(end_time - start_time)
 
-	print(f"[i] Task took: {total_time}s")
+	print(f"[i] Summarization task took: {total_time}s")
 
