@@ -3,9 +3,6 @@
 import argparse, pathlib, time, sys, os, pysubs2
 from faster_whisper import WhisperModel
 
-from ollama import Client
-#import ollama
-
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
@@ -25,6 +22,8 @@ if __name__ == "__main__":
 	file_path_txt = f"{file_path}/{str(file_name).replace(file_extension, '.txt')}"
 	file_path_mkd = f"{file_path}/{str(file_name).replace(file_extension, '.md')}"
 	file_summ_txt = f"{file_path}/{str(file_name).replace(file_extension, '_summary.txt')}"
+	file_summ_mkd = f"{file_path}/{str(file_name).replace(file_extension, '_summary.md')}"
+
 
 	model_size = f"{args.model}"
 
@@ -66,40 +65,30 @@ if __name__ == "__main__":
 
 		subs.save(f"{str(file_path_srt)}")
 		subs.save(f"{str(file_path_ass)}")
-
 		os.popen(f"cp {file_path_srt} {file_path_mkd}")
-
-		transcription_file = f"{file_path_txt}"
-		summary_file = f"{file_summ_txt}"
 
 		end_time = time.time()
 		total_time = round(end_time - start_time)
 
-		with open(transcription_file, "w") as file:
+		with open(file_path_txt, "w") as file:
 			file.write(f"{str(paras).replace('. .', '.')}")
 
-		file = open(f"{transcription_file}")
+		file = open(f"{file_path_txt}")
 
 		contents = file.read()
 		file.close()
 
-		print(f"[i] Generating summary of file: {transcription_file}")
+		#print(f"[i] Generating summary of file: {file_path_txt}")
+		# USES OLLAMA and LLAMA3
+		os.system(f"summarize_transcript '{file_path_txt}'")
 
-		client = Client(host='http://localhost:11434', timeout = 300)
-		response = client.chat(model = 'llama3', keep_alive = 0, messages = [
-			{
-				'role': 'user',
-				'content': 'This text is a transcription. Please summerize the text, giving a section of bullet points as a key takeaways section at the end of the summary. Produce 5 tags of keywords found in the article and present these with a hashtag. Provide output in markdown format. The transcription is as follows: ' + str(contents),
-			},
-		])
-		summary = str(response['message']['content'])
-		#summary = ollama.generate(model='llama3', prompt='Summerize the following text: ' + str(contents))
-		print(summary)
+		file = open(f"{file_summ_txt}")
+		summary = file.read()
+		file.close()
 
-
-		with open(summary_file, "w") as file:
+		with open(file_summ_mkd, "w") as file:
 			file.write(f"{summary} \n\n> [!NOTE] Notes\n> Contents \n\n![[{str(file_name).replace(file_extension, '.mp3')}]]")
 
-		print(f"[i] Task took: {total_time}s")
+		print(f"[i] Task overall took: {total_time}s")
 	else:
 		print("[!] Subtitle SRT filenot found")
