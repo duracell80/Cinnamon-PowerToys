@@ -3,14 +3,20 @@
 import ChatTTS
 import torch
 import torchaudio
+import os
+
+dir_home = os.path.expanduser("~/")
+try:
+	os.mkdir(f"{dir_home}Audio/TTS")
+except:
+	print("[i] TTS Output directory exists")
 
 chat = ChatTTS.Chat()
 chat.load(compile=False) # Set to True for better performance
 
-#rand_spk = "蘁淰敵欀妋秌罃悅僱褖焭譚嫓棶旣賗噘枠诃洖瘼氡斏冾檤柙愴誔皩蘌討蕌瞸佣璌倐岹壖纕筩禊瞵纁睘尭柒绝橩獙蓧傎姑谒咽娶掎贙帆惀缘峣葃墣棌羅胓暗減暽囦滘杮歪恘僟水嶇菄忉赌濠劅掉宽潳琴誃塚會氋佘歿趥蒷搮瓟暺塌羵倈实庽瀁笨楇嬢謉態塧崟坘喹垧檢虈渮亵茅翪败蘥说屍蛣嘝婌礆聗杉擈胰困嵖裿倍腙獵羠槤悗睗諫謌汃氰槖泴茣孤裢獳汁碦萣恙墷氈樦彃蟮槷哈妖嗅罓埕砵稙蒽唐畊僕全缓蛌岀奾栩謹抮给歸牛唴产勑氋趶趲爱箘衎瞣绾础玣僢磚矧箥笛蔛忠谁跽賕搃筈琁胖犑谈刭璳洍悫脒帻腝秣机涩糖益喺澿汃噿蝜亲傛糪挙偩脛翐掎磂玞姺眥盲訡涬伈杤檣徯歨箖椚来怤庐恝豄伽攖殱疫劖淔乯暒塻漍喻埾癠蘈刔蠬缥紲讲贁尐嫑腣沮舍蟎灛堧怕嚓蝺礖乽贞刐竷泸覫斑甠荏洚渲昖硳稪菫緜濍泌臡嵗嫢趫蘃梁歟瘱詆莶瑀藿密働販惌眯灉熻橪砩箔楐聤濺諈坖弣删呢淕癇橼垩讳栠蕴掘娾媘痥眠怓聊耸亳帯忥峋匝舀識贠曗綍们腿剿氃責舏傈藫篤兦厎蒰纺挑谂芩婻徏烺尜砚睉悂参戒椇焯崍欬喷僅晦覀瑋蒑灋碶巗姺渙槩椌捿录覧咙脡蓻懦硘稢罉誈亼蓜谩胁呵缄堻忄語圃栂犵艗碚畫彴瘎啌淑憭赢诰稖茌昈切嚭杴噫褀洩谪澛勗煸乇嗻浵胓莡蘌皺巅蠽皾炡婭垎親硝擬煵凶菓卥櫸濘蒣弗讟修橎蕠琐貸詄椻夛嵤絳奲瘹氠壑暭粓皃堨繸藯埨蚁褴螉姠趸臼紲杽耞蛙緆蠮供歹芗亗尠弒礈殲嘢缇蕕猐毃梖搠傾设擑亘詐蟥嘙綁恗乣產蟖沨掣種筋猲倜琍絬正蝫幄楩盆瑐壶娪昑傌璆纏襇走粔爊柹给堊剳翟胸灔粍磃琚慻弞斧四痝琢烟洙枼屣蒦菬竛斖臇棈抨濗灇砿瀑犈渢觍熭楆窥丙欂琠線碉櫋曹硲哜砍旪棠昺睭薷窈憋淴柜慔戴永卹惢内臐焭潥筷祄桡膆偍凥帓矃菡潰毹皸昒捦擠壙訚泽説幆笩泴牀椺畉僱嵠蒻昍墻癔俥来蓊搸覹艀熯浹漻肉偯狝揀咟枢贉觅梵牵舡嫅俱殡蟍熾戜蝥襯猑蚗肴揨揦粊綆悂濾峫玤貆梋嘑諆予尡喁望嗣堫痉帵欒吭俪綿耱牀暟楨沨燝櫃筭贔愁涆籹硊蔰羀仂俬請拌呀厯剰梙凨哺摇敟此臎梿樳緗寗忱塔聢蛤摠哑簊寠仚絎憶抇跺没濧泒每旞礴瞂歲琖川幅璒夶艭濟拟殻蜒扳疗窘莙屆溞悟荜愆瑩忑毯瀋優裨瞸緖毶緘坌襒傇膬荏匢蟪喒縞姩戥埋墷摲竘仈悢蒲玲荠衑喸慌偧员莰潐儜指绔訷瘕懐揕蒨哃筛儑歳彘蟐犞跌蜑咻褐恤嚿慱算磉祬怕湑棏崛簰斛楹姣嶒糭哎賮珹蔔緜渞焜縀一㴄"
-rand_spk = chat.sample_random_speaker()
-
-print(rand_spk) # save it for later timbre recovery
+rand_spk = "蘁淰敹欀椄嬈縅楅薇謫竤勦崏枻广僟哱猛蛹墴祚枿澬璒箔嗢瞑猒慿眐粴疪平瓧叿槱搄栳墣攞服揿廁敊棑懁桉爸罇嬿埙諃祅睴噡緊妕廈觀眴嗟彦旀仦谟缟畑奄衁捷拚竓胛埛磕禠恒琸疖肾冢琾覿啚凫譳什覷恡咂葉獣愳窋撐啴咚蔁怎佃塻溇啴狾瞃痧綜呈厜烵甍賂笤谵毛懸唘瞕栜藺硴桵楡寔择渝貑苆綠勪猌槵旕芇峚摇吻味蓳稹嵠瞽榑簛礒諑砀爔瞺礛境啟崈摙賤評亜覨睋剈哘糼瀜蜩寝嘵偀赶槤贑褶侚澖湜请擀冫诀穮盹圽岷幉蜋蚣卐裶绩奅右粣晁奨檆弮扳祿朑嗏跍篓蚵爻兺疴歬膒澇唍峵桉婃溫芓熰燞繰嗀溨裿毀奲胃槢倅糌懭仛硔粴芎乂庈犁皙諫呙茠溏蔤矑欍砟蠗奲泯俐老曭罄舥誧炮妑毢觥罎毬矗畝籛乓茦嵡粥晪窴詓祯后殑蕤旀凣簹虾癅覉來节懽嫉烥痆臎菲诤泊毽缨憶稬汮熏澧曷叿戩狘莐朩耔殥跒墔庅芠爎毇智蓓疻伥咸瞛耲蝍佊現慒三桊嫿洨谺廗灾朵烅挄好扛兡稟焭嵏孢嵙栣痦响葅羂蝣蕇犷茞詋襲請崦瞪诛犽繀臫熧佃神硝祩猹癰峢挤璵垭尬怴葘此喝丣荼仑歁贛瘖抲儉乼呑塹夁拡疵徆咏嬷氺觘杲尗畽藠袧岙觥緣嵡託甪濊晌巬潔護暨晡敹氝掓葍瘑絒爛喏兇幥篐侈芚扣桎桐栒袉渑佩薗棋恚呮擽洆畞襯瑋覇漰寶疯蒅謋絭盢掫螞佄艡剘莤哴媔硊絵哸嘨漵耷磠洩负覩傟豬竰俤悃謙攠唄姜內繭搷膎滙允峉裚寈娒扳寧垂舄乸瀭糩虺盔蜮楝宺蓱匮翀薚賥憳巈操丏蜤浪裋笹洭贷甸橅蠙痚豲槤滪矅蛵蔾擓崖灌秺斧岔沒貆奝勉梛纇撧慒穯杋劒倏禼萰汍蟠趺瑠詏諓屖薮汉坮暂矜蛩浀圥澠彟簠滼腐琦珣兗摰扮攆磤箶呗荲斮巎燸濌觽譄斝哩硍橰矙穑睰殡昗卹肹圶庆値浖乃泚薏訲資奉扳箎嚇竟喢诣莊畃虶乴橏嗭祋渊襒俺訢嵡女倸湂厛撒蔎繣勞峃袖爳襎衤篙湴儽苵歔趵佴勶暍篁壵盌往秌穙蠝儸獝璻簷臍王胀牋嶃貔褱淨瑾尐僥赶臲珈货澲碢繧擙宧撊硇蓋脻荌蝸欜茯花砩請亃稰耫睮燎祣蚻灕稥砼胖衳觧跊相朔猩恐快豩腈媜菾浂痙疹炥槦瑺穯冝嗿财襛蘉章攸瘓喽污焙尴汆漎楹蟈罌瑄卙幻垅埧彼副怊析浌疗峛弟溡蜤翮祥澙椘嗎怍炯峖傑办蔏牶琳緦叚艛腓廯桛为蛼議玪皷洫溅梊唱嘫瞱叐劮同枺蠆劸胶藺礙仢赘乴挝剞瀆絠舜漺檂琨嬫樢蜈巬妈諚纨智晓蟆眊愼碝喑創訜椐筜摺照孝澤枙攨盆愓岀塲侨塷檙役獼梷乕肤弼晚肼廦竭桊渲夐湣囇蒶紻碮动璹愹偭埞娦綴榆灨誤喋匓氚趇慈搘票濛憨嵑沘温瘀㴅"
+#rand_spk = chat.sample_random_speaker()
+#print(rand_spk) # save it for later timbre recovery
 
 texts = ["The day has been filled with dogs standing outside polling stations, as their owners head into voting booths to cast their ballots.", "Download Free Open Source RVC Models for Voice Conversion with Examples for Music Generation and Speech Replacement."]
 
@@ -21,22 +27,6 @@ params_infer_code = ChatTTS.Chat.InferCodeParams(
 	top_K = 20,         # 20 top K decode
 )
 
-
-text = """
-chat T T S is a text to speech model designed for dialogue applications.
-[uv_break]it supports mixed language input [uv_break]and offers multi speaker
-capabilities with precise control over prosodic elements like
-[uv_break]laughter[uv_break][laugh], [uv_break]pauses, [uv_break]and intonation.
-[uv_break]it delivers natural and expressive speech,[uv_break]so please
-[uv_break] use the project responsibly at your own risk.[uv_break]
-""".replace('\n', '')
-
-###################################
-# For sentence level manual control.
-
-# use oral_(0-9), laugh_(0-2), break_(0-7)
-# to generate special token in text to synthesize.
-# defaults 2, 0, 4
 params_refine_text = ChatTTS.Chat.RefineTextParams(
 	prompt='[oral_2][laugh_0][break_4]',
 )
@@ -47,8 +37,5 @@ wavs = chat.infer(
 	params_infer_code=params_infer_code,
 )
 
-###################################
-# For word level manual control.
-
 wavs = chat.infer(texts[1],skip_refine_text=False,params_refine_text=params_refine_text,params_infer_code=params_infer_code)
-torchaudio.save("~/Audio/TTS/test.wav", torch.from_numpy(wavs[0]), 22000)
+torchaudio.save(f"{dir_home}Audio/TTS/chattts_test.wav", torch.from_numpy(wavs[0]).unsqueeze(0), 24000)

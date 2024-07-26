@@ -9,6 +9,7 @@ BIN="${PTH}/${ENV}/bin"
 BIH="${HOME}/.local/bin"
 INS="${HOME}/.local/share/oss-models/${NME}"
 APH="${INS}/app"
+APB="${INS}/bin"
 
 sudo apt install nvidia-cuda-toolkit
 
@@ -27,12 +28,11 @@ fi
 cd "${PTH}" && chmod +x "${PTH}/setup.py"
 
 echo "[i] Creating Python VENV"
-python3.10 -m venv "${PTH}/${ENV}"
-source "${BIN}/activate" && mkdir -p "${APP}"
+python3.10 -m venv "${INS}"
+source "${APB}/activate" && mkdir -p "${APP}"
 
-pip install -r "${PTH}/requirements.txt"
+pip install -r  "${CWD}/scripts/chattts/requirements_custom.txt"
 
-deactivate
 #pip install nvidia-cublas-cu11 nvidia-cudnn-cu11
 
 #pip install git+https://github.com/NVIDIA/TransformerEngine.git@stable
@@ -42,20 +42,21 @@ deactivate
 
 
 
-#mkdir -p $HOME/.local/share/oss-models/$NME
-rm -rf "${HOME}/.local/share/oss-models/${NME}"
-mv -f "${PTH}/${ENV}" "${INS}"
+mkdir -p $HOME/Audio/TTS
 
-cp -r "${PTH}/ChatTTS" "${APH}"
+
+cp -r "${PTH}/ChatTTS" "${APH}/ChatTTS"
 cp -f "${CWD}/scripts/chattts/chattts-test.py" "${APH}"
 
 #cp -f "${CWD}/scripts/chattts/main.py" "${APH}/main.py"
 #cp -f "${CWD}/scripts/chattts/main.sh" "${APH}/app/main.sh"
 
 #echo "[i] Running a test generation ..."
-#source "${INS}/bin/activate"
-#python3 "${APH}/chattts-test.py"
-#deactivate
+cd "${APH}"
+$APH/chattts-test.py
+deactivate
+play $HOME/Audio/TTS/chattts_test.wav
+cd "${CWD}"
 
 #chmod +x "${APH}/main.sh"
 #chmod +x "${APH}/main.py"
