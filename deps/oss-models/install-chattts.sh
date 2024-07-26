@@ -15,15 +15,18 @@ sudo apt install nvidia-cuda-toolkit
 
 mkdir -p "${HOME}/Audio/TTS"
 
-echo "[i] Installing ${NME} from GIT"
-
+echo "[i] Installing ${NME} from GIT feba65f - Version 0.1.1"
 if [ -d "${PTH}" ]; then
 	cd $NME
 	git fetch
 	git pull
+	git reset --hard feba65f
 	cd ../
 else
 	git clone https://github.com/2noise/ChatTTS $NME
+	cd $NME/ChatTTS
+	git reset --hard feba65f
+	cd ../
 fi
 cd "${PTH}" && chmod +x "${PTH}/setup.py"
 
@@ -41,11 +44,9 @@ pip install -r  "${CWD}/scripts/chattts/requirements_custom.txt"
 #export CUDA_HOME=/usr/local/cuda-X.X
 
 
+mkdir -p "${APH}/ChatTTS"
 
-mkdir -p $HOME/Audio/TTS
-
-
-cp -r "${PTH}/ChatTTS" "${APH}/ChatTTS"
+cp -r "${PTH}/ChatTTS" "${APH}"
 cp -f "${CWD}/scripts/chattts/chattts-test.py" "${APH}"
 
 #cp -f "${CWD}/scripts/chattts/main.py" "${APH}/main.py"
