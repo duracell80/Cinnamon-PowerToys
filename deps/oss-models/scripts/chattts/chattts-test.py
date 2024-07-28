@@ -38,4 +38,5 @@ wavs = chat.infer(
 )
 
 wavs = chat.infer(texts[1],skip_refine_text=False,params_refine_text=params_refine_text,params_infer_code=params_infer_code)
-torchaudio.save(f"{dir_home}Audio/TTS/chattts_test.wav", torch.from_numpy(wavs[0]).unsqueeze(0), 24000)
+#torchaudio.save(f"{dir_home}Audio/TTS/chattts_test.wav", torch.from_numpy(wavs[0]).unsqueeze(0), 24000)
+torchaudio.save(f"{dir_home}Audio/TTS/chattts_test.wav", torch.from_numpy(wavs[0]), 24000)

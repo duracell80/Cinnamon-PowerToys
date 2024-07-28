@@ -48,8 +48,12 @@ mkdir -p "${APH}/ChatTTS"
 
 cp -r "${PTH}/ChatTTS" "${APH}"
 cp -f "${CWD}/scripts/chattts/chattts-test.py" "${APH}"
+cp -f "${CWD}/scripts/chattts/voices_f.txt" "${APH}"
+cp -f "${CWD}/scripts/chattts/voices_m.txt" "${APH}"
+cp -f "${CWD}/scripts/chattts/voices_t.txt" "${APH}"
 
-#cp -f "${CWD}/scripts/chattts/main.py" "${APH}/main.py"
+
+cp -f "${CWD}/scripts/chattts/main.py" "${APH}/main.py"
 #cp -f "${CWD}/scripts/chattts/main.sh" "${APH}/app/main.sh"
 
 #echo "[i] Running a test generation ..."
@@ -60,7 +64,7 @@ play $HOME/Audio/TTS/chattts_test.wav
 cd "${CWD}"
 
 #chmod +x "${APH}/main.sh"
-#chmod +x "${APH}/main.py"
+chmod +x "${APH}/main.py"
 
 #cp "${CWD}/scripts/${NME}/main.sh" "${BIH}/${NME}"
 #cp "${CWD}/scripts/${NME}/whisper-transcribe.sh" "${BIH}/${NME}-transcribe"
