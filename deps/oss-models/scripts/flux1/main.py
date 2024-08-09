@@ -43,6 +43,23 @@ if __name__ == "__main__":
 	elif args.cpu == "offload":
 		pipe.enable_model_cpu_offload()
 
+	if args.seed <= 0:
+		seed = int(random.uniform(1, 100))
+	else:
+		seed = int(args.seed)
+
+	if args.steps <= 0 or args.steps >= 50:
+		steps = int(random.uniform(4, 30))
+	else:
+		steps = int(args.steps)
+
+
+	if steps > 25:
+		step_scale = random.uniform(0.5, 7.0)
+	else:
+		step_scale = 0
+
+
 	# Enhance prompt with LLM
 	prompt_original = prompt
 	if args.llm == "llama3":
@@ -71,45 +88,44 @@ if __name__ == "__main__":
 
 
 		if "close-up" in args.angle:
-			prompt_modifier = f"{prompt_modifier}. The camera angle is a {args.angle} shot, with a lot of background blurring and bokeh."
+			prompt_modifier = f"{prompt_modifier}. The camera angle is a {args.angle} shot, with a lot of background blurring and bokeh"
 		elif "long-shot" in args.angle:
-			prompt_modifier = f"{prompt_modifier}. The camera angle is a long shot with some mild background blurring, the subject is not too distant."
+			prompt_modifier = f"{prompt_modifier}. The camera angle is a long shot with some mild background blurring, the subject is not too distant"
 		elif "wide" in args.angle:
-			prompt_modifier = f"{prompt_modifier}. The camera angle is a {args.angle} shot showing the background unblurred."
+			prompt_modifier = f"{prompt_modifier}. The camera angle is a {args.angle} shot showing the background unblurred"
 		elif "ultra-wide" in args.angle:
-			prompt_modifier = f"{prompt_modifier}. The image is taken from a distance showing the subject quite small in the frame and lots of details in the background."
+			prompt_modifier = f"{prompt_modifier}. The image is taken from a distance showing the subject quite small in the frame and lots of details in the background"
+
+
+		#if step_scale > 0:
+		#	prompt_max_words = 100
+		#	prompt_seqlen = 512
+		#else:
+		prompt_max_words = 53
+		prompt_seqlen = 256
 
 		client = Client(host='http://localhost:11434', timeout = 300)
 		response = client.chat(model = args.llm, keep_alive = 0, messages = [
 			{
 				'role': 'user',
-				'content': 'Rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than 50 words.' + str(prompt_modifier) + '. Do not explain what the text is. The prompt is: ' + prompt
+				'content': 'Creatively rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than ' + str(prompt_max_words) + ' words. Do not introduce the text or explain how the text was rewritten. The prompt is: ' + prompt + '. ' + str(prompt_modifier)
 			},
 		])
-		prompt = str(response['message']['content'])
+		prompt = str(response['message']['content']).replace('"', '')
 
 
-	if args.seed <= 0:
-		seed = int(random.uniform(1, 100))
-	else:
-		seed = int(args.seed)
 
-	if args.steps <= 0 or args.steps >= 25:
-		steps = int(random.uniform(1, 10))
-	else:
-		steps = int(args.steps)
-
-	print(f"\n\n[i] Generating image based on the following prompt:\n\n {prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps}")
+	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps}")
 
 	time_start = int(time.time())
 	file_name = f"flux-{time_start}__se{seed}-st{steps}"
 
 	image = pipe(
-		prompt,
-		guidance_scale = 0.0,
+		prompt = prompt,
+		guidance_scale = step_scale,
 		output_type="pil",
 		num_inference_steps = steps,
-		max_sequence_length = 256,
+		max_sequence_length = prompt_seqlen, # cannot be more than 256
 		height = args.height,
 		width = args.width,
 		generator = torch.Generator(args.device).manual_seed(seed)
@@ -121,7 +137,7 @@ if __name__ == "__main__":
 
 
 	f = open(f"{file_name}.txt", "w")
-	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.llm},style={style},seed={seed},steps={steps},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
+	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.llm},style={style},seed={seed},steps={steps},guidance_scale={step_scale},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
 	f.close()
 
 	print(f"[i] DONE, task took {time_end}s")
