@@ -44,7 +44,7 @@ if __name__ == "__main__":
 		pipe.enable_model_cpu_offload()
 
 	# Enhance prompt with LLM
-	prompt_origina = prompt
+	prompt_original = prompt
 	if args.llm == "llama3":
 		from ollama import Client
 
