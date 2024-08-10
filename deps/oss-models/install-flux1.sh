@@ -14,6 +14,7 @@ APB="${INS}/bin"
 #sudo apt install nvidia-cuda-toolkit
 
 mkdir -p "${HOME}/Pictures/Flux1"
+mkdir -p "${APH}/images"
 
 #echo "[i] Installing ${NME} from GIT feba65f - Version 0.1.1"
 #if [ -d "${PTH}" ]; then
@@ -55,7 +56,7 @@ mkdir -p "${APH}/Flux1"
 #cp -f "${CWD}/scripts/chattts/voices_m.txt" "${APH}"
 #cp -f "${CWD}/scripts/chattts/voices_t.txt" "${APH}"
 
-
+cp -f "${CWD}/scripts/flux1/demo.png" "${APH}/images/demo.png"
 cp -f "${CWD}/scripts/flux1/main.py" "${APH}/main.py"
 #cp -f "${CWD}/scripts/chattts/main.sh" "${APH}/app/main.sh"
 
