@@ -9,8 +9,8 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--file", type=str, required=False)
 	parser.add_argument("--model", type=str, required=False, default="schnell")
-	parser.add_argument("--prompt", type=str, required=False, default="a goldfish inside of a goldfish bowl")
-	parser.add_argument("--llm", type=str, required=False, default="norewrite")
+	parser.add_argument("--prompt", type=str, required=False, default="A young woman wearing a straw hat wading through a corn field")
+	parser.add_argument("--rewrite", type=str, required=False, default="norewrite")
 	parser.add_argument("--style", type=str, required=False, default="photorealistic")
 	parser.add_argument("--seed", type=int, required=False, default=0)
 	parser.add_argument("--steps", type=int, required=False, default=4)
@@ -20,11 +20,20 @@ if __name__ == "__main__":
 	parser.add_argument("--cpu", type=str, required=False, default="sequential")
 	parser.add_argument("--device", type=str, required=False, default="cpu")
 
+	prompt_max_words = 53
+	prompt_modifier = "reuse"
+	style="reuse"
+
 	args = parser.parse_args()
 
 	file_model = str(args.model)
 
 	prompt = f"Create {args.prompt}"
+	prompt_enhanced = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
+
+	if len(prompt.split(" ")) > prompt_max_words and args.rewrite == "norewrite":
+		print(f"\n\n[!] Prompt too long, try a shorter prompt with less than {prompt_max_words} words.\n\n")
+		sys.exit()
 
 	if args.file:
 		file_path = pathlib.Path(args.file).parent
@@ -44,7 +53,7 @@ if __name__ == "__main__":
 		pipe.enable_model_cpu_offload()
 
 	if args.seed <= 0:
-		seed = int(random.uniform(1, 100))
+		seed = int(random.uniform(1, 1000000))
 	else:
 		seed = int(args.seed)
 
@@ -60,9 +69,18 @@ if __name__ == "__main__":
 		step_scale = 0
 
 
+	prompt_seqlen = 256
+
+
+
 	# Enhance prompt with LLM
 	prompt_original = prompt
-	if args.llm == "llama3":
+	if args.rewrite == "reuse" or args.rewrite == "lock" or args.rewrite == "keep":
+		file = open(os.path.expanduser("~/") + "/.cache/fluxprompt.txt", "r")
+		prompt = file.read()
+		file.close()
+
+	elif "llama" in args.rewrite or "mistral" in args.rewrite or args.rewrite == "llm":
 		from ollama import Client
 
 		if args.style == "none":
@@ -83,6 +101,8 @@ if __name__ == "__main__":
 			prompt_modifier = f"Make the image in the style of a cute japanese anime cartoon"
 		elif "anime-action" in style:
 			prompt_modifier = f"Make the image in the style of an intense japanese anime action scene"
+		elif "funko" in style:
+			prompt_modifier = f"Turn the people and animals in the scene into funko pop characters"
 		else:
 			prompt_modifier = f"Introduce photorealistic elements and lifelike objects that would naturally fit into the scene"
 
@@ -97,22 +117,21 @@ if __name__ == "__main__":
 			prompt_modifier = f"{prompt_modifier}. The image is taken from a distance showing the subject quite small in the frame and lots of details in the background"
 
 
-		#if step_scale > 0:
-		#	prompt_max_words = 100
-		#	prompt_seqlen = 512
-		#else:
-		prompt_max_words = 53
-		prompt_seqlen = 256
 
-		client = Client(host='http://localhost:11434', timeout = 300)
-		response = client.chat(model = args.llm, keep_alive = 0, messages = [
-			{
-				'role': 'user',
-				'content': 'Creatively rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than ' + str(prompt_max_words) + ' words. Do not introduce the text or explain how the text was rewritten. The prompt is: ' + prompt + '. ' + str(prompt_modifier)
-			},
-		])
-		prompt = str(response['message']['content']).replace('"', '')
+		while len(str(prompt_enhanced).split(" ")) > prompt_max_words:
+			client = Client(host='http://localhost:11434', timeout = 300)
+			response = client.chat(model = args.rewrite, keep_alive = 0, messages = [
+				{
+					'role': 'user',
+					'content': 'Creatively rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than ' + str(prompt_max_words) + ' words. Do not introduce the text or explain how the text was rewritten. The prompt is: ' + prompt + '. ' + str(prompt_modifier)
+				},
+			])
+			prompt_enhanced = str(response['message']['content']).replace('"', '')
+		prompt = prompt_enhanced
 
+		f = open(os.path.expanduser("~/") + "/.cache/fluxprompt.txt", "w")
+		f.write(str(prompt))
+		f.close()
 
 
 	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps}")
@@ -137,7 +156,7 @@ if __name__ == "__main__":
 
 
 	f = open(f"{file_name}.txt", "w")
-	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.llm},style={style},seed={seed},steps={steps},guidance_scale={step_scale},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
+	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={step_scale},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
 	f.close()
 
 	print(f"[i] DONE, task took {time_end}s")
