@@ -14,7 +14,7 @@ APB="${INS}/bin"
 #sudo apt install nvidia-cuda-toolkit
 
 mkdir -p "${HOME}/Pictures/Flux1"
-mkdir -p "${APH}/images"
+mkdir -p "${APH}/images/.meta"
 
 #echo "[i] Installing ${NME} from GIT feba65f - Version 0.1.1"
 #if [ -d "${PTH}" ]; then

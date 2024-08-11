@@ -1,8 +1,84 @@
 #!../bin/python3
 
-import argparse, pathlib, os, sys, random, time
+import argparse, pathlib, os, sys, random, time, exif, sqlite3, base64, uuid
 import torch
+
 from diffusers import FluxPipeline
+
+from PIL import Image
+from PIL import ExifTags
+from exif import Image as ExifImage
+
+
+def png2jpg(filename, metadata):
+	dir_home = os.path.expanduser("~/")
+
+	png_img = Image.open(f"images/{filename}")
+	jpg_img = png_img.convert("RGB")
+
+	dem_img = Image.open("images/demo.jpg")
+	img_exif = dem_img.getexif()
+	img_desc = f"{metadata[4]} (steps={metadata[1]},seed={metadata[2]},guidance={metadata[3]},cpu={metadata[9]},angle={metadata[6]},style={metadata[5]},model={metadata[7]}-{metadata[8]})"
+
+	PILLOW_TAGS = [
+		315,     # Artist Name
+		33432,   # Copyright Message
+		270,	 # Description
+	]
+
+	EXIF_TAGS = [
+		"artist",
+		"copyright",
+		"description",
+	]
+
+	VALUES = [
+		"Flux1",    # Artist Name
+		"Black Forest Labs (NoRobots,AntiSLOP).",  # Copyright Message
+		str(img_desc) # Description
+	]
+
+	for tag, value in zip(PILLOW_TAGS, VALUES):
+		img_exif[tag] = value
+
+	jpg_img.save(f"images/{str(filename.split('.')[0])}.jpg", exif = img_exif)
+	os.rename(f"images/{str(file_name)}.jpg", f"{dir_home}/Pictures/Flux1/{str(file_name)}.jpg")
+
+
+
+def img2bin(filename):
+	png_img = Image.open(filename)
+	jpg_img = png_img.convert("RGB")
+
+	half = 0.5
+	out_img = jpg_img.resize( [int(half * s) for s in png_img.size] )
+
+	out_img.save("images/store.jpg")
+
+	with open("images/store.jpg", 'rb') as file:
+		blobData = file.read()
+
+	with open("images/store.blob", "wb") as bfile:
+		bfile.write(base64.b64encode(blobData))
+
+	os.remove("images/store.jpg")
+
+	return blobData
+
+
+
+def add_generation(conn, values):
+
+	sql = ''' INSERT INTO generations (uuid, timestamp, timetogen, modelvar, chip, offload, gpuinfo, seed, steps, height, width, style, angle, prompt, prompt_rewriter, prompt_modifier, prompt_modified, prompt_sequence, prompt_guidance, prompt_negative, image_thumbnail)
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
+
+	curr = conn.cursor()
+	curr.execute(sql, values)
+	conn.commit()
+
+	print(f"[i] SQLITE3 INSERT: Created a generation record")
+
+
 
 
 if __name__ == "__main__":
@@ -27,6 +103,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	file_model = str(args.model)
+	device_cuda = "nvidia-rtx-3050-6gb"
 
 	prompt = f"Create {args.prompt}"
 	prompt_enhanced = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
@@ -136,8 +213,22 @@ if __name__ == "__main__":
 
 	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps}")
 
+	conn = sqlite3.connect("data.db")
+
 	time_start = int(time.time())
 	file_name = f"flux-{time_start}__se{seed}-st{steps}"
+	meta_data = []
+
+	meta_data.append(str(time_start))
+	meta_data.append(str(seed))
+	meta_data.append(str(steps))
+	meta_data.append(str(step_scale))
+	meta_data.append(f"{str(prompt)} (Base prompt: {str(prompt_original)})")
+	meta_data.append(str(style))
+	meta_data.append(str(args.angle))
+	meta_data.append(str(args.model))
+	meta_data.append(str(args.rewrite))
+	meta_data.append(str(args.cpu))
 
 	image = pipe(
 		prompt = prompt,
@@ -152,11 +243,23 @@ if __name__ == "__main__":
 
 	time_end = int(time.time() - time_start)
 
-	image.save(f"{file_name}.png")
+	image.save(f"images/{file_name}.png")
+	png2jpg(f"{file_name}.png", meta_data)
 
-
-	f = open(f"{file_name}.txt", "w")
+	f = open(f"images/.meta/{file_name}.txt", "w")
 	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={step_scale},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
 	f.close()
+
+
+	generations = [
+        	(str(uuid.uuid4()), meta_data[0], time_end, meta_data[7], "cuda", meta_data[9], str(device_cuda), meta_data[1], meta_data[2], int(args.height), int(args.width), meta_data[5], meta_data[6], str(prompt_original), meta_data[8], str(prompt_modifier), str(prompt), int(prompt_seqlen), meta_data[3], "No negative prompt", img2bin(f"images/{file_name}.png")),
+	]
+
+	for generation in generations:
+		add_generation(conn, generation)
+
+
+	conn.close()
+
 
 	print(f"[i] DONE, task took {time_end}s")
