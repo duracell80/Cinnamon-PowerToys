@@ -89,18 +89,24 @@ if __name__ == "__main__":
 	parser.add_argument("--rewrite", type=str, required=False, default="norewrite")
 	parser.add_argument("--style", type=str, required=False, default="photorealistic")
 	parser.add_argument("--seed", type=int, required=False, default=0)
-	parser.add_argument("--steps", type=int, required=False, default=4)
+	parser.add_argument("--steps", type=int, required=False, default=5)
+	parser.add_argument("--guidance", type=float, required=False, default=5.1)
 	parser.add_argument("--angle", type=str, required=False, default="close up")
 	parser.add_argument("--height", type=int, required=False, default=1080)
 	parser.add_argument("--width", type=int, required=False, default=1920)
 	parser.add_argument("--cpu", type=str, required=False, default="sequential")
 	parser.add_argument("--device", type=str, required=False, default="cpu")
 
+	args = parser.parse_args()
+
 	prompt_max_words = 53
 	prompt_modifier = "reuse"
-	style="reuse"
 
-	args = parser.parse_args()
+	if args.style == "none" or args.style == "":
+		style = "photorealistic"
+	else:
+		style = str(args.style).lower()
+
 
 	file_model = str(args.model)
 	device_cuda = "nvidia-rtx-3050-6gb"
@@ -140,11 +146,15 @@ if __name__ == "__main__":
 		steps = int(args.steps)
 
 
-	if steps > 25:
-		step_scale = random.uniform(0.5, 7.0)
-	else:
-		step_scale = 0
+	#if steps > 25:
+	#	step_scale = random.uniform(0.5, 7.0)
+	#else:
+	#	step_scale = 0
 
+	if args.guidance <= 0 or args.guidance > 20:
+		guidance = round(random.uniform(0.1, 20.0), 2)
+	else:
+		guidance = round(args.guidance, 2)
 
 	prompt_seqlen = 256
 
@@ -160,20 +170,18 @@ if __name__ == "__main__":
 	elif "llama" in args.rewrite or "mistral" in args.rewrite or args.rewrite == "llm":
 		from ollama import Client
 
-		if args.style == "none":
-			style = "Vincent Van Gogh"
-		else:
-			style = str(args.style)
-
-
 		if "van gogh" in style:
 			prompt_modifier = f"Introduce elements of creativity and magic, introduce into the text the artistic style of {style}"
+			guidance = 1
+		elif "water-paint" in style:
+			prompt_modifier = f"The image is in the artistic style of impressionist painting and is painted on canvas in watery hues"
+			guidance = 0.1
 		elif "steampunk" in style:
 			prompt_modifier = f"Introduce elements of nostalgia, creativity with a twist of industrial and steampunk aesthetic"
 		elif "hollywood-action" in style:
 			prompt_modifier = f"The image should be in the style of a hollywood action movie scene"
 		elif "hollywood-romance" in style:
-			prompt_modifier = f"The image should be in the style of a romantic comedy or rom-com movie scene"
+			prompt_modifier = f"The image should be in the style of a romantic movie scene"
 		elif "anime-cute" in style:
 			prompt_modifier = f"Make the image in the style of a cute japanese anime cartoon"
 		elif "anime-action" in style:
@@ -211,18 +219,18 @@ if __name__ == "__main__":
 		f.close()
 
 
-	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps}")
+	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps} GUIDANCE={guidance} STYLE={style}")
 
 	conn = sqlite3.connect("data.db")
 
 	time_start = int(time.time())
-	file_name = f"flux-{time_start}__se{seed}-st{steps}"
+	file_name = f"flux-{time_start}__se{seed}-st{steps}-gu{int(guidance)}"
 	meta_data = []
 
 	meta_data.append(str(time_start))
 	meta_data.append(str(seed))
 	meta_data.append(str(steps))
-	meta_data.append(str(step_scale))
+	meta_data.append(str(guidance))
 	meta_data.append(f"{str(prompt)} (Base prompt: {str(prompt_original)})")
 	meta_data.append(str(style))
 	meta_data.append(str(args.angle))
@@ -232,7 +240,7 @@ if __name__ == "__main__":
 
 	image = pipe(
 		prompt = prompt,
-		guidance_scale = step_scale,
+		guidance_scale = guidance,
 		output_type="pil",
 		num_inference_steps = steps,
 		max_sequence_length = prompt_seqlen, # cannot be more than 256
@@ -247,7 +255,7 @@ if __name__ == "__main__":
 	png2jpg(f"{file_name}.png", meta_data)
 
 	f = open(f"images/.meta/{file_name}.txt", "w")
-	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={step_scale},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
+	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={guidance},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
 	f.close()
 
 
