@@ -76,7 +76,7 @@ def add_generation(conn, values):
 	curr.execute(sql, values)
 	conn.commit()
 
-	print(f"[i] SQLITE3 INSERT: Created a generation record")
+	print(f"\n\n[i] DB INSERT: Created a generation record\n\n")
 
 
 
@@ -92,6 +92,7 @@ if __name__ == "__main__":
 	parser.add_argument("--steps", type=int, required=False, default=5)
 	parser.add_argument("--guidance", type=float, required=False, default=5.1)
 	parser.add_argument("--angle", type=str, required=False, default="close up")
+	parser.add_argument("--reseed", type=int, required=False, default=0)
 	parser.add_argument("--height", type=int, required=False, default=1080)
 	parser.add_argument("--width", type=int, required=False, default=1920)
 	parser.add_argument("--cpu", type=str, required=False, default="sequential")
@@ -111,7 +112,7 @@ if __name__ == "__main__":
 	file_model = str(args.model)
 	device_cuda = "nvidia-rtx-3050-6gb"
 
-	prompt = f"Create {args.prompt}"
+	prompt = f"{args.prompt}"
 	prompt_enhanced = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
 
 	if len(prompt.split(" ")) > prompt_max_words and args.rewrite == "norewrite":
@@ -128,15 +129,8 @@ if __name__ == "__main__":
 		#login(token = 'my token')
 
 
-	pipe = FluxPipeline.from_pretrained(f"black-forest-labs/FLUX.1-{file_model}", torch_dtype=torch.bfloat16)
-
-	if args.cpu == "sequential":
-		pipe.enable_sequential_cpu_offload()
-	elif args.cpu == "offload":
-		pipe.enable_model_cpu_offload()
-
 	if args.seed <= 0:
-		seed = int(random.uniform(1, 1000000))
+		seed = int(random.uniform(1, 10000000000))
 	else:
 		seed = int(args.seed)
 
@@ -145,23 +139,35 @@ if __name__ == "__main__":
 	else:
 		steps = int(args.steps)
 
+	# Try different seeds with same parameters max 50 (iterate with different starting points)
+	if args.reseed > 50:
+		reseed = int(random.uniform(0, 50))
+	elif args.reseed < 0:
+		reseed = 0
+	else:
+		reseed = int(args.reseed)
 
 	#if steps > 25:
 	#	step_scale = random.uniform(0.5, 7.0)
 	#else:
 	#	step_scale = 0
 
-	if args.guidance <= 0 or args.guidance > 20:
-		guidance = round(random.uniform(0.1, 20.0), 2)
+	if "schnell" in args.model:
+		guidance = 0
+		prompt_seqlen = 256
 	else:
-		guidance = round(args.guidance, 2)
+		if args.guidance <= 0 or args.guidance > 20:
+			guidance = round(random.uniform(0.1, 20.0), 2)
+		else:
+			guidance = round(args.guidance, 2)
 
-	prompt_seqlen = 256
+		prompt_seqlen = 512
 
 
 
 	# Enhance prompt with LLM
 	prompt_original = prompt
+	prompt_modifier = ""
 	if args.rewrite == "reuse" or args.rewrite == "lock" or args.rewrite == "keep":
 		file = open(os.path.expanduser("~/") + "/.cache/fluxprompt.txt", "r")
 		prompt = file.read()
@@ -170,9 +176,9 @@ if __name__ == "__main__":
 	elif "llama" in args.rewrite or "mistral" in args.rewrite or args.rewrite == "llm":
 		from ollama import Client
 
-		if "van gogh" in style:
-			prompt_modifier = f"Introduce elements of creativity and magic, introduce into the text the artistic style of {style}"
-			guidance = 1
+		if "van-gogh" in style:
+			prompt_modifier = f"All of the elements are in the swirling and watery artistic style of Vincent Van Gogh"
+			guidance = 0
 		elif "water-paint" in style:
 			prompt_modifier = f"The image is in the artistic style of impressionist painting and is painted on canvas in watery hues"
 			guidance = 0.1
@@ -203,71 +209,89 @@ if __name__ == "__main__":
 
 
 
-		while len(str(prompt_enhanced).split(" ")) > prompt_max_words:
-			client = Client(host='http://localhost:11434', timeout = 300)
-			response = client.chat(model = args.rewrite, keep_alive = 0, messages = [
-				{
-					'role': 'user',
-					'content': 'Creatively rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than ' + str(prompt_max_words) + ' words. Do not introduce the text or explain how the text was rewritten. The prompt is: ' + prompt + '. ' + str(prompt_modifier)
-				},
-			])
-			prompt_enhanced = str(response['message']['content']).replace('"', '')
-		prompt = prompt_enhanced
+		try:
+			while len(str(prompt_enhanced).split(" ")) > prompt_max_words:
+				client = Client(host='http://localhost:11434', timeout = 300)
+				response = client.chat(model = args.rewrite, keep_alive = 0, messages = [
+					{
+						'role': 'user',
+						'content': 'Creatively rewrite the following prompt for an image generation model. Limit the number of words in the response to no more than ' + str(prompt_max_words) + ' words. Do not introduce the text or explain how the text was rewritten. The prompt is: ' + prompt + '. ' + str(prompt_modifier)
+					},
+				])
+				prompt_enhanced = str(response['message']['content']).replace('"', '')
+			prompt = prompt_enhanced
+		except:
+			prompt = f"{prompt}. {prompt_modifier}"
 
 		f = open(os.path.expanduser("~/") + "/.cache/fluxprompt.txt", "w")
 		f.write(str(prompt))
 		f.close()
 
 
-	print(f"\n\n[i] Generating image based on the following prompt:\n\n{prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps} GUIDANCE={guidance} STYLE={style}")
+	print(f"\n\n[i] Generating image(s) based on the following prompt:\n\n[i]PROMPT: {prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps} GUIDANCE={guidance} STYLE={style}\n\n")
 
 	conn = sqlite3.connect("data.db")
 
-	time_start = int(time.time())
-	file_name = f"flux-{time_start}__se{seed}-st{steps}-gu{int(guidance)}"
-	meta_data = []
 
-	meta_data.append(str(time_start))
-	meta_data.append(str(seed))
-	meta_data.append(str(steps))
-	meta_data.append(str(guidance))
-	meta_data.append(f"{str(prompt)} (Base prompt: {str(prompt_original)})")
-	meta_data.append(str(style))
-	meta_data.append(str(args.angle))
-	meta_data.append(str(args.model))
-	meta_data.append(str(args.rewrite))
-	meta_data.append(str(args.cpu))
+	pipe = FluxPipeline.from_pretrained(f"black-forest-labs/FLUX.1-{file_model}", torch_dtype=torch.bfloat16)
 
-	image = pipe(
-		prompt = prompt,
-		guidance_scale = guidance,
-		output_type="pil",
-		num_inference_steps = steps,
-		max_sequence_length = prompt_seqlen, # cannot be more than 256
-		height = args.height,
-		width = args.width,
-		generator = torch.Generator(args.device).manual_seed(seed)
-	).images[0]
+	if args.cpu == "sequential":
+		pipe.enable_sequential_cpu_offload()
+	elif args.cpu == "offload":
+		pipe.enable_model_cpu_offload()
 
-	time_end = int(time.time() - time_start)
+	iteration = 0
 
-	image.save(f"images/{file_name}.png")
-	png2jpg(f"{file_name}.png", meta_data)
+	while iteration <= reseed:
+		time_start = int(time.time())
 
-	f = open(f"images/.meta/{file_name}.txt", "w")
-	f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={guidance},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
-	f.close()
+		if iteration >= 1:
+			seed = int(random.uniform(1, 10000000000))
+			print(f"[i] RESEEDING: {str(iteration)} of {reseed} (seed={seed},steps={steps},guidance={int(guidance)},style={style},timestamp={time_start})\n\n[i] PROMPT: {str(prompt)}\n\n")
+
+		file_name = f"flux-{time_start}__se{seed}-st{steps}-gu{int(guidance)}"
+		meta_data = []
+
+		meta_data.append(str(time_start))
+		meta_data.append(str(seed))
+		meta_data.append(str(steps))
+		meta_data.append(str(guidance))
+		meta_data.append(f"{str(prompt)} (Base prompt: {str(prompt_original)})")
+		meta_data.append(str(style))
+		meta_data.append(str(args.angle))
+		meta_data.append(str(args.model))
+		meta_data.append(str(args.rewrite))
+		meta_data.append(str(args.cpu))
+
+		image = pipe(
+			prompt = prompt,
+			guidance_scale = guidance,
+			output_type="pil",
+			num_inference_steps = steps,
+			max_sequence_length = prompt_seqlen, # cannot be more than 256 with lowest model
+			height = args.height,
+			width = args.width,
+			generator = torch.Generator(args.device).manual_seed(seed)
+		).images[0]
+
+		time_end = int(time.time() - time_start)
+
+		image.save(f"images/{file_name}.png")
+		png2jpg(f"{file_name}.png", meta_data)
+
+		f = open(f"images/.meta/{file_name}.txt", "w")
+		f.write(f"Prompt Original: {prompt_original} (modifier: {str(prompt_modifier)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={guidance},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
+		f.close()
 
 
-	generations = [
-        	(str(uuid.uuid4()), meta_data[0], time_end, meta_data[7], "cuda", meta_data[9], str(device_cuda), meta_data[1], meta_data[2], int(args.height), int(args.width), meta_data[5], meta_data[6], str(prompt_original), meta_data[8], str(prompt_modifier), str(prompt), int(prompt_seqlen), meta_data[3], "No negative prompt", img2bin(f"images/{file_name}.png")),
-	]
+		generations = [
+        		(str(uuid.uuid4()), meta_data[0], time_end, meta_data[7], "cuda", meta_data[9], str(device_cuda), meta_data[1], meta_data[2], int(args.height), int(args.width), meta_data[5], meta_data[6], str(prompt_original), meta_data[8], str(prompt_modifier), str(prompt), int(prompt_seqlen), meta_data[3], "No negative prompt", img2bin(f"images/{file_name}.png")),
+		]
 
-	for generation in generations:
-		add_generation(conn, generation)
+		for generation in generations:
+			add_generation(conn, generation)
 
+		iteration += 1
+		print(f"[i] DONE, task took {time_end}s")
 
 	conn.close()
-
-
-	print(f"[i] DONE, task took {time_end}s")
