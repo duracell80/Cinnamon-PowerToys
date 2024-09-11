@@ -228,7 +228,7 @@ if __name__ == "__main__":
 		f.close()
 
 
-	print(f"\n\n[i] Generating image(s) based on the following prompt:\n\n[i]PROMPT: {prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps} GUIDANCE={guidance} STYLE={style}\n\n")
+	print(f"\n\n[i] NEW SESSION: Generating image(s) based on the following prompt:\n\n[i] PROMPT: {prompt}\n\nMODEL={str(file_model).upper()} DEVICE={str(args.device).upper()} CPU={str(args.cpu).upper()} SEED={seed} STEPS={steps} GUIDANCE={guidance} STYLE={style}\n\n")
 
 	conn = sqlite3.connect("data.db")
 
@@ -292,6 +292,69 @@ if __name__ == "__main__":
 			add_generation(conn, generation)
 
 		iteration += 1
+
 		print(f"[i] DONE, task took {time_end}s")
+
+		# SELF CRITIC
+		if "llama" in args.rewrite or "mistral" in args.rewrite or args.rewrite == "llm":
+
+			time_start = int(time.time())
+
+			with open(f"images/{file_name}.png", "rb") as file:
+				critic = client.chat(
+				keep_alive = 0,
+				model='llava',
+					messages=[
+						{
+							'role': 'user',
+							'content': 'in no more than 50 words describe how only the composition elements of this image could be improved.',
+							'images': [file.read()],
+						},
+					],
+				)
+				review = critic['message']['content']
+				print(f"\n\n[i] Critical view of this generation: {critic['message']['content']}")
+
+				response = client.chat(model = 'llama3', keep_alive = 0, messages = [
+					{
+						'role': 'user',
+						'content': 'Creatively write a prompt for an image generation model based on this text. Limit the number of words in the response to no more than 50 words, do not give a word count or explain what the text is. ' + str(prompt) + '. The text is: ' + review + '. '
+					},
+				])
+
+				prompt = response['message']['content'].replace('"', '')
+				print("\n\n[i] Reimagined prompt: " + prompt + ".")
+
+				image = pipe(
+					prompt = prompt,
+					guidance_scale = guidance,
+					output_type="pil",
+					num_inference_steps = steps,
+					max_sequence_length = prompt_seqlen, # cannot be more than 256 with lowest model
+					height = args.height,
+					width = args.width,
+					generator = torch.Generator(args.device).manual_seed(seed)
+				).images[0]
+
+				time_end = int(time.time() - time_start)
+
+				file_name = f"flux-{time_start}__se{seed}-st{steps}-gu{int(guidance)}"
+
+				image.save(f"images/{file_name}.png")
+				png2jpg(f"{file_name}.png", meta_data)
+
+				f = open(f"images/.meta/{file_name}.txt", "w")
+				f.write(f"Prompt Original: {prompt_original} (critical review of generation: {str(review)})\nPrompt Modified: {str(prompt)} \n\nparams:model={file_model}-{args.rewrite},style={style},seed={seed},steps={steps},guidance_scale={guidance},device={args.device},cpu={args.cpu},height={args.height},width={args.width},generationseconds={str(time_end)},generatedat={str(time_start)}")
+				f.close()
+
+				print(f"[i] DONE, task took {time_end}s")
+
+
+				#generations = [
+				#	(str(uuid.uuid4()), meta_data[0], time_end, meta_data[7], "cuda", meta_data[9], str(device_cuda), meta_data[1], meta_data[2], int(args.height), int(args.width), meta_data[5], meta_data[6], str(prompt_original), me>
+				#]
+
+				#for generation in generations:
+				#	add_generation(conn, generation)
 
 	conn.close()
