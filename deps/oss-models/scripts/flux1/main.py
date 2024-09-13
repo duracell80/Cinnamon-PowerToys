@@ -182,6 +182,8 @@ if __name__ == "__main__":
 		elif "water-paint" in style:
 			prompt_modifier = f"The image is in the artistic style of impressionist painting and is painted on canvas in watery hues"
 			guidance = 0.1
+		elif "vintage-poster" in style:
+			prompt_modifier = f"Introduce elements of 1950's vintage illustration with a twist of positive and futuristic modernity"
 		elif "steampunk" in style:
 			prompt_modifier = f"Introduce elements of nostalgia, creativity with a twist of industrial and steampunk aesthetic"
 		elif "hollywood-action" in style:
