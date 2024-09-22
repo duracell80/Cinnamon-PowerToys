@@ -8,13 +8,33 @@ cp -f "${CWD}/scripts/ollama/summarize_article.sh" "${HOME}/.local/bin/summarize
 cp -f "${CWD}/scripts/ollama/summarize_transcript.sh" "${HOME}/.local/bin/summarize_transcript"
 
 
-curl https://ollama.ai/install.sh | sh
+read -p "Do you wish to install Ollama? (yes/no) " yn
+
+case $yn in
+        yes ) curl https://ollama.ai/install.sh | sh;;
+        no ) echo "[i] Skipping LLaVA";;
+esac
+
 
 read -p "Do you wish to install LLaVA (4GB image description model)? (yes/no) " yn
 
 case $yn in
 	yes ) ollama pull llava;;
 	no ) echo "[i] Skipping LLaVA";;
+esac
+
+read -p "Do you wish to install LLaVA with Llama3 (4GB image description model)? (yes/no) " yn
+
+case $yn in
+        yes ) ollama pull llava-llama3;;
+        no ) echo "[i] Skipping LLaVA";;
+esac
+
+read -p "Do you wish to install Bakllava (4GB image description model)? (yes/no) " yn
+
+case $yn in
+        yes ) ollama pull bakllava;;
+        no ) echo "[i] Skipping LLaVA";;
 esac
 
 read -p "Do you wish to install Mixtral (26GB large language model)? (yes/no) " yn
@@ -55,6 +75,7 @@ esac
 echo -e "\n\n[i] Pulling Llama3 as is used currently by many scripts ..."
 
 ollama pull llama3
+ollama pull nomic-embed-text
 
 cp -f "${CWD}/../../nemo/actions/pt-summarize-text.nemo_action" "${HOME}/.local/share/nemo/actions"
 cp -f "${CWD}/../../scripts/summarize_text.py" "${HOME}/.local/share/powertoys"
