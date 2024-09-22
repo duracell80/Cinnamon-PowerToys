@@ -19,7 +19,7 @@ sudo make altinstall
 export PATH=$HOME/opt/python-3.10.15/bin:$PATH
 source ~/.profile
 
-python3.10.15 -c 'import ssl'
+python3.10 -c 'import ssl'
 
 #Add this to ~/.profile or ~/.bash_profile
 # export PATH=$HOME/opt/python-3.10.15/bin:$PATH

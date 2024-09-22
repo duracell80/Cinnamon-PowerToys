@@ -8,7 +8,7 @@ cp -f "${CWD}/scripts/ollama/summarize_article.sh" "${HOME}/.local/bin/summarize
 cp -f "${CWD}/scripts/ollama/summarize_transcript.sh" "${HOME}/.local/bin/summarize_transcript"
 
 
-#curl https://ollama.ai/install.sh | sh
+curl https://ollama.ai/install.sh | sh
 
 read -p "Do you wish to install LLaVA (4GB image description model)? (yes/no) " yn
 

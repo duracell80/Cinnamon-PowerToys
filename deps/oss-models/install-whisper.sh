@@ -13,6 +13,7 @@ APH="${INS}/app"
 sudo apt install lzma
 
 mkdir -p "${HOME}/Audio/Transcribe"
+mkdir -p "${HOME}/.local/bin"
 
 echo "[i] Installing ${NME} from GIT"
 
