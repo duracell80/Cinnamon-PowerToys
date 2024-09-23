@@ -11,7 +11,7 @@ INS="${HOME}/.local/share/oss-models/${NME}"
 APH="${INS}/app"
 APB="${INS}/bin"
 
-#sudo apt install nvidia-cuda-toolkit
+sudo apt install nvidia-cuda-toolkit
 
 mkdir -p "${HOME}/Pictures/Flux1"
 mkdir -p "${APH}/images/.meta"

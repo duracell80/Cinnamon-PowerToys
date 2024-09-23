@@ -58,10 +58,10 @@ def dbi2img(conn, fetchid, ext = "jpg"):
 		ifile.write(image_blob)
 
 #dbi2img(conn, "83399da9-9306-45a4-bffd-599900bb3d8d")
-dbi2img(conn, 1723317057)
+#dbi2img(conn, 1723317057)
 
 
-sys.exit()
+#sys.exit()
 
 
 def add_table():
