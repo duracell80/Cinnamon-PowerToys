@@ -32,9 +32,13 @@ cd "${PTH}" && chmod +x "${PTH}/setup.py"
 
 echo "[i] Creating Python VENV"
 python3.10 -m venv "${INS}"
+python3.10 -m ensurepip
 source "${APB}/activate" && mkdir -p "${APP}"
 
-pip install -r  "${CWD}/scripts/chattts/requirements_custom.txt"
+
+pip install -r "${CWD}/scripts/chattts/requirements_custom.txt"
+
+
 
 #pip install nvidia-cublas-cu11 nvidia-cudnn-cu11
 
