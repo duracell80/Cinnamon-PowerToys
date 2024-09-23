@@ -58,10 +58,14 @@ mkdir -p "${APH}/Flux1"
 
 cp -f "${CWD}/scripts/flux1/demo.png" "${APH}/images/demo.png"
 cp -f "${CWD}/scripts/flux1/main.py" "${APH}/main.py"
+cp -f "${CWD}/scripts/flux1/data.py" "${APH}/data.py"
 #cp -f "${CWD}/scripts/chattts/main.sh" "${APH}/app/main.sh"
 
 #echo "[i] Running a test generation ..."
 cd "${APH}"
+
+./data.py
+
 #$APH/chattts-test.py
 deactivate
 #play $HOME/Audio/TTS/chattts_test.wav
