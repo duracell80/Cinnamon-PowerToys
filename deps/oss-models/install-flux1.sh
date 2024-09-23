@@ -57,6 +57,7 @@ mkdir -p "${APH}/Flux1"
 #cp -f "${CWD}/scripts/chattts/voices_t.txt" "${APH}"
 
 cp -f "${CWD}/scripts/flux1/demo.png" "${APH}/images/demo.png"
+cp -f "${CWD}/scripts/flux1/demo.jpg" "${APH}/images/demo.jpg"
 cp -f "${CWD}/scripts/flux1/main.py" "${APH}/main.py"
 cp -f "${CWD}/scripts/flux1/data.py" "${APH}/data.py"
 #cp -f "${CWD}/scripts/chattts/main.sh" "${APH}/app/main.sh"
