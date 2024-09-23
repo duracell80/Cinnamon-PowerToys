@@ -11,7 +11,7 @@ INS="${HOME}/.local/share/oss-models/${NME}"
 APH="${INS}/app"
 APB="${INS}/bin"
 
-sudo apt install nvidia-cuda-toolkit
+sudo apt install nvidia-cuda-toolkit sox
 
 mkdir -p "${HOME}/Audio/TTS"
 
