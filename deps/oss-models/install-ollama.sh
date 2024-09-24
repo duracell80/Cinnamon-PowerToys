@@ -2,6 +2,9 @@
 
 CWD=$(pwd)
 
+sudo apt install pipx
+pipx install ollama --include-deps
+
 mkdir -p "${HOME}/.local/share/oss-models/ollama"
 cp -f "${CWD}/scripts/ollama/ollama_summary.py" "${HOME}/.local/share/oss-models/ollama/"
 cp -f "${CWD}/scripts/ollama/summarize_article.sh" "${HOME}/.local/bin/summarize_article"
@@ -76,6 +79,13 @@ echo -e "\n\n[i] Pulling Llama3 as is used currently by many scripts ..."
 
 ollama pull llama3
 ollama pull nomic-embed-text
+
+echo -e "Now edit ollama service file to allow for cross origin so this pc can be used as an ollama server"
+echo -e "Add this ... "
+echo -e "[Service]"
+echo -e 'Environment="OLLAMA_ORIGINS=*""'
+
+sudo systemctl edit ollama.service
 
 cp -f "${CWD}/../../nemo/actions/pt-summarize-text.nemo_action" "${HOME}/.local/share/nemo/actions"
 cp -f "${CWD}/../../scripts/summarize_text.py" "${HOME}/.local/share/powertoys"
