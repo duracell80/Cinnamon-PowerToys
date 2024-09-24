@@ -6,6 +6,7 @@ LBD=$HOME/.local/bin
 
 export PATH=$LBD:$PATH
 
+mkdir -p $LWD
 touch $HOME/.cache/hypnotix/providers/hd-homerun
 
 if ! [ -x "$(which hdhomerun_config)" ]; then
@@ -26,7 +27,15 @@ if ! [ -x "$(which hdhomerun_config)" ]; then
 
 fi
 
+cp $CWD/scripts/hdhr_channels.py $LWD/
+cp $CWD/scripts/hypnotix_hdhr.sh $LWD/
+
+chmod +x $LWD/hdhr_channels.py
+chmod +x $LWD/hypnotix_hdhr.sh
+
+
 source $HOME/.profile
+
 
 $LWD/hdhr_channels.py
 $LWD/hypnotix_hdhr.sh
