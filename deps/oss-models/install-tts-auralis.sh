@@ -21,9 +21,14 @@ if [ -d "${PTH}" ]; then
 	cd $NME
 	git fetch
 	git pull
+	git reset --hard e54a8de
 	cd ../
 else
 	git clone https://github.com/astramind-ai/Auralis.git $NME
+	cd $NME
+	git reset --hard e54a8de
+	cd ../
+
 fi
 #cd "${PTH}" && chmod +x "${PTH}/setup.py"
 
@@ -52,5 +57,6 @@ deactivate
 play $HOME/Audio/TTS/Auralis/test-auralis.wav
 cd "${CWD}"
 
-
+cp -f "${CWD}/scripts/auralistts/main.sh" "${BIH}/auralis-tts"
+source $HOME/.profile
 echo "[i] Done!"

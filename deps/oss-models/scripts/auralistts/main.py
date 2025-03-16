@@ -11,18 +11,22 @@ dir_audio = f"{dir_home}/Audio/TTS/Auralis"
 file_ts = str(int(datetime.today().timestamp()))
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--voice", type = str, required = False, default = "test")
+parser.add_argument("--voice", type = str, required = False, default = "default")
 parser.add_argument("--text", type = str, required = False, default = "Some people call this artificial intelligence, but the reality is, that this technology will enhance us.")
 
 args = parser.parse_args()
 
 in_text = args.text
 
-if args.voice == "test":
+if args.voice == "default":
+	in_wave = f"{dir_audio}/.voices/reference.wav"
+	ot_wave = f"{dir_audio}/default-auralis.wav"
+
+elif args.voice == "test":
 	in_wave = f"{dir_audio}/.voices/reference-test.wav"
 	ot_wave = f"{dir_audio}/test-auralis.wav"
 else:
-	in_wave = f"{dir_audio}/.voices/reference.wav"
+	in_wave = f"{dir_audio}/.voices/reference-{args.voice.lower()}.wav"
 	ot_wave = f"{dir_audio}/auralis_{file_ts}.wav"
 
 
