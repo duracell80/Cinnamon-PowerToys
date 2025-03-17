@@ -7,6 +7,7 @@ apps/cinnamon-spices-applets/
 sounds/scripts/cinnamon_desktop.backup
 deps/Python-3.9.7.tgz
 deps/Python-3.9.7
+deps/Python-3.12.9
 deps/oss-models/moondream/
 deps/oss-models/whisper/
 deps/oss-models/media/test.mp4
@@ -22,3 +23,6 @@ deps/oss-models/chattts/
 deps/Python-3.10.15.tgz
 deps/Python-3.10.15
 /deps/oss-models/auralis-tts
+
+/deps/oss-models/kokoro-tts
+deps/Python-3.12.9.tgz
