@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenWebUI Server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=admin
+ExecStart=/home/admin/.local/bin/owui-start
+WorkingDirectory=/home/admin/.local/share/oss-models/owui
+
+[Install]
+WantedBy=multi-user.target
