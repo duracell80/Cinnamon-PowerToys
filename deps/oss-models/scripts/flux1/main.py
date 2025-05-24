@@ -9,6 +9,18 @@ from PIL import Image
 from PIL import ExifTags
 from exif import Image as ExifImage
 
+from lorem_text import lorem
+
+
+def generate_random_prompt():
+	words = "test"
+	sentence = lorem.sentence()
+	paragraph = "test"
+
+	return words, sentence, paragraph
+
+#from huggingface_hub import login
+#login(token="yout_token_here")
 
 def png2jpg(filename, metadata):
 	dir_home = os.path.expanduser("~/")
@@ -100,6 +112,7 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
+
 	prompt_max_words = 53
 	prompt_modifier = "reuse"
 
@@ -112,7 +125,13 @@ if __name__ == "__main__":
 	file_model = str(args.model)
 	device_cuda = "nvidia-rtx-3050-6gb"
 
-	prompt = f"{args.prompt}"
+	if args.prompt == "random":
+		p_words, p_sentence, p_paragraph = generate_random_prompt()
+		prompt = p_sentence
+	else:
+		prompt = f"{args.prompt}"
+
+
 	prompt_enhanced = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)"
 
 	if len(prompt.split(" ")) > prompt_max_words and args.rewrite == "norewrite":
@@ -317,7 +336,7 @@ if __name__ == "__main__":
 				review = critic['message']['content']
 				print(f"\n\n[i] Critical view of this generation: {critic['message']['content']}")
 
-				response = client.chat(model = 'llama3', keep_alive = 0, messages = [
+				response = client.chat(model = 'llama3.2', keep_alive = 0, messages = [
 					{
 						'role': 'user',
 						'content': 'Creatively write a prompt for an image generation model based on this text. Limit the number of words in the response to no more than 50 words, do not give a word count or explain what the text is. ' + str(prompt) + '. The text is: ' + review + '. '

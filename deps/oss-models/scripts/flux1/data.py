@@ -78,11 +78,24 @@ def add_table():
 	except:
 		return
 
+# timestamp:{timestamp};seed:{seed};style:{style};keywords:{keywords};description:{description}
+def add_table_desc():
+	try:
+		curr = conn.cursor()
+		curr.execute(""" CREATE TABLE descriptions (
+			uuid TEXT,
+			timestamp INTEGER, seed INTEGER, style TEXT, prompt TEXT, keywords TEXT, description TEXT, words TEXT, rating INTEGER)""")
+
+		conn.commit()
+
+	except:
+		return
+
 
 def add_generation(conn, values):
 
 	sql = ''' INSERT INTO generations (uuid, timestamp, timetogen, modelvar, chip, offload, gpuinfo, seed, steps, height, width, style, angle, prompt, prompt_rewriter, prompt_modifier, prompt_modified, prompt_sequence, prompt_guidance, prompt_negative, image_thumbnail)
-              VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
 
 	curr = conn.cursor()
 	curr.execute(sql, values)
@@ -90,19 +103,36 @@ def add_generation(conn, values):
 
 	print(f"[i] SQLITE3 INSERT: Created a generation record")
 
+# timestamp:{timestamp};seed:{seed};style:{style};keywords:{keywords};description:{description}
+def add_description(conn, values):
+
+	sql = ''' INSERT INTO descriptions (uuid, timestamp, seed, prompt, style, keywords, description, words, rating)
+		VALUES(?,?,?,?,?,?,?,?,?) '''
+
+	curr = conn.cursor()
+	curr.execute(sql, values)
+	conn.commit()
+
+	print(f"[i] SQLITE3 INSERT: Created a description record")
 
 
-
-add_table()
-
+#add_table()
+add_table_desc()
 
 
 generations = [
 	(str(uuid.uuid4()), "1723317057", 136, "schnell", "cpu", "sequential", "nvidia-rtx-3050-6gb", 463672, 5, 1080, 1920, "photorealistic", "wide", "Create A futuristic space station floating above the planet's surface", "llama3", "Introduce photorealistic elements and lifelike objects that would naturally fit into the scene. The camera angle is a ultra-wide shot showing the background unblurred", "Cosmic Gateway: Envision a sleek, spherical space station suspended 10,000 meters above the rust-red terrain of a distant planet. Incorporate photorealistic details like solar panels, airlocks, and communication arrays. Capture the breathtaking vista with an ultra-wide shot, showcasing the unfurled vastness of the alien landscape below.", 256, 0.5, "No negative prompt", img2bin("images/demo.png")),
 ]
 
-for generation in generations:
-	add_generation(conn, generation)
+descriptions = [
+        (str(uuid.uuid4()), "1723317057", 463672, "illustration", "Create a futuristic space station floating above the planet mars", "space,space station,planet,mars,illustration", "A space station floating above the planet mars", "NASA, USA", 5)
+]
 
+
+#for generation in generations:
+#	add_generation(conn, generation)
+
+for description in descriptions:
+       add_description(conn, description)
 
 conn.close()
